@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intranet Email - Accueil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .btn-login {
+            appearance: none;
+            background-color: #FFFFFF;
+            border-radius: 40em;
+            border-style: none;
+            box-shadow: #ADCFFF 0 -12px 6px inset;
+            box-sizing: border-box;
+            color: #000000;
+            cursor: pointer;
+            display: inline-block;
+            font-family: -apple-system, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -.24px;
+            margin: 0;
+            outline: none;
+            padding: 1rem 1.3rem;
+            quotes: auto;
+            text-align: center;
+            text-decoration: none;
+            transition: all .15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .btn-login:hover {
+            background-color: #13e244;
+            box-shadow: #036a0f 0 -6px 8px inset;
+            transform: scale(1.125);
+        }
+
+        .btn-login:active {
+            transform: scale(1.025);
+        }
+
+        @media (min-width: 768px) {
+            .btn-login {
+                font-size: 1.5rem;
+                padding: .75rem 2rem;
+            }
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-top: 30px;
+        }
+        p {
+            font-size: 25px;
+            margin-top: 30px;
+        }
+
+
+        footer {
+            background-color: #048f35;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Styles for the support button */
+        .support-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #020202;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 9999; /* Ensure the button stays above other content */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Support button -->
+    <div class="support-button">Support</div>
+
+    <div class="container">
+        <div class="content">
+            <h1>Bienvenue sur l'Intranet Email</h1>
+            <a href="login.php" class="btn-login">Se connecter</a>
+
+            <p>Vous êtes sur la plateforme de messagerie interne du département des Ressources Humaines.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Intranet Email - Département RH</p>
+    </footer>
+</body>
+</html>
