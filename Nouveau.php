@@ -131,13 +131,12 @@
 </div>
 
 <div class="sidebar">
+  <button id="support">Support</button>
   <button id="rendez-vous">Support</button>
-  <a href="Nouveau.php" id="patient">Nouveau</a>
 
-  <button id="patient">Nouveau </button>   <a href="Nouveau.php" id="patient">Nouveau</a>
-
+  <button id="patient">Nouveau </button>
   <a id="logoutButton" href="login.php">LOG OUT</a> <!-- Redirection vers login.php -->
-  <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
+  <button id="Dashboard">Dashboard</button>
 </div>
 
 <!-- Afficher le nom de l'utilisateur si disponible -->
