@@ -128,9 +128,20 @@
               // Authentification réussie, récupérer le nom de l'utilisateur
               $row = $result->fetch_assoc();
               $username = $row['username'];
+              $nom = $row['nom'];
+              $prenom = $row['prenom'];
+              $user_id = $row['id'];
+
+              
 
               // Stocker le nom de l'utilisateur dans la session
               $_SESSION['username'] = $username;
+              $_SESSION['nom'] = $nom;
+              $_SESSION['prenom'] = $prenom;
+              $_SESSION['id'] = $user_id ;
+
+
+
 
               // Rediriger vers dashboard.php
               header("Location: dashboard.php");

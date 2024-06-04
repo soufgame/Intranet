@@ -117,6 +117,10 @@
     header("Location: login.php");
     exit();
   }
+
+  // Récupérer le nom et le prénom de l'utilisateur
+  $nom = htmlspecialchars($_SESSION['nom']);
+  $prenom = htmlspecialchars($_SESSION['prenom']);
 ?>
 <header>
   <h1>Intranet</h1>
@@ -136,8 +140,8 @@
   <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
 </div>
 
-<!-- Afficher le nom de l'utilisateur -->
-<div class="doctor-label"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
+<!-- Afficher le nom et le prénom de l'utilisateur -->
+<div class="doctor-label"><?php echo 'name: '.$prenom . ' ' .$nom; ?></div>
 
 </body>
 </html>

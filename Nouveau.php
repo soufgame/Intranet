@@ -102,9 +102,35 @@
       top: 0;
       left: 0;
       width: 200px;
-      height: 100%; /* pour occuper toute la hauteur */
+      height: 100%;
       background-color: #275805;
-      border-radius: 0 10px 10px 0; /* pour correspondre au coin arrondi du header */
+      border-radius: 0 10px 10px 0;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"], input[type="file"], select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      background-color: #275805;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #3a7007;
     }
   </style>
 </head>
@@ -117,27 +143,46 @@
     header("Location: login.php");
     exit();
   }
+
+  // Récupérer le nom et le prénom de l'utilisateur
+  $nom = htmlspecialchars($_SESSION['nom']);
+  $prenom = htmlspecialchars($_SESSION['prenom']);
 ?>
 <header>
   <h1>Intranet</h1>
 </header>
 
 <div class="container">
-  <!-- Contenu principal sans la table -->
+  <form action="upload.php" method="post" enctype="multipart/form-data">
+    <label for="file_name">Nom du fichier:</label>
+    <input type="text" id="file_name" name="file_name" required>
+
+   
+
+    <label for="file">Sélectionner le fichier:</label>
+    <input type="file" id="file" name="file" required>
+
+    <label for="message">Message:</label>
+    <input type="text" id="message" name="message" required>
+
+  
+
+    <label for="username">Nom d'utilisateur:</label>
+    <input type="text" id="username" name="username" required>
+
+    <input type="submit" value="Télécharger">
+  </form>
 </div>
 
 <div class="sidebar">
   <button id="rendez-vous">Support</button> <a href="support.php" id="rendez-vous">Support</a>
   <a href="Nouveau.php" id="patient">Nouveau</a>
-
-  <button id="patient">Nouveau </button>   <a href="Nouveau.php" id="patient">Nouveau</a>
-
-  <a id="logoutButton" href="logout.php">LOG OUT</a> <!-- Redirection vers logout.php -->
+  <button id="patient">Nouveau </button> <a href="Nouveau.php" id="patient">Nouveau</a>
+  <a id="logoutButton" href="logout.php">LOG OUT</a>
   <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
 </div>
 
-<!-- Afficher le nom de l'utilisateur -->
-<div class="doctor-label"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
+<div class="doctor-label"><?php echo 'name: '.$prenom . ' ' .$nom; ?></div>
 
 </body>
 </html>
