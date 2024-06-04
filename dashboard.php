@@ -11,7 +11,6 @@
       padding: 0;
       background-color: #DCDDDF;
     }
-
     .container {
       max-width: 1250px;
       margin: 20px auto;
@@ -21,7 +20,6 @@
       margin-left: 220px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
     header {
       background-color: #275805;
       color: #fff;
@@ -29,11 +27,9 @@
       text-align: center;
       border-radius: 10px 10px 0 0;
     }
-
     h1 {
       margin: 0;
     }
-
     .doctor-label {
       position: absolute;
       top: 20px;
@@ -41,7 +37,6 @@
       font-size: 35px;
       color: #FFFFFF;
     }
-
     #logoutButton {
       position: absolute;
       top: 800px;
@@ -54,11 +49,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     #logoutButton:hover {
       background-color: #555;
     }
-
     #rendez-vous {
       position: absolute;
       top: 200px;
@@ -71,11 +64,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     #rendez-vous:hover {
       background-color: #555;
     }
-
     #patient {
       position: absolute;
       top: 150px;
@@ -88,11 +79,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     #patient:hover {
       background-color: #555;
     }
-
     #Dashboard {
       position: absolute;
       top: 100px;
@@ -105,11 +94,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     #Dashboard:hover {
       background-color: #555;
     }
-
     .sidebar {
       position: absolute;
       top: 0;
@@ -122,6 +109,15 @@
   </style>
 </head>
 <body>
+<?php
+  session_start();
+
+  // Vérifier si l'utilisateur est connecté
+  if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+  }
+?>
 <header>
   <h1>Intranet</h1>
 </header>
@@ -131,19 +127,17 @@
 </div>
 
 <div class="sidebar">
-  <button id="rendez-vous">Support</button>
+  <button id="rendez-vous">Support</button> <a href="support.php" id="rendez-vous">Support</a>
   <a href="Nouveau.php" id="patient">Nouveau</a>
 
   <button id="patient">Nouveau </button>   <a href="Nouveau.php" id="patient">Nouveau</a>
 
-  <a id="logoutButton" href="login.php">LOG OUT</a> <!-- Redirection vers login.php -->
+  <a id="logoutButton" href="logout.php">LOG OUT</a> <!-- Redirection vers logout.php -->
   <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
 </div>
 
-<!-- Afficher le nom de l'utilisateur si disponible -->
-<?php if(isset($_GET['username'])): ?>
-<div class="doctor-label"><?php echo htmlspecialchars($_GET['username']); ?></div>
-<?php endif; ?>
+<!-- Afficher le nom de l'utilisateur -->
+<div class="doctor-label"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
 
 </body>
 </html>

@@ -14,13 +14,11 @@
       justify-content: center;
       background-color: #333;
     }
-
     .container {
       display: flex;
       flex-direction: row;
       width: 100%;
     }
-
     .form-container {
       flex: 1;
       display: flex;
@@ -28,7 +26,6 @@
       align-items: center;
       padding: 20px;
     }
-
     .card {
       width: 80%;
       max-width: 500px;
@@ -37,17 +34,14 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
     h2 {
       text-align: center;
       color: #333;
     }
-
     form {
       display: flex;
       flex-direction: column;
     }
-
     input {
       padding: 10px;
       margin-bottom: 12px;
@@ -57,11 +51,9 @@
       outline: none;
       color: #333;
     }
-
     input:focus {
       border-color: #ff4500;
     }
-
     button {
       background-color: #0047ab;
       color: #fff;
@@ -71,17 +63,14 @@
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
     }
-
     button:hover {
       background-color: #00274c;
     }
-
     .error-message {
       color: red;
       text-align: center;
       margin-bottom: 12px;
     }
-
     .home-button {
       position: absolute;
       top: 30px;
@@ -94,7 +83,6 @@
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
     }
-
     .home-button:hover {
       background-color: #00274c;
     }
@@ -109,12 +97,13 @@
       <div class="card">
         <h2>Login</h2>
         <?php
+          session_start();
           $error_message = '';
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $servername = "localhost";
-            $dbname = "intranet"; 
-            $dbusername = "root"; 
-            $dbpassword = "Soufiane@2003"; 
+            $dbname = "intranet";
+            $dbusername = "root";
+            $dbpassword = "Soufiane@2003";
 
             // Create connection
             $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
@@ -139,8 +128,12 @@
               // Authentification réussie, récupérer le nom de l'utilisateur
               $row = $result->fetch_assoc();
               $username = $row['username'];
-              // Rediriger vers dashboard.php avec le nom de l'utilisateur en paramètre GET
-              header("Location: dashboard.php?username=$username");
+
+              // Stocker le nom de l'utilisateur dans la session
+              $_SESSION['username'] = $username;
+
+              // Rediriger vers dashboard.php
+              header("Location: dashboard.php");
               exit();
             } else {
               $error_message = "Invalid username or password";
