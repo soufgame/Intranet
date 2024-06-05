@@ -121,6 +121,18 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+    input[type="text"].small {
+      width: 50%;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      height: 100px; /* Set height as needed */
+    }
     input[type="submit"] {
       background-color: #275805;
       color: #fff;
@@ -131,6 +143,24 @@
     }
     input[type="submit"]:hover {
       background-color: #3a7007;
+    }
+    .file-input-container {
+      position: relative;
+    }
+    .clear-file {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      cursor: pointer;
+      display: none;
     }
   </style>
 </head>
@@ -155,22 +185,33 @@
 <div class="container">
   <form action="upload.php" method="post" enctype="multipart/form-data">
     <label for="file_name">Nom du fichier:</label>
-    <input type="text" id="file_name" name="file_name" required>
+    <input type="text" id="file_name" name="file_name" class="small" required>
 
-   
+    <div class="file-input-container">
+      <label for="file_1">Sélectionner le premier fichier:</label>
+      <input type="file" id="file_1" name="file[]" required>
+      <button type="button" class="clear-file" id="clearFile1">&times;</button>
+    </div>
 
-    <label for="file">Sélectionner le fichier:</label>
-    <input type="file" id="file" name="file" required>
+    <div class="file-input-container">
+      <label for="file_2">Sélectionner le deuxième fichier:</label>
+      <input type="file" id="file_2" name="file[]">
+      <button type="button" class="clear-file" id="clearFile2">&times;</button>
+    </div>
 
-    <label for="message">Message:</label>
-    <input type="text" id="message" name="message" required>
+    <div class="file-input-container">
+      <label for="file_3">Sélectionner le troisième fichier:</label>
+      <input type="file" id="file_3" name="file[]">
+      <button type="button" class="clear-file" id="clearFile3">&times;</button>
+    </div>
 
-  
+    <label for="message">Message {max 1000}:</label>
+    <textarea id="message" name="message" required></textarea>
 
     <label for="username">Nom d'utilisateur:</label>
     <input type="text" id="username" name="username" required>
 
-    <input type="submit" value="Télécharger">
+    <input type="submit" value="Envoyer">
   </form>
 </div>
 
@@ -184,5 +225,30 @@
 
 <div class="doctor-label"><?php echo 'name: '.$prenom . ' ' .$nom; ?></div>
 
+<script>
+  function handleFileInput(fileInputId, clearButtonId) {
+    const fileInput = document.getElementById(fileInputId);
+    const clearButton = document.getElementById(clearButtonId);
+
+    fileInput.addEventListener('change', function() {
+      if (this.files.length > 0) {
+        clearButton.style.display = 'block';
+      } else {
+        clearButton.style.display = 'none';
+      }
+    });
+
+    clearButton.addEventListener('click', function() {
+      fileInput.value = '';
+      this.style.display = 'none';
+    });
+  }
+
+  handleFileInput('file_1', 'clearFile1');
+  handleFileInput('file_2', 'clearFile2');
+  handleFileInput('file_3', 'clearFile3');
+</script>
+
+
 </body>
-</html>
+</html> 
