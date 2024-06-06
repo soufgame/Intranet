@@ -21,7 +21,7 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     header {
-      background-color: #275805;
+      background-color: #222;
       color: #fff;
       padding: 20px;
       text-align: center;
@@ -103,7 +103,7 @@
       left: 0;
       width: 200px;
       height: 100%; /* pour occuper toute la hauteur */
-      background-color: #275805;
+      background-color: #222;
       border-radius: 0 10px 10px 0; /* pour correspondre au coin arrondi du header */
     }
   </style>
