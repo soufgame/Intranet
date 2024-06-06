@@ -58,21 +58,45 @@ $result = $stmt->get_result();
             background-color: #DCDDDF;
         }
         .container {
-            max-width: 1250px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            margin-left: 220px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        header {
-            background-color: #275805;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
-        }
+    max-width: 1250px;
+    margin: 20px auto; /* Ajustement de la marge pour centrer le conteneur */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ajout de position relative pour positionner les éléments enfants absolus */
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Ajustement de la marge supérieure pour déplacer la table vers le bas */
+}
+
+th, td {
+    padding: 12px; /* Ajustement de la hauteur des lignes */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px; /* Ajustement de la taille du texte */
+}
+
+th {
+    background-color: #275805;
+    color: white;
+    font-weight: bold; /* Ajustement de la police en gras */
+}
+
+
+
+header {
+  background-color: #222;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  margin: 20px; /* Ajouté pour supprimer la marge par défaut */
+  margin-top: -20px;
+}
+
         h1 {
             margin: 0;
         }

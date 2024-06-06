@@ -55,7 +55,7 @@
       border-color: #ff4500;
     }
     button {
-      background-color: #0047ab;
+      background-color: #222;
       color: #fff;
       padding: 10px;
       border: none;
@@ -64,7 +64,7 @@
       transition: background-color 0.3s ease-in-out;
     }
     button:hover {
-      background-color: #00274c;
+      background-color: #000000;
     }
     .error-message {
       color: red;
@@ -75,7 +75,7 @@
       position: absolute;
       top: 30px;
       left: 50px;
-      background-color: #0047ab;
+      background-color: #222;
       color: #fff;
       padding: 10px;
       border: none;
@@ -84,7 +84,7 @@
       transition: background-color 0.3s ease-in-out;
     }
     .home-button:hover {
-      background-color: #00274c;
+      background-color: #000000;
     }
   </style>
 </head>
