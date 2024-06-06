@@ -132,16 +132,11 @@
               $prenom = $row['prenom'];
               $user_id = $row['id'];
 
-              
-
               // Stocker le nom de l'utilisateur dans la session
               $_SESSION['username'] = $username;
               $_SESSION['nom'] = $nom;
               $_SESSION['prenom'] = $prenom;
               $_SESSION['id'] = $user_id ;
-
-
-
 
               // Rediriger vers dashboard.php
               header("Location: dashboard.php");
@@ -158,10 +153,24 @@
           <div class="error-message"><?php echo $error_message; ?></div>
           <input type="text" id="username" name="username" placeholder="Username" required>
           <input type="password" id="password" name="password" placeholder="Password" required>
+          <label>
+            <input type="checkbox" onclick="togglePassword()"> Show Password
+          </label>
           <button type="submit">Login</button>
         </form>
       </div>
     </div>
   </div>
+
+  <script>
+    function togglePassword() {
+      var passwordField = document.getElementById('password');
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+      } else {
+        passwordField.type = 'password';
+      }
+    }
+  </script>
 </body>
 </html>

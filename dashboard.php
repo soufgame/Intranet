@@ -29,10 +29,7 @@ if ($conn->connect_error) {
 }
 
 // Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
-$stmt = $conn->prepare("SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, files.username 
-                        FROM files 
-                        INNER JOIN users ON files.username = users.username 
-                        WHERE users.username = ?");
+$stmt = $conn->prepare("SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, users.username FROM files INNER JOIN users ON files.user_id = users.id WHERE files.username = ?; ");
 
 if ($stmt === false) {
     die("Prepare failed: " . $conn->error);
