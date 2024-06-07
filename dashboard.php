@@ -29,7 +29,8 @@ if ($conn->connect_error) {
 }
 
 // Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
-$stmt = $conn->prepare("SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, users.username FROM files INNER JOIN users ON files.user_id = users.id WHERE files.username = ?; ");
+// Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
+$stmt = $conn->prepare("SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, date, time, users.username FROM files INNER JOIN users ON files.user_id = users.id WHERE files.username = ?");
 
 if ($stmt === false) {
     die("Prepare failed: " . $conn->error);
@@ -42,6 +43,7 @@ if (!$stmt->execute()) {
 }
 
 $result = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -203,10 +205,10 @@ $result = $stmt->get_result();
     echo "<h2>Fichiers de $prenom $nom</h2>";
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>File Name</th><th>Message</th><th>File Data</th><th>File Data 2</th><th>File Data 3</th><th>Username</th></tr>";
+        echo "<tr><th>Titre</th><th>Message</th><th>File Data</th><th>File Data 2</th><th>File Data 3</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>"; // Ici, vous pouvez remplacer "file_name" par "titre"
             echo "<td>" . htmlspecialchars($row["message"]) . "</td>";
             echo "<td>";
             if (!empty($row["file_data"])) {
@@ -223,10 +225,13 @@ $result = $stmt->get_result();
                 echo "<a href='download.php?file_id=" . htmlspecialchars($row["id"]) . "&file_type=file_data_3'>Download File Data 3</a>";
             }
             echo "</td>";
-            echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["username"]) . "</td>"; // Ici, vous pouvez remplacer "username" par "<expéditeur>"
             echo "</tr>";
         }
         echo "</table>";
+        
     } else {
         echo "<p>Aucun fichier trouvé pour cet utilisateur.</p>";
     }
