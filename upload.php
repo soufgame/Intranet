@@ -25,6 +25,9 @@ $file_name = $_POST['file_name'];
 $message = $_POST['message'];
 $user_id = $_SESSION['id']; // Utilisez $_SESSION['id'] au lieu de $_SESSION['user_id']
 
+// Récupérer le nom d'utilisateur saisi dans le formulaire
+$username = $_POST['username'];
+
 $file_data_1 = null;
 $file_data_2 = null;
 $file_data_3 = null;
@@ -45,12 +48,15 @@ if (isset($_FILES['file'])) {
     }
 }
 
-// Récupérer le nom d'utilisateur saisi dans le formulaire
-$username = htmlspecialchars($_POST['username']);
+// Obtenir la date et l'heure actuelles
+$current_date = date('Y-m-d');
+$current_time = date('H:i');
 
 // Préparer et exécuter la requête d'insertion
-$stmt = $conn->prepare("INSERT INTO files (file_name, file_data, file_data_2, file_data_3, message, user_id, username) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sssssis", $file_name, $file_data_1, $file_data_2, $file_data_3, $message, $user_id, $username);
+$stmt = $conn->prepare("INSERT INTO files (file_name, file_data, file_data_2, file_data_3, message, user_id, username, date, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+// Notez la chaîne de types mise à jour ici
+$stmt->bind_param("sssssssss", $file_name, $file_data_1, $file_data_2, $file_data_3, $message, $user_id, $username, $current_date, $current_time);
 
 if ($stmt->execute()) {
     $success_message = "Fichiers téléchargés avec succès.";
@@ -93,29 +99,30 @@ $conn->close();
             font-size: 24px;
             margin-bottom: 20px;
         }
+
         .return-button {
-             background-color: #c2fbd7;
-              border-radius: 100px;
-             box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-             color: green;
+            background-color: #c2fbd7;
+            border-radius: 100px;
+            box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+            color: green;
             cursor: pointer;
-             display: inline-block;
+            display: inline-block;
             font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
             padding: 20px 50px; 
             text-align: center;
             text-decoration: none;
             transition: all 250ms;
             border: 0;
-             font-size: 16px;
-             user-select: none;
-             -webkit-user-select: none;
-             touch-action: manipulation;
-}
+            font-size: 16px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
 
-.return-button:hover {
-  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-  transform: scale(1.05) rotate(-1deg);
-}
+        .return-button:hover {
+            box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+            transform: scale(1.05) rotate(-1deg);
+        }
     </style>
 </head>
 <body>
