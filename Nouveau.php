@@ -189,7 +189,7 @@
 
     <div class="file-input-container">
       <label for="file_1">Sélectionner le premier fichier:</label>
-      <input type="file" id="file_1" name="file[]" required>
+      <input type="file" id="file_1" name="file[]" >
       <button type="button" class="clear-file" id="clearFile1">&times;</button>
     </div>
 
