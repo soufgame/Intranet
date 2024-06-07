@@ -206,7 +206,7 @@
     </div>
 
     <label for="message">Message {max 1000}:</label>
-    <textarea id="message" name="message" required></textarea>
+    <textarea id="message" name="message" ></textarea>
 
     <label for="username">Nom d'utilisateur:</label>
     <input type="text" id="username" name="username" required>

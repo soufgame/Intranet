@@ -50,7 +50,7 @@ if (isset($_FILES['file'])) {
 
 // Obtenir la date et l'heure actuelles
 $current_date = date('Y-m-d');
-$current_time = date('H:i');
+$current_time = date('H:i:s');
 
 // Préparer et exécuter la requête d'insertion
 $stmt = $conn->prepare("INSERT INTO files (file_name, file_data, file_data_2, file_data_3, message, user_id, username, date, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");

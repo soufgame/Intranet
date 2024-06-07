@@ -81,7 +81,7 @@ $result = $stmt->get_result();
         }
 
         th {
-            background-color: #222; /* Dark green */
+            background-color: #222; 
             color: white;
             font-weight: bold; /* Ajustement de la police en gras */
         }
@@ -203,26 +203,10 @@ $result = $stmt->get_result();
     echo "<h2>Fichiers de $prenom $nom</h2>";
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
-        echo "<tr><th>Titre</th><th>Message</th><th>File Data</th><th>File Data 2</th><th>File Data 3</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
+        echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr class='table-row' data-id='" . htmlspecialchars($row["id"]) . "'>";
             echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["message"]) . "</td>";
-            echo "<td>";
-            if (!empty($row["file_data"])) {
-                echo "<a href='download.php?file_id=" . htmlspecialchars($row["id"]) . "&file_type=file_data'>Download File Data</a>";
-            }
-            echo "</td>";
-            echo "<td>";
-            if (!empty($row["file_data_2"])) {
-                echo "<a href='download.php?file_id=" . htmlspecialchars($row["id"]) . "&file_type=file_data_2'>Download File Data 2</a>";
-            }
-            echo "</td>";
-            echo "<td>";
-            if (!empty($row["file_data_3"])) {
-                echo "<a href='download.php?file_id=" . htmlspecialchars($row["id"]) . "&file_type=file_data_3'>Download File Data 3</a>";
-            }
-            echo "</td>";
             echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
@@ -235,6 +219,7 @@ $result = $stmt->get_result();
     }
     ?>
 </div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
