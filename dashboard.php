@@ -29,7 +29,6 @@ if ($conn->connect_error) {
 }
 
 // Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
-// Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
 $stmt = $conn->prepare("SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, date, time, users.username FROM files INNER JOIN users ON files.user_id = users.id WHERE files.username = ?");
 
 if ($stmt === false) {
@@ -201,14 +200,13 @@ $result = $stmt->get_result();
 
 <div class="container">
     <?php
-    // Afficher les fichiers de l'utilisateur
     echo "<h2>Fichiers de $prenom $nom</h2>";
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
         echo "<tr><th>Titre</th><th>Message</th><th>File Data</th><th>File Data 2</th><th>File Data 3</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
         while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>"; // Ici, vous pouvez remplacer "file_name" par "titre"
+            echo "<tr class='table-row' data-id='" . htmlspecialchars($row["id"]) . "'>";
+            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["message"]) . "</td>";
             echo "<td>";
             if (!empty($row["file_data"])) {
@@ -227,7 +225,7 @@ $result = $stmt->get_result();
             echo "</td>";
             echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["username"]) . "</td>"; // Ici, vous pouvez remplacer "username" par "<expéditeur>"
+            echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -237,6 +235,18 @@ $result = $stmt->get_result();
     }
     ?>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var rows = document.querySelectorAll('.table-row');
+    rows.forEach(function(row) {
+        row.addEventListener('click', function() {
+            var fileId = row.getAttribute('data-id');
+            window.location.href = 'email.php?file_id=' + fileId;
+        });
+    });
+});
+</script>
 
 <div class="sidebar">
     <a href="support.php" id="rendez-vous">Support</a>
