@@ -140,7 +140,7 @@ if (isset($_GET['file_id'])) {
 <body>
 
 <div class="container">
-    <h1>Fichier de <?php echo "$prenom $nom"; ?></h1>
+    <h1>Mail </h1>
     <div class="email">
         <h2><?php echo htmlspecialchars($row["file_name"]); ?></h2>
         <p><strong>Message:</strong> <?php echo htmlspecialchars($row["message"]); ?></p>
