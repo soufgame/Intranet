@@ -200,7 +200,6 @@ $result = $stmt->get_result();
 
 <div class="container">
     <?php
-    echo "<h2>Fichiers de $prenom $nom</h2>";
     if ($result->num_rows > 0) {
         echo "<table border='1'>";
         echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
@@ -215,7 +214,7 @@ $result = $stmt->get_result();
         echo "</table>";
         
     } else {
-        echo "<p>Aucun fichier trouvé pour cet utilisateur.</p>";
+        echo "<p>Aucun email dispomible </p>";
     }
     ?>
 </div>
