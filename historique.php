@@ -131,7 +131,7 @@
 </div>
 
 <div class="sidebar">
-  <button id="rendez-vous">Support</button> <a href="support.php" id="rendez-vous">Support</a>
+  <button id="rendez-vous">Support</button> <a href="historique.php" id="rendez-vous">Historique</a>
   <a href="Nouveau.php" id="patient">Nouveau</a>
 
   <button id="patient">Nouveau </button>   <a href="Nouveau.php" id="patient">Nouveau</a>
