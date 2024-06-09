@@ -72,8 +72,8 @@
       top: 150px;
       left: 15px;
       font-size: 25px;
-      color: #FFFFFF;
-      background-color: #333;
+      color: #333;
+      background-color: #FFFFFF;
       padding: 5px 10px;
       border: none;
       border-radius: 5px;
