@@ -29,7 +29,13 @@ if ($conn->connect_error) {
 }
 
 // Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
-$stmt = $conn->prepare("SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, date, time, users.username FROM files INNER JOIN users ON files.user_id = users.id WHERE files.username = ?     ORDER BY date DESC, time DESC");
+$stmt = $conn->prepare("
+    SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, date, time, users.username, is_read 
+    FROM files 
+    INNER JOIN users ON files.user_id = users.id 
+    WHERE files.username = ? 
+    ORDER BY date DESC, time DESC
+");
 
 if ($stmt === false) {
     die("Prepare failed: " . $conn->error);
@@ -60,42 +66,38 @@ $result = $stmt->get_result();
         }
         .container {
             max-width: 1250px;
-            margin: 20px auto; /* Ajustement de la marge pour centrer le conteneur */
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Ajout de position relative pour positionner les éléments enfants absolus */
+            position: relative;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px; /* Ajustement de la marge supérieure pour déplacer la table vers le bas */
+            margin-top: 20px;
         }
-
         th, td {
-            padding: 12px; /* Ajustement de la hauteur des lignes */
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            font-size: 16px; /* Ajustement de la taille du texte */
+            font-size: 16px;
         }
-
         th {
-            background-color: #222; 
+            background-color: #222;
             color: white;
-            font-weight: bold; /* Ajustement de la police en gras */
+            font-weight: bold;
         }
-
         header {
             background-color: #222;
             color: #fff;
             padding: 20px;
             text-align: center;
             border-radius: 10px 10px 0 0;
-            margin: 20px; /* Ajouté pour supprimer la marge par défaut */
+            margin: 20px;
             margin-top: -20px;
         }
-
         h1 {
             margin: 0;
         }
@@ -172,21 +174,11 @@ $result = $stmt->get_result();
             left: 0;
             width: 200px;
             height: 100%;
-            background-color: #222; /* Dark green */
+            background-color: #222;
             border-radius: 0 10px 10px 0;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #222; /* Dark green */
-            color: white;
+        tr.unread {
+            font-weight: bold;
         }
         tr:hover {
             background-color: #f2f2f2;
@@ -199,33 +191,45 @@ $result = $stmt->get_result();
 </header>
 
 <div class="container">
-    <?php
-    if ($result->num_rows > 0) {
-        echo "<table border='1'>";
-        echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr class='table-row' data-id='" . htmlspecialchars($row["id"]) . "'>";
-            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
-            echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-        
-    } else {
-        echo "<p>Aucun email dispomible </p>";
-    }
-    ?>
-</div>
+<?php
+if ($result->num_rows > 0) {
+    echo "<table border='1'>";
+    echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
+    while ($row = $result->fetch_assoc()) {
+        // Vérifiez si la clé is_read existe avant de l'utiliser
+        $isRead = isset($row['is_read']) ? $row['is_read'] : false;
+        $rowClass = $isRead ? '' : ' class="unread"';
+        echo "<tr{$rowClass} data-id='" . htmlspecialchars($row["id"]) . "'>";
+        echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+        echo "<td>" . ($isRead ? "Vue" : "Non vue") . "</td>";
 
+        
+        echo "</tr>";
+    }
+    echo "</table>";
+} else {
+    echo "<p>Aucun fichier trouvé.</p>";
+}
+?>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var rows = document.querySelectorAll('.table-row');
+    var rows = document.querySelectorAll('tr[data-id]');
     rows.forEach(function(row) {
         row.addEventListener('click', function() {
             var fileId = row.getAttribute('data-id');
+            
+            // Envoyer une requête AJAX pour mettre à jour le statut de lecture
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'update_read_status.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('file_id=' + fileId);
+
+            // Rediriger vers la page email.php
             window.location.href = 'email.php?file_id=' + fileId;
         });
     });
@@ -239,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
 </div>
 
-<div class="doctor-label"><?php echo 'name: ' . htmlspecialchars($prenom) . ' ' . htmlspecialchars($nom); ?></div>
+<div class="doctor-label"><?php echo 'Nom: ' . htmlspecialchars($prenom) . ' ' . htmlspecialchars($nom); ?></div>
 
 </body>
 </html>
