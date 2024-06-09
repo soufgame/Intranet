@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </div>
 
-<div class="doctor-label"><?php echo 'Nom: ' . htmlspecialchars($prenom) . ' ' . htmlspecialchars($nom); ?></div>
+<div class="doctor-label"><?php echo 'Name: ' . htmlspecialchars($prenom) . ' ' . htmlspecialchars($nom); ?></div>
 
 </body>
 </html>

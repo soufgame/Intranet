@@ -266,7 +266,7 @@
 
 </div>
 
-<div class="doctor-label"><?php echo 'name: '.$prenom . ' ' .$nom; ?></div>
+<div class="doctor-label"><?php echo 'Name: '.$prenom . ' ' .$nom; ?></div>
 
 <script>
   function handleFileInput(fileInputId, clearButtonId) {

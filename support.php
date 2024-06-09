@@ -1,3 +1,7 @@
+<?php
+session_start(); 
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -142,10 +146,7 @@
     <h1>Intranet</h1>
 </header>
 
-<div class="container">
-    <!-- Contenu dynamique sera inséré ici -->
-    <p>Aucun email reçu.</p>
-</div>
+
 
 <div class="sidebar">
     <a href="historique.php" id="rendez-vous">Historique</a>
@@ -154,8 +155,8 @@
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
 </div>
+<div class="doctor-label">Name: <?php echo $_SESSION['prenom']; ?> <?php echo $_SESSION['nom']; ?></div>
 
-<div class="doctor-label">Nom: [Remplacer par le nom]</div>
 
 </body>
 </html>
