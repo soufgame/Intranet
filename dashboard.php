@@ -211,7 +211,7 @@ if ($result->num_rows > 0) {
     }
     echo "</table>";
 } else {
-    echo "<p>Aucun fichier trouvé.</p>";
+    echo "<p>Aucun Imail recu.</p>";
 }
 ?>
 </div>
