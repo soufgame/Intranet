@@ -204,7 +204,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
-        echo "<td>" . ($isRead ? "Vue" : "Non vue") . "</td>";
+        echo "<td>" . ($isRead ? "<img src='vue.png' alt='Vue' width='20' height='20'>" : "<img src='non_vue.png' alt='Non vue' width='20' height='20'>") . "</td>";
 
         
         echo "</tr>";
