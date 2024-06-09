@@ -168,6 +168,23 @@ $result = $stmt->get_result();
         #Dashboard:hover {
             background-color: #555;
         }
+
+        #support {
+            position: absolute;
+            top: 250px;
+            left: 15px;
+            font-size: 25px;
+            color: #FFFFFF;
+            background-color: #333;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #support:hover {
+            background-color: #555;
+        }
+
         .sidebar {
             position: absolute;
             top: 0;
@@ -241,6 +258,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <a href="Nouveau.php" id="patient">Nouveau</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
+    <a href="support.php" id="support">Support</a>
+
 </div>
 
 <div class="doctor-label"><?php echo 'Nom: ' . htmlspecialchars($prenom) . ' ' . htmlspecialchars($nom); ?></div>

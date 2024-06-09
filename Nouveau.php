@@ -1,3 +1,16 @@
+<?php
+  session_start();
+
+  // Vérifier si l'utilisateur est connecté
+  if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+  }
+
+  // Récupérer le nom et le prénom de l'utilisateur
+  $nom = htmlspecialchars($_SESSION['nom']);
+  $prenom = htmlspecialchars($_SESSION['prenom']);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -97,6 +110,26 @@
     #Dashboard:hover {
       background-color: #555;
     }
+
+
+    
+    #support {
+            position: absolute;
+            top: 250px;
+            left: 15px;
+            font-size: 25px;
+            color: #FFFFFF;
+            background-color: #333;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #support:hover {
+            background-color: #555;
+        }
+
+
     .sidebar {
       position: absolute;
       top: 0;
@@ -167,7 +200,6 @@
 </head>
 <body>
 <?php
-  session_start();
 
   // Vérifier si l'utilisateur est connecté
   if (!isset($_SESSION['username'])) {
@@ -222,6 +254,8 @@
   <button id="patient">Nouveau </button> <a href="Nouveau.php" id="patient">Nouveau</a>
   <a id="logoutButton" href="logout.php">LOG OUT</a>
   <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
+  <button id="support">Support</button> <a href="support.php" id="support">Support</a>
+
 </div>
 
 <div class="doctor-label"><?php echo 'name: '.$prenom . ' ' .$nom; ?></div>
