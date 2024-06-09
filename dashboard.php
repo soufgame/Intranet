@@ -200,6 +200,14 @@ $result = $stmt->get_result();
         tr:hover {
             background-color: #f2f2f2;
         }
+        .sidebar a {
+    text-decoration: none;
+    display: block;
+    color: #FFFFFF;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
     </style>
 </head>
 <body>

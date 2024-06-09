@@ -196,6 +196,14 @@
       cursor: pointer;
       display: none;
     }
+    .sidebar a {
+    text-decoration: none;
+    display: block;
+    color: #FFFFFF;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
   </style>
 </head>
 <body>

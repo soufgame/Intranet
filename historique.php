@@ -168,6 +168,14 @@ $result = $stmt->get_result();
         #Dashboard:hover {
             background-color: #555;
         }
+        .sidebar a {
+    text-decoration: none;
+    display: block;
+    color: #FFFFFF;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
 
         
         #support {
