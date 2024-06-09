@@ -95,7 +95,7 @@ $result = $stmt->get_result();
             padding: 20px;
             text-align: center;
             border-radius: 10px 10px 0 0;
-            margin: 20px;
+            margin: 0px;
             margin-top: -20px;
         }
         h1 {
