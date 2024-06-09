@@ -194,7 +194,7 @@ $result = $stmt->get_result();
 <?php
 if ($result->num_rows > 0) {
     echo "<table border='1'>";
-    echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th></tr>";
+    echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th><th>V</th></tr>";
     while ($row = $result->fetch_assoc()) {
         // Vérifiez si la clé is_read existe avant de l'utiliser
         $isRead = isset($row['is_read']) ? $row['is_read'] : false;
@@ -204,9 +204,9 @@ if ($result->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
-        echo "<td>" . ($isRead ? "<img src='vue.png' alt='Vue' width='20' height='20'>" : "<img src='non_vue.png' alt='Non vue' width='20' height='20'>") . "</td>";
+        echo "<td>" . ($isRead ? "<img src='vue.png' alt='Vue' width='20' height='20'>" : "<img src='non vue.png' alt='Non vue' width='20' height='20'>") . "</td>";
 
-        
+
         echo "</tr>";
     }
     echo "</table>";
