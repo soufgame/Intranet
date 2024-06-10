@@ -203,6 +203,21 @@
     padding: 10px;
     margin-bottom: 5px;
 }
+#profil {
+            position: absolute;
+            top: 300px;
+            left: 15px;
+            font-size: 25px;
+            color: #FFFFFF;
+            background-color: #333;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #profil:hover {
+            background-color: #555;
+        }
 
   </style>
 </head>
@@ -263,6 +278,8 @@
   <a id="logoutButton" href="logout.php">LOG OUT</a>
   <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
   <button id="support">Support</button> <a href="support.php" id="support">Support</a>
+  <a href="profilu.php" id="profil">Profil</a>
+
 
 </div>
 

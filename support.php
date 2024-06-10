@@ -139,6 +139,21 @@ session_start();
         #support:hover {
             background-color: #555;
         }
+        #profil {
+            position: absolute;
+            top: 300px;
+            left: 15px;
+            font-size: 25px;
+            color: #FFFFFF;
+            background-color: #333;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #profil:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
@@ -154,6 +169,9 @@ session_start();
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
+    <a href="profilu.php" id="profil">Profil</a>
+    <a href="profilu.php" id="profil">Profil</a>
+
 </div>
 <div class="doctor-label">Name: <?php echo $_SESSION['prenom']; ?> <?php echo $_SESSION['nom']; ?></div>
 
