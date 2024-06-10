@@ -1,167 +1,61 @@
 <?php
-session_start(); 
-?>
+session_start();
 
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['prenom']) || !isset($_SESSION['nom']) || !isset($_SESSION['id'])) {
+    // Redirige vers la page de connexion ou affiche un message d'erreur
+    header("Location: login.php"); // Redirige vers la page de connexion
+    exit();
+}
+
+// Récupère l'ID de l'utilisateur à partir de la session
+$userID = $_SESSION['id'];
+
+// Connexion à la base de données MySQL
+$servername = "localhost";
+$username = "root";
+$password = "Soufiane@2003";
+$database = "intranet";
+
+// Création de la connexion
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Vérifie la connexion
+if ($conn->connect_error) {
+    die("La connexion a échoué : " . $conn->connect_error);
+}
+
+// Vérifie si le formulaire a été soumis
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Récupérer les données du formulaire
+    $description = $_POST['description'];
+    $categorie = $_POST['categorie'];
+    $dateOuverture = date('Y-m-d H:i:s'); // Date et heure actuelles
+
+    // Requête d'insertion
+    $sql = "INSERT INTO Tickets (Description, Categorie, userID, DateOuverture, Statut) 
+            VALUES ('$description', '$categorie', $userID, '$dateOuverture', 'Ouvert')";
+
+    // Exécuter la requête
+    if ($conn->query($sql) === TRUE) {
+        echo "Le ticket a été créé avec succès.";
+    } else {
+        echo "Erreur: " . $sql . "<br>" . $conn->error;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intranet</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #DCDDDF;
-        }
-        .container {
-            max-width: 1250px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        header {
-            background-color: #222;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
-            margin: -0px;
-            margin-top: 0px;
-        }
-        h1 {
-            margin: 0;
-        }
-        .doctor-label {
-            position: absolute;
-            top: 20px;
-            left: 30px;
-            font-size: 35px;
-            color: #FFFFFF;
-        }
-        .sidebar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 100%;
-            background-color: #222;
-            border-radius: 0 10px 10px 0;
-        }
-        .sidebar a {
-            display: block;
-            padding: 10px 15px;
-            color: #FFFFFF;
-            text-decoration: none;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .sidebar a:hover {
-            background-color: #555;
-        }
-        #logoutButton {
-            position: absolute;
-            top: 800px;
-            left: 40px;
-            font-size: 20px;
-            color: #FFFFFF;
-            background-color: #333;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #logoutButton:hover {
-            background-color: #555;
-        }
-        #rendez-vous {
-            position: absolute;
-            top: 200px;
-            left: 15px;
-            font-size: 25px;
-            color: #FFFFFF;
-            background-color: #333;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #rendez-vous:hover {
-            background-color: #555;
-        }
-        #patient {
-            position: absolute;
-            top: 150px;
-            left: 15px;
-            font-size: 25px;
-            color: #FFFFFF;
-            background-color: #333;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #patient:hover {
-            background-color: #555;
-        }
-        #Dashboard {
-            position: absolute;
-            top: 100px;
-            left: 15px;
-            font-size: 25px;
-            color: #FFFFFF;
-            background-color: #333;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #Dashboard:hover {
-            background-color: #555;
-        }
-
-        #support {
-            position: absolute;
-            top: 250px;
-            left: 15px;
-            font-size: 25px;
-            color: #333;
-            background-color: #FFFFFF;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #support:hover {
-            background-color: #555;
-        }
-        #profil {
-            position: absolute;
-            top: 300px;
-            left: 15px;
-            font-size: 25px;
-            color: #FFFFFF;
-            background-color: #333;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #profil:hover {
-            background-color: #555;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style/support.css">
 </head>
 <body>
 <header>
     <h1>Intranet</h1>
 </header>
-
-
 
 <div class="sidebar">
     <a href="historique.php" id="rendez-vous">Historique</a>
@@ -170,11 +64,42 @@ session_start();
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
-    <a href="profilu.php" id="profil">Profil</a>
-
+    <div class="ticket-form">
+    <h2>Nouveau Ticket</h2>
+    <form method="post" action="">
+        <div class="input-container">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+        </div>
+        <div class="input-container">
+            <label for="categorie">Catégorie:</label>
+            <select id="categorie" name="categorie" required>
+                <option value="logiciel">logiciel</option>
+                <option value="materiel">materiel</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <label for="priorite">Priorité:</label>
+            <select id="priorite" name="priorite" required>
+                <option value="Basse">Basse</option>
+                <option value="Normale">Normale</option>
+                <option value="Haute">Haute</option>
+            </select>
+        </div>
+        <button type="submit">Créer Ticket</button>
+    </form>
 </div>
-<div class="doctor-label">Name: <?php echo $_SESSION['prenom']; ?> <?php echo $_SESSION['nom']; ?></div>
 
+
+
+
+<?php
+$prenom = $_SESSION['prenom'];
+$nom = $_SESSION['nom']
+?>
+<header>
+    <div class="doctor-label">Name: <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></div>
+</header>
 
 </body>
 </html>
