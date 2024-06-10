@@ -76,7 +76,7 @@ if ($conn->query($sql) === TRUE) {
     <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
     <div class="ticket-form">
-        <h2>Nouveau Ticket</h2>
+        <h2>Create a  Ticket</h2>
         <form method="post" action="">
             <div class="input-container">
                 <label for="description">Description:</label>
