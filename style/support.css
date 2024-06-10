@@ -234,3 +234,22 @@ form {
     margin-bottom: 20px; /* Ajout de marge en bas */
     white-space: nowrap; /* Empêche les retours à la ligne */
 }
+/* CSS pour le bouton "Créer Ticket" */
+button[type="submit"] {
+    background-color: #000000; /* Couleur de fond */
+    color: rgb(255, 255, 255); /* Couleur du texte */
+    padding: 12px 20px; /* Espacement interne */
+    margin: 8px 0; /* Marge extérieure */
+    border: none; /* Pas de bordure */
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer; /* Curseur de souris */
+    font-size: 16px; /* Taille de police */
+}
+
+/* Au survol, assombrir légèrement le bouton */
+button[type="submit"]:hover {
+    background-color: #D6D6D6;
+    color: rgb(0, 0, 0); /* Couleur du texte */
+
+
+}

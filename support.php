@@ -27,23 +27,34 @@ if ($conn->connect_error) {
 
 // Vérifie si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les données du formulaire
-    $description = $_POST['description'];
-    $categorie = $_POST['categorie'];
-    $dateOuverture = date('Y-m-d H:i:s'); // Date et heure actuelles
+    // Vérifier si les champs du formulaire sont définis dans $_POST
+    if (isset($_POST['description']) && isset($_POST['categorie']) && isset($_POST['priorite'])) {
+        // Récupérer les données du formulaire
+        $description = $_POST['description'];
+        $categorie = $_POST['categorie'];
+        $priorite = $_POST['priorite'];
 
-    // Requête d'insertion
-    $sql = "INSERT INTO Tickets (Description, Categorie, userID, DateOuverture, Statut) 
-            VALUES ('$description', '$categorie', $userID, '$dateOuverture', 'Ouvert')";
+        // Date et heure actuelles
+        $dateOuverture = date('Y-m-d H:i:s');
 
-    // Exécuter la requête
-    if ($conn->query($sql) === TRUE) {
-        echo "Le ticket a été créé avec succès.";
-    } else {
-        echo "Erreur: " . $sql . "<br>" . $conn->error;
-    }
+        // Requête d'insertion
+        $sql = "INSERT INTO Tickets (Description, Categorie, userID, DateOuverture, Statut) 
+                VALUES ('$description', '$categorie', $userID, '$dateOuverture', 'Ouvert')";
+
+        // Exécuter la requête
+        // Exécuter la requête
+if ($conn->query($sql) === TRUE) {
+    // Rediriger vers la page de succès
+    header("Location: successtick.html");
+    exit(); // Assure que le script s'arrête après la redirection
+} else {
+    echo "Erreur: " . $sql . "<br>" . $conn->error;
+}
+
+}
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -65,41 +76,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
     <div class="ticket-form">
-    <h2>Nouveau Ticket</h2>
-    <form method="post" action="">
-        <div class="input-container">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4" cols="50" required></textarea>
-        </div>
-        <div class="input-container">
-            <label for="categorie">Catégorie:</label>
-            <select id="categorie" name="categorie" required>
-                <option value="logiciel">logiciel</option>
-                <option value="materiel">materiel</option>
-            </select>
-        </div>
-        <div class="input-container">
-            <label for="priorite">Priorité:</label>
-            <select id="priorite" name="priorite" required>
-                <option value="Basse">Basse</option>
-                <option value="Normale">Normale</option>
-                <option value="Haute">Haute</option>
-            </select>
-        </div>
-        <button type="submit">Créer Ticket</button>
-    </form>
-</div>
+        <h2>Nouveau Ticket</h2>
+        <form method="post" action="">
+            <div class="input-container">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+            </div>
+            <div class="input-container">
+                <label for="categorie">Catégorie:</label>
+                <select id="categorie" name="categorie" required>
+                    <option value="logiciel">logiciel</option>
+                    <option value="materiel">materiel</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="priorite">Priorité:</label>
+                <select id="priorite" name="priorite" required>
+                    <option value="Basse">Basse</option>
+                    <option value="Normale">Normale</option>
+                    <option value="Haute">Haute</option>
+                </select>
+            </div>
+            <button type="submit">Créer Ticket</button>
+        </form>
+    </div>
 
+    <?php
+    $prenom = $_SESSION['prenom'];
+    $nom = $_SESSION['nom'];
+    ?>
+    <header>
+        <div class="doctor-label">Name: <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></div>
+    </header>
 
-
-
-<?php
-$prenom = $_SESSION['prenom'];
-$nom = $_SESSION['nom']
-?>
-<header>
-    <div class="doctor-label">Name: <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></div>
-</header>
-
+    
 </body>
 </html>
+
+
+<script>
+    // JavaScript pour faire disparaître le message après 3 secondes
+    setTimeout(function() {
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.style.display = 'none';
+        }
+    }, 3000);
+</script>
+
