@@ -74,7 +74,7 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
         <textarea id="message" name="message"></textarea>
 
         <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username_filter" placeholder="Filtrer les utilisateurs" oninput="filterUsers()">
+        <input type="text" id="username_filter" placeholder="Trouver utilisateur ciblé" oninput="filterUsers()">
         <select id="username" name="username" required>
             <option value="" disabled selected>Sélectionnez un utilisateur</option>
             <?php foreach ($users as $user): ?>
