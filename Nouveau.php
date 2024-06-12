@@ -29,10 +29,9 @@ try {
 }
 
 // Récupérer le nom et le prénom de l'utilisateur
-$nom = htmlspecialchars($_SESSION['nom']);
-$prenom = htmlspecialchars($_SESSION['prenom']);
+$nom = isset($_SESSION['nom']) ? htmlspecialchars($_SESSION['nom']) : 'Non spécifié';
+$prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : 'Non spécifié';
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -41,6 +40,7 @@ $prenom = htmlspecialchars($_SESSION['prenom']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intranet</title>
     <link rel="stylesheet" type="text/css" href="style/nouveau.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <header>
@@ -67,7 +67,7 @@ $prenom = htmlspecialchars($_SESSION['prenom']);
         <div class="file-input-container">
             <label for="file_3">Sélectionner le troisième fichier:</label>
             <input type="file" id="file_3" name="file[]">
-            <button type="button" class="clear-file" id="clearFile3">&times;</button>
+            <button type="button" class="clear-file" id="clearFile3">&times;"></button>
         </div>
 
         <label for="message">Message {max 1000}:</label>
@@ -86,8 +86,6 @@ $prenom = htmlspecialchars($_SESSION['prenom']);
     </form>
 </div>
 
-
-
 <div class="sidebar">
 <button id="rendez-vous">Support</button> <a href="historique.php" id="rendez-vous">Historique</a>
   <a href="Nouveau.php" id="patient">Nouveau</a>
@@ -101,20 +99,34 @@ $prenom = htmlspecialchars($_SESSION['prenom']);
 
 <script>
 function filterUsers() {
-    const filter = document.getElementById('username_filter').value.toLowerCase();
-    const select = document.getElementById('username');
-    const options = select.options;
+    const filter = document.getElementById('username_filter').value;
 
-    for (let i = 0; i < options.length; i++) {
-        const option = options[i];
-        const text = option.text.toLowerCase();
-
-        if (text.startsWith(filter)) {
-            option.style.display = '';
-        } else {
-            option.style.display = 'none';
+    $.ajax({
+        url: 'search_users.php',
+        type: 'GET',
+        data: { search: filter },
+        dataType: 'json',
+        success: function(response) {
+            const select = document.getElementById('username');
+            select.innerHTML = ''; // Clear previous options
+            if (response.length > 0) {
+                response.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.username;
+                    option.text = user.username;
+                    select.appendChild(option);
+                });
+            } else {
+                const option = document.createElement('option');
+                option.value = '';
+                option.text = 'Aucun utilisateur trouvé';
+                select.appendChild(option);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Erreur:', status, error);
         }
-    }
+    });
 }
 
 function handleFileInput(fileInputId, clearButtonId) {
