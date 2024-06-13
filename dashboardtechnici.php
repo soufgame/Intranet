@@ -63,29 +63,22 @@ $conn = null;
             background-color: rgba(0, 0, 0, 0.555);
             padding: 20px;
             border-radius: 10px;
-            margin-left: 400px;
+            margin-left: 450px;
             margin-top: 100px;
-             width: 800px; /* ou 50%, 30em, etc. */
-             height: 200px; /* ou une valeur spécifique */
+            width: 800px; 
+            height: 200px; 
+            display: flex;                  
+            flex-direction: column;        
+            justify-content: center;       
+            align-items: center;   
+            color: #FFF;
+            font-weight: bold;
+
+
 }   
 
 
-            
-        
-
-        .ticket-container h1 {
-            color: #FFF;
-            font-size: 24px;
-        }
-
-        .ticket-container p {
-            color: #ffffff;
-            font-size: 16px;
-        }
-
-        .container, .sidebar, .doctor-label {
-            /* Placeholder for additional styles */
-        }
+     
     </style>
 </head>
 <body>
@@ -93,7 +86,6 @@ $conn = null;
     <h1>Intranet</h1>
 </header>
 
-<div class="container"></div>
 
 <div class="sidebar">
     <a href="historique.php" id="rendez-vous">Historique</a>
