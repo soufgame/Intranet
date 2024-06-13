@@ -49,7 +49,8 @@ if (isset($_POST['ticketID'])) {
         $insertSql .= "'$statut')";
 
         if ($conn->query($insertSql) === TRUE) {
-            echo "Ticket ID $ticketID accepté et inséré dans la table intervention avec succès.";
+            // Affichage du message de confirmation
+            echo "Ticket ID $ticketID accepté.";
         } else {
             echo "Erreur : " . $conn->error;
         }

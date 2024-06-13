@@ -16,18 +16,23 @@ if ($conn->connect_error) {
 }
 
 $sql = "SELECT 
-            t.TicketID,
-            t.Description,
-            t.Categorie,
-            t.DateOuverture,
-            t.DateCloture,
-            t.Statut,
-            t.userID,
-            u.username
-        FROM 
-            tickets t
-        JOIN 
-            users u ON t.userID = u.id";
+    t.TicketID,
+    t.Description,
+    t.Categorie,
+    t.DateOuverture,
+    t.DateCloture,
+    t.Statut,
+    t.userID,
+    u.username
+FROM 
+    tickets t
+JOIN 
+    users u ON t.userID = u.id
+LEFT JOIN 
+    intervention i ON t.TicketID = i.TicketID
+WHERE 
+    i.TicketID IS NULL;
+";
 
 $result = $conn->query($sql);
 
@@ -53,6 +58,7 @@ $result = $conn->query($sql);
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
+    
 </div>
 
 <div class="doctor-label">
@@ -68,7 +74,6 @@ $result = $conn->query($sql);
                 <th>Description</th>
                 <th>Catégorie</th>
                 <th>Date d'Ouverture</th>
-                <th>Date de Clôture</th>
                 <th>Statut</th>
                 <th>Assigné à</th>
                 <th>Action</th> <!-- Nouvelle colonne pour le bouton -->
@@ -83,7 +88,6 @@ $result = $conn->query($sql);
                     echo "<td>" . $row['Description'] . "</td>";
                     echo "<td>" . $row['Categorie'] . "</td>";
                     echo "<td>" . $row['DateOuverture'] . "</td>";
-                    echo "<td>" . $row['DateCloture'] . "</td>";
                     echo "<td>" . $row['Statut'] . "</td>";
                     echo "<td>" . $row['username'] . "</td>";
                     echo "<td><button class='button-12' onclick=\"accepterTicket(" . $row['TicketID'] . ")\">Accepter</button></td>";
@@ -99,7 +103,6 @@ $result = $conn->query($sql);
 
 <script>
     function accepterTicket(ticketID) {
-        // Fonction AJAX pour envoyer les données au script PHP
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "accepter_ticket.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -118,3 +121,20 @@ $result = $conn->query($sql);
 <?php
 $conn->close();
 ?>
+<script>
+    function accepterTicket(ticketID) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "accepter_ticket.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert(xhr.responseText);
+                setTimeout(function() {
+                    window.location.href = "ticket.php"; // Redirection vers ticket.php
+                }, 500); // 2000 millisecondes = 2 secondes
+            }
+        };
+        xhr.send("ticketID=" + ticketID);
+    }
+</script>
+
