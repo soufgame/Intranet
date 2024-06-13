@@ -63,27 +63,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Intranet</title>
     <link rel="stylesheet" type="text/css" href="style/support.css">
     <style>
-        .success-message {
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-bottom: 20px;
-            display: <?php echo $successMessage ? 'block' : 'none'; ?>;
-        }
+      .success-message {
+    background-color: #4C4949; /* Nouvelle couleur de fond */
+    color: white; /* Couleur du texte en blanc */
+    text-align: center;
+    padding: 20px; /* Augmentation de l'espacement intérieur */
+    margin-bottom: 20px;
+    display: <?php echo $successMessage ? 'block' : 'none'; ?>;
+    font-size: 18px; /* Augmentation de la taille du texte */
+}
 
-        .success-message button {
-            background-color: #555;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
+.success-message button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 12px 24px; /* Ajustement des dimensions du bouton */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px; /* Même taille de police que le message */
+    margin-top: 10px;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
