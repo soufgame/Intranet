@@ -8,9 +8,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Récupérer le nom et le prénom du technicien depuis la session
-$nom = htmlspecialchars($_SESSION['nom']);
-$prenom = htmlspecialchars($_SESSION['prenom']);
+// Récupérer le nom d'utilisateur depuis la session (assumant que c'est 'username')
+$username = htmlspecialchars($_SESSION['username']);
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -26,22 +25,28 @@ try {
     die("Erreur de connexion à la base de données: " . $e->getMessage());
 }
 
-// Initialise la variable $nombreTicketsOuverts
-$nombreTicketsOuverts = 0;
+// Initialise la variable $nombreTicketsSansIntervention
+$nombreTicketsSansIntervention = 0;
 
-// Requête SQL pour compter les tickets ouverts
-$sql = "SELECT COUNT(*) AS total_tickets_ouverts FROM tickets";
+// Requête SQL pour compter les tickets sans intervention
+$sql = "SELECT COUNT(*) AS total_tickets_sans_intervention 
+        FROM tickets t 
+        WHERE NOT EXISTS (
+            SELECT 1 
+            FROM intervention i 
+            WHERE i.ticketID = t.Ticketid
+        )";
 
 try {
     $stmt = $conn->query($sql);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     // Vérifie si la requête a retourné des résultats
     if ($row) {
-        $nombreTicketsOuverts = $row['total_tickets_ouverts'];
+        $nombreTicketsSansIntervention = $row['total_tickets_sans_intervention'];
     }
 } catch(PDOException $e) {
     // Gérer l'erreur si la requête échoue
-    $nombreTicketsOuverts = "Erreur lors du calcul";
+    $nombreTicketsSansIntervention = "Erreur lors du calcul";
 }
 
 // Fermer la connexion à la base de données
@@ -72,8 +77,7 @@ $conn = null;
             align-items: center;   
             color: #FFF;
             font-weight: bold;
-
-}    
+        }
     </style>
 </head>
 <body>
@@ -81,9 +85,8 @@ $conn = null;
     <h1>Intranet</h1>
 </header>
 
-
 <div class="sidebar">
-    <a href="intervention.php" id="rendez-vous">intervention</a>
+    <a href="intervention.php" id="rendez-vous">Intervention</a>
     <a href="ticket.php" id="patient">Ticket</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
@@ -92,11 +95,12 @@ $conn = null;
 </div>
 
 <div class="ticket-container">
-    <h2>Nombre de tickets ouverts : <?php echo $nombreTicketsOuverts; ?></h2>
+    <h2>Nombre de tickets ouvert : <?php echo $nombreTicketsSansIntervention; ?></h2>
 </div>
 
 <div class="doctor-label">
-    <?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
+    <?php echo 'Technicien : ' . $username; ?>
 </div>
+
 </body>
 </html>
