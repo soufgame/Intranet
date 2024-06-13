@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -25,6 +26,9 @@ if ($conn->connect_error) {
     die("La connexion a échoué : " . $conn->connect_error);
 }
 
+// Initialisation de la variable pour le message de succès
+$successMessage = "";
+
 // Vérifie si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Vérifier si les champs du formulaire sont définis dans $_POST
@@ -41,17 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO Tickets (Description, Categorie, userID, DateOuverture, Statut) 
                 VALUES ('$description', '$categorie', $userID, '$dateOuverture', 'Ouvert')";
 
-        // Exécuter la requête
-        // Exécuter la requête
-if ($conn->query($sql) === TRUE) {
-    // Rediriger vers la page de succès
-    header("Location: successtick.html");
-    exit(); // Assure que le script s'arrête après la redirection
-} else {
-    echo "Erreur: " . $sql . "<br>" . $conn->error;
-}
-
-}
+        if ($conn->query($sql) === TRUE) {
+            // Message de succès à afficher
+            $successMessage = "Le ticket a été créé avec succès.";
+        } else {
+            echo "Erreur: " . $sql . "<br>" . $conn->error;
+        }
+    }
 }
 ?>
 
@@ -62,11 +62,40 @@ if ($conn->query($sql) === TRUE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intranet</title>
     <link rel="stylesheet" type="text/css" href="style/support.css">
+    <style>
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: <?php echo $successMessage ? 'block' : 'none'; ?>;
+        }
+
+        .success-message button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <header>
     <h1>Intranet</h1>
 </header>
+
+<!-- Affichage du message de succès -->
+<div class="success-message" id="successMessage">
+    <?php echo $successMessage; ?>
+    <button onclick="dismissMessage()">OK</button>
+</div>
 
 <div class="sidebar">
     <a href="historique.php" id="rendez-vous">Historique</a>
@@ -76,7 +105,7 @@ if ($conn->query($sql) === TRUE) {
     <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
     <div class="ticket-form">
-        <h2>Create a  Ticket</h2>
+        <h2>Create a Ticket</h2>
         <form method="post" action="">
             <div class="input-container">
                 <label for="description">Description:</label>
@@ -109,18 +138,15 @@ if ($conn->query($sql) === TRUE) {
         <div class="doctor-label">Name: <?php echo htmlspecialchars($prenom . ' ' . $nom); ?></div>
     </header>
 
-    
 </body>
 </html>
 
-
 <script>
-    // JavaScript pour faire disparaître le message après 3 secondes
-    setTimeout(function() {
+    // JavaScript pour faire disparaître le message après avoir cliqué sur "OK"
+    function dismissMessage() {
         var successMessage = document.getElementById('successMessage');
         if (successMessage) {
             successMessage.style.display = 'none';
         }
-    }, 3000);
+    }
 </script>
-
