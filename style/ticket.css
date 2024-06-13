@@ -161,6 +161,8 @@ h1 {
     padding: 8px;
     text-align: left;
     line-height: 2; /* Hauteur de ligne augmentée */
+    font-size: 16px; /* Augmentez la taille du texte */
+
 
 }
 

@@ -70,6 +70,7 @@ $result = $conn->query($sql);
                 <th>Date de Clôture</th>
                 <th>Statut</th>
                 <th>Assigné à</th>
+                <th>Action</th> <!-- Nouvelle colonne pour le bouton -->
             </tr>
         </thead>
         <tbody>
@@ -84,15 +85,26 @@ $result = $conn->query($sql);
                     echo "<td>" . $row['DateCloture'] . "</td>";
                     echo "<td>" . $row['Statut'] . "</td>";
                     echo "<td>" . $row['username'] . "</td>";
+                    echo "<td><button onclick=\"accepterTicket(" . $row['TicketID'] . ")\">Accepter</button></td>"; // Bouton Accepter avec appel à une fonction JavaScript accepterTicket
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='7'>Aucun ticket trouvé.</td></tr>";
+                echo "<tr><td colspan='8'>Aucun ticket trouvé.</td></tr>";
             }
             ?>
         </tbody>
     </table>
 </div>
+
+<script>
+    function accepterTicket(ticketID) {
+        // Code pour gérer l'acceptation du ticket (peut être une requête AJAX vers un script PHP)
+        // Ici, vous pouvez implémenter le comportement souhaité lorsque le bouton "Accepter" est cliqué.
+        alert("Ticket ID " + ticketID + " accepté !");
+        // Exemple d'action : peut-être rediriger l'utilisateur, mettre à jour le statut du ticket, etc.
+    }
+</script>
+
 
 </body>
 </html>
