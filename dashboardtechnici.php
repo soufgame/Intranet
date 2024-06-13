@@ -10,8 +10,8 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Récupérer le nom et le prénom du technicien depuis la session
-$nom = $_SESSION['nom'];
-$prenom = $_SESSION['prenom'];
+$nom = htmlspecialchars($_SESSION['nom']);
+$prenom = htmlspecialchars($_SESSION['prenom']);
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -31,8 +31,7 @@ try {
 $nombreTicketsOuverts = 0;
 
 // Requête SQL pour compter les tickets ouverts
-$sql = " select count(*) as total_tickets_ouverts from  tickets;";
-
+$sql = "SELECT COUNT(*) AS total_tickets_ouverts FROM tickets";
 
 try {
     $stmt = $conn->query($sql);
@@ -56,6 +55,38 @@ $conn = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intranet</title>
     <link rel="stylesheet" href="style/dashboardtechnici.css">
+    <style>
+        .ticket-container {
+            text-align: center;
+            margin: 100px auto;
+            max-width: 400px;
+            background-color: rgba(0, 0, 0, 0.555);
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 400px;
+            margin-top: 100px;
+             width: 800px; /* ou 50%, 30em, etc. */
+             height: 200px; /* ou une valeur spécifique */
+}   
+
+
+            
+        
+
+        .ticket-container h1 {
+            color: #FFF;
+            font-size: 24px;
+        }
+
+        .ticket-container p {
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .container, .sidebar, .doctor-label {
+            /* Placeholder for additional styles */
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -70,21 +101,15 @@ $conn = null;
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
-   <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
 </div>
 
-
-
-
 <div class="ticket-container">
-    <!-- Votre contenu de tickets ouverts ici -->
-    <h2>Nombre de tickets ouverts :<?php echo $nombreTicketsOuverts; ?></label><br></h2>
-    ""
+    <h2>Nombre de tickets ouverts : <?php echo $nombreTicketsOuverts; ?></h2>
 </div>
 
-
-<div class="doctor-label"><?php echo 'technicien : ' . htmlspecialchars($nom) . ' ' . htmlspecialchars($prenom); ?></div>
-
+<div class="doctor-label">
+    <?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
+</div>
 </body>
 </html>
