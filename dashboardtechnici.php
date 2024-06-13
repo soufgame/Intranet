@@ -74,11 +74,7 @@ $conn = null;
             color: #FFF;
             font-weight: bold;
 
-
-}   
-
-
-     
+}    
     </style>
 </head>
 <body>
