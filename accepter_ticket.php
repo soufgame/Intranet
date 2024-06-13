@@ -27,7 +27,6 @@ if (isset($_POST['ticketID'])) {
         $categorie = $row['Categorie'];
         $dateOuverture = $row['DateOuverture'];
         $dateCloture = $row['DateCloture']; // Assurez-vous que c'est au format 'YYYY-MM-DD'
-        $statut = $row['Statut'];
 
         // Vérifier et formater la date de clôture
         if (!empty($dateCloture)) {
@@ -46,7 +45,7 @@ if (isset($_POST['ticketID'])) {
             $insertSql .= "NULL, ";
         }
 
-        $insertSql .= "'$statut')";
+        $insertSql .= "'en cours')"; // Utilisation de "en cours" pour le statut
 
         if ($conn->query($insertSql) === TRUE) {
             // Affichage du message de confirmation
