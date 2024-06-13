@@ -46,8 +46,8 @@ $result = $conn->query($sql);
 </header>
 
 <div class="sidebar">
-    <a href="historique.php" id="rendez-vous">Historique</a>
-    <a href="ticket.php" id="patient">Ticket</a>
+<a href="intervention.php" id="rendez-vous">intervention</a>
+<a href="ticket.php" id="patient">Ticket</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
@@ -85,7 +85,7 @@ $result = $conn->query($sql);
                     echo "<td>" . $row['DateCloture'] . "</td>";
                     echo "<td>" . $row['Statut'] . "</td>";
                     echo "<td>" . $row['username'] . "</td>";
-                    echo "<td><button onclick=\"accepterTicket(" . $row['TicketID'] . ")\">Accepter</button></td>"; // Bouton Accepter avec appel à une fonction JavaScript accepterTicket
+                    echo "<td><button class='button-12' onclick=\"accepterTicket(" . $row['TicketID'] . ")\">Accepter</button></td>";
                     echo "</tr>";
                 }
             } else {

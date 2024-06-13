@@ -84,7 +84,7 @@ $conn = null;
 
 
 <div class="sidebar">
-    <a href="historique.php" id="rendez-vous">Historique</a>
+    <a href="intervention.php" id="rendez-vous">intervention</a>
     <a href="ticket.php" id="patient">Ticket</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
