@@ -3,6 +3,7 @@ session_start();
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
 
+
 $servername = "localhost";
 $username = "root";
 $password = "Soufiane@2003";
@@ -98,13 +99,18 @@ $result = $conn->query($sql);
 
 <script>
     function accepterTicket(ticketID) {
-        // Code pour gérer l'acceptation du ticket (peut être une requête AJAX vers un script PHP)
-        // Ici, vous pouvez implémenter le comportement souhaité lorsque le bouton "Accepter" est cliqué.
-        alert("Ticket ID " + ticketID + " accepté !");
-        // Exemple d'action : peut-être rediriger l'utilisateur, mettre à jour le statut du ticket, etc.
+        // Fonction AJAX pour envoyer les données au script PHP
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "accepter_ticket.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert(xhr.responseText);
+            }
+        };
+        xhr.send("ticketID=" + ticketID);
     }
 </script>
-
 
 </body>
 </html>
