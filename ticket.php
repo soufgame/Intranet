@@ -94,7 +94,7 @@ $result = $conn->query($sql);
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='8'>Aucun ticket trouvé.</td></tr>";
+                echo "<tr><td colspan='8'>Aucun ticket disponible.</td></tr>";
             }
             ?>
         </tbody>
