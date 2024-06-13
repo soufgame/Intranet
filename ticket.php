@@ -130,8 +130,8 @@ $conn->close();
             if (xhr.readyState === 4 && xhr.status === 200) {
                 alert(xhr.responseText);
                 setTimeout(function() {
-                    window.location.href = "ticket.php"; // Redirection vers ticket.php
-                }, 500); // 2000 millisecondes = 2 secondes
+                    window.location.href = "ticket.php"; 
+                }, 100); 
             }
         };
         xhr.send("ticketID=" + ticketID);
