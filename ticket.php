@@ -1,6 +1,35 @@
-<?php session_start();
+<?php
+session_start();
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
+
+$servername = "localhost";
+$username = "root";
+$password = "Soufiane@2003";
+$dbname = "intranet";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT 
+            t.TicketID,
+            t.Description,
+            t.Categorie,
+            t.DateOuverture,
+            t.DateCloture,
+            t.Statut,
+            t.userID,
+            u.username
+        FROM 
+            tickets t
+        JOIN 
+            users u ON t.userID = u.id";
+
+$result = $conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -25,11 +54,49 @@ $prenom = $_SESSION['prenom'];
     <a href="profilu.php" id="profil">Profil</a>
 </div>
 
-
-
 <div class="doctor-label">
     <?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
 </div>
 
+<div class="ticket-table">
+    <h2>Liste des Tickets</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Description</th>
+                <th>Catégorie</th>
+                <th>Date d'Ouverture</th>
+                <th>Date de Clôture</th>
+                <th>Statut</th>
+                <th>Assigné à</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['TicketID'] . "</td>";
+                    echo "<td>" . $row['Description'] . "</td>";
+                    echo "<td>" . $row['Categorie'] . "</td>";
+                    echo "<td>" . $row['DateOuverture'] . "</td>";
+                    echo "<td>" . $row['DateCloture'] . "</td>";
+                    echo "<td>" . $row['Statut'] . "</td>";
+                    echo "<td>" . $row['username'] . "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='7'>Aucun ticket trouvé.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

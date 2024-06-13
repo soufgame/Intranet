@@ -140,3 +140,39 @@ h1 {
 }
 
 
+.ticket-table {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1700px; /* Définir une largeur maximale pour la table */
+    margin-right: 5%; /* Déplacer la table vers la gauche */
+
+
+}
+
+.ticket-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.ticket-table th, .ticket-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    line-height: 2; /* Hauteur de ligne augmentée */
+
+}
+
+.ticket-table th {
+    background-color: #f2f2f2;
+}
+
+.ticket-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.ticket-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
