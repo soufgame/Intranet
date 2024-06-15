@@ -138,23 +138,24 @@ h1 {
     padding: 10px;
     margin-bottom: 5px;
 }
-
-
 .ticket-container {
     text-align: center;
-    margin: 100px auto; /* Ajustez la marge pour centrer verticalement */
-    max-width: 400px; /* Ajustez la largeur du container selon vos besoins */
-    background-color: #F00; /* Couleur différente pour les tickets ouverts */
-    padding: 20px;
+    margin: 100px auto; /* Centrer verticalement */
+    max-width: 500px; /* Augmentez la largeur maximale du container */
+    width: 500px; /* Augmentez la largeur du container */
+    height: auto; /* Ajustez la hauteur si nécessaire */
+    background-color: #80808088; /* Couleur de fond en gris */
+    padding: 30px; /* Augmentez le padding pour plus de contenu */
     border-radius: 10px;
+    margin-left: -50px; /* Déplacez un peu à gauche */
 }
 
-.ticket-container h1 {
+.ticket-container h2 {
     color: #FFF; /* Couleur du texte */
-    font-size: 24px; /* Taille de la police */
+    font-size: 28px; /* Augmentez la taille de la police */
 }
 
 .ticket-container p {
     color: #000; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */
+    font-size: 18px; /* Augmentez la taille de la police */
 }

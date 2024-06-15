@@ -11,6 +11,7 @@ if (!isset($_SESSION['username'])) {
 
 // Récupérer le nom d'utilisateur depuis la session
 $username = $_SESSION['username'];
+$technicienId = $_SESSION['id']; 
 
 // Exemple : supposons que vous stockez le nom et le prénom du technicien dans la session
 if (isset($_SESSION['nom']) && isset($_SESSION['prenom'])) {
@@ -61,6 +62,36 @@ try {
     $nombreTicketsSansIntervention = "Erreur lors du calcul";
 }
 
+
+
+// Initialise la variable $nombreTicketsenIntervention
+$nombreTicketsenIntervention = 0;
+
+// Requête SQL pour compter les tickets en intervention pour le technicien spécifique
+$sql = "SELECT COUNT(*) AS total_intervention 
+        FROM intervention 
+        WHERE technicienID = :technicienId";
+
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':technicienId', $technicienId, PDO::PARAM_INT);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Vérifie si la requête a retourné des résultats
+    if ($row) {
+        $nombreTicketsenIntervention = $row['total_intervention'];
+    }
+} catch(PDOException $e) {
+    // Gérer l'erreur si la requête échoue
+    $nombreTicketsenIntervention = "Erreur lors du calcul";
+}
+
+
+
+
+
+
+
 // Fermer la connexion à la base de données
 $conn = null;
 ?>
@@ -110,9 +141,38 @@ $conn = null;
     <h2>Nombre de tickets ouvert : <?php echo $nombreTicketsSansIntervention; ?></h2>
 </div>
 
+
+<div class="intervention-container">
+    <h2>Nombre de tickets en intervention : <?php echo $nombreTicketsenIntervention; ?></h2>
+</div>
+
 <div class="doctor-label">
 <?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
 </div>
+<style>
+    
+
+.intervention-container {
+    text-align: center;
+    margin: 100px auto; 
+    max-width: 400px;
+    margin-top 100px;
+    background-color: #F00;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.intervention-container h1 {
+    color: #FFF; 
+    font-size: 24px; 
+}
+
+.intervention-container {
+    color: #000; 
+    font-size: 16px; 
+}
+
+</style>
 
 </body>
 </html>
