@@ -68,6 +68,10 @@ $conn->close();
         th {
             background-color: #f4f4f4;
         }
+        .title-container {
+            padding-left: 13%;
+        }
+
     </style>
 </head>
 <body>
@@ -89,8 +93,9 @@ $conn->close();
 </div>
 
 <div class="interventions-table">
-    <h2>Liste des interventions</h2>
-    <table>
+<div class="title-container">
+        <h2>Liste des interventions</h2>
+    </div>    <table>
         <thead>
             <tr>
                 <th>Ticket ID</th>
