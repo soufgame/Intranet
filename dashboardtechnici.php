@@ -2,14 +2,26 @@
 // Démarrer la session
 session_start();
 
+// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['username'])) {
     // Rediriger vers la page de connexion s'il n'est pas connecté
     header("Location: login.php");
     exit();
 }
 
-// Récupérer le nom d'utilisateur depuis la session (assumant que c'est 'username')
-$username = htmlspecialchars($_SESSION['username']);
+// Récupérer le nom d'utilisateur depuis la session
+$username = $_SESSION['username'];
+
+// Exemple : supposons que vous stockez le nom et le prénom du technicien dans la session
+if (isset($_SESSION['nom']) && isset($_SESSION['prenom'])) {
+    $nom = htmlspecialchars($_SESSION['nom']);
+    $prenom = htmlspecialchars($_SESSION['prenom']);
+} else {
+    // Si les informations ne sont pas disponibles dans la session
+    $nom = "Nom non défini";
+    $prenom = "Prénom non défini";
+}
+
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -99,7 +111,7 @@ $conn = null;
 </div>
 
 <div class="doctor-label">
-    <?php echo 'Technicien : ' . $username; ?>
+<?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
 </div>
 
 </body>

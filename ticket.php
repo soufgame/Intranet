@@ -76,7 +76,7 @@ $result = $conn->query($sql);
                 <th>Date d'Ouverture</th>
                 <th>Statut</th>
                 <th>Assigné à</th>
-                <th>Action</th> <!-- Nouvelle colonne pour le bouton -->
+                <th>Action</th> 
             </tr>
         </thead>
         <tbody>
