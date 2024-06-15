@@ -152,19 +152,26 @@ $conn = null;
 <style>
 .intervention-container {
     text-align: center;
-    max-width: 500px;
-    width: 400px; 
+    max-width: 700px; /* Largeur maximum */
+    width: 450px; /* Largeur fixée pour que le texte soit centré sur une ligne */
+    height: 180px; /* Hauteur fixée */
     margin-top: -16.5%;
     margin-left: 60%;
-    margin: top 10%;
-    padding: 30px;
-    border-radius: 10px;
-    border-radius: 10px;
-    height: 180px; 
+    margin: 10% auto; /* Centrer verticalement et horizontalement */
+    padding: 30px; /* Padding pour espace intérieur */
+    border-radius: 10px; /* Coins arrondis */
     color: #FFFFFF; 
     font-size: 16px; 
     background-color: #6A6A6A;
-    padding-top: 20px; 
+    display: flex; /* Utiliser Flexbox */
+    align-items: center; /* Centrer verticalement */
+    justify-content: center; /* Centrer horizontalement */
+    line-height: 3; /* Assurez-vous que le line-height ne perturbe pas l'alignement */
+}
+
+.intervention-container {
+margin-top: -16.5%;
+margin-left: 60%;
 
 }
 .intervention-container h1 {7
