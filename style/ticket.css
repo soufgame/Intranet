@@ -143,8 +143,8 @@ h1 {
 .ticket-table {
     margin: 20px auto;
     width: 90%;
-    max-width: 1700px; /* Définir une largeur maximale pour la table */
-    margin-right: 5%; /* Déplacer la table vers la gauche */
+    max-width: 1700px; 
+    margin-right: 5%;
 
 
 }
@@ -160,8 +160,8 @@ h1 {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-    line-height: 2; /* Hauteur de ligne augmentée */
-    font-size: 16px; /* Augmentez la taille du texte */
+    line-height: 2; 
+    font-size: 16px;
 
 
 }

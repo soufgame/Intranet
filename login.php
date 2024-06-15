@@ -143,7 +143,7 @@ if ($result->num_rows > 0) {
   header("Location: dashboard.php");
   exit();
 } else {
-  // Vérifier dans la table technicien
+  // Vérifer dans la table technicien
   $stmt_technicien = $conn->prepare("SELECT * FROM technicien WHERE UserName = ? AND MotDePasse = ?");
   $stmt_technicien->bind_param("ss", $user, $pass);
 
