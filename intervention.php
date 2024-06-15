@@ -1,48 +1,34 @@
 <?php
 session_start();
-
-// Vérifiez si l'utilisateur est bien connecté
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php"); // Redirige vers la page de login si l'utilisateur n'est pas connecté
+    header("Location: login.php"); 
     exit();
 }
-
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
-$technicienId = $_SESSION['id']; // Récupère l'ID du technicien
-
-// Paramètres de connexion à la base de données
+$technicienId = $_SESSION['id']; 
 $servername = "localhost";
 $dbname = "intranet";
 $dbusername = "root";
 $dbpassword = "Soufiane@2003";
-
-// Connexion à la base de données
 $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
-
-// Vérifiez la connexion
 if ($conn->connect_error) {
     die("Échec de la connexion: " . $conn->connect_error);
 }
-
 // Préparez la requête SQL
 $sql = "SELECT i.ticketID, u.username, i.Description, i.Categorie, i.DateOuverture, i.DateCloture, i.Statut
         FROM intervention i
         JOIN tickets t ON i.ticketID = t.TicketID
         JOIN users u ON t.userID = u.ID
         WHERE i.technicienID = ?";
-
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $technicienId);
 $stmt->execute();
 $result = $stmt->get_result();
-
-// Stockez les résultats dans un tableau
 $interventions = [];
 while ($row = $result->fetch_assoc()) {
     $interventions[] = $row;
 }
-
 $stmt->close();
 $conn->close();
 ?>
@@ -56,10 +42,9 @@ $conn->close();
     <style>
         table {
             margin: 20px auto;
-    width: 90%;
-    max-width: 1700px; 
-    margin-right: 5%;
-
+            width: 90%;
+            max-width: 1700px; 
+            margin-right: 5%;
         }
         th, td {
             padding: 12px;
@@ -71,14 +56,12 @@ $conn->close();
         .title-container {
             padding-left: 13%;
         }
-
     </style>
 </head>
 <body>
 <header>
     <h1>Intranet</h1>
 </header>
-
 <div class="sidebar">
     <a href="intervention.php" id="rendez-vous">intervention</a>
     <a href="ticket.php" id="patient">Ticket</a>
@@ -87,11 +70,9 @@ $conn->close();
     <a href="support.php" id="support">Support</a>
     <a href="profilu.php" id="profil">Profil</a>
 </div>
-
 <div class="technician-info">
     <p>Technicien : <?php echo htmlspecialchars($nom . ' ' . $prenom); ?></p>
 </div>
-
 <div class="interventions-table">
 <div class="title-container">
         <h2>Liste des interventions</h2>
@@ -122,12 +103,11 @@ $conn->close();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="7">Aucune intervention trouvée pour ce technicien.</td>
+                    <td colspan="7">vide</td>
                 </tr>
             <?php endif; ?>
         </tbody>
     </table>
 </div>
-
 </body>
 </html>
