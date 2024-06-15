@@ -150,27 +150,28 @@ $conn = null;
 <?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
 </div>
 <style>
-    
-
 .intervention-container {
     text-align: center;
-    margin: 100px auto; 
-    max-width: 400px;
-    margin-top 100px;
-    background-color: #F00;
-    padding: 20px;
+    max-width: 500px;
+    width: 400px; 
+    margin-top: -16.5%;
+    margin-left: 60%;
+    margin: top 10%;
+    padding: 30px;
     border-radius: 10px;
-}
+    border-radius: 10px;
+    height: 180px; 
+    color: #FFFFFF; 
+    font-size: 16px; 
+    background-color: #6A6A6A;
+    padding-top: 20px; 
 
-.intervention-container h1 {
-    color: #FFF; 
+}
+.intervention-container h1 {7
+    color: #FFFFFF; 
     font-size: 24px; 
 }
 
-.intervention-container {
-    color: #000; 
-    font-size: 16px; 
-}
 
 </style>
 
