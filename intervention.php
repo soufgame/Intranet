@@ -4,23 +4,49 @@ if (!isset($_SESSION['id'])) {
     header("Location: login.php"); 
     exit();
 }
+
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
 $technicienId = $_SESSION['id']; 
+
 $servername = "localhost";
 $dbname = "intranet";
 $dbusername = "root";
 $dbpassword = "Soufiane@2003";
+
 $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 if ($conn->connect_error) {
     die("Échec de la connexion: " . $conn->connect_error);
 }
-// Préparez la requête SQL
+
+// Update status if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($_POST['newStatus'])) {
+    $ticketID = $_POST['ticketID'];
+    $newStatus = $_POST['newStatus'];
+
+    if ($newStatus === "ouvert") {
+        // Delete the row from intervention table if status is 'ouvert'
+        $deleteSql = "DELETE FROM intervention WHERE ticketID = ?";
+        $deleteStmt = $conn->prepare($deleteSql);
+        $deleteStmt->bind_param("i", $ticketID);
+        $deleteStmt->execute();
+        $deleteStmt->close();
+    } else {
+        // Update the status
+        $updateSql = "UPDATE intervention SET Statut = ? WHERE ticketID = ?";
+        $updateStmt = $conn->prepare($updateSql);
+        $updateStmt->bind_param("si", $newStatus, $ticketID);
+        $updateStmt->execute();
+        $updateStmt->close();
+    }
+}
+
+// Fetch interventions excluding those with status 'ouvert'
 $sql = "SELECT i.ticketID, u.username, i.Description, i.Categorie, i.DateOuverture, i.DateCloture, i.Statut
         FROM intervention i
         JOIN tickets t ON i.ticketID = t.TicketID
         JOIN users u ON t.userID = u.ID
-        WHERE i.technicienID = ?";
+        WHERE i.technicienID = ? AND i.Statut != 'ouvert'";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $technicienId);
 $stmt->execute();
@@ -56,6 +82,9 @@ $conn->close();
         .title-container {
             padding-left: 13%;
         }
+        .status-form {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +107,8 @@ $conn->close();
 <div class="interventions-table">
 <div class="title-container">
         <h2>Liste des interventions</h2>
-    </div>    <table>
+    </div>
+    <table>
         <thead>
             <tr>
                 <th>Ticket ID</th>
@@ -88,6 +118,7 @@ $conn->close();
                 <th>Date d'ouverture</th>
                 <th>Date de clôture</th>
                 <th>Statut</th>
+                <th>Modifier Statut</th>
             </tr>
         </thead>
         <tbody>
@@ -101,11 +132,22 @@ $conn->close();
                         <td><?php echo htmlspecialchars($intervention['DateOuverture']); ?></td>
                         <td><?php echo htmlspecialchars($intervention['DateCloture']); ?></td>
                         <td><?php echo htmlspecialchars($intervention['Statut']); ?></td>
+                        <td>
+                            <form method="post" class="status-form">
+                                <input type="hidden" name="ticketID" value="<?php echo $intervention['ticketID']; ?>">
+                                <select name="newStatus">
+                                    <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
+                                    <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
+                                    <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
+                                </select>
+                                <button type="submit">Modifier</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="7">vide</td>
+                    <td colspan="8">vide</td>
                 </tr>
             <?php endif; ?>
         </tbody>
