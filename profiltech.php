@@ -24,7 +24,7 @@ $user_id = $_SESSION['id']
 <a href="ticket.php" id="patient">Ticket</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
-    <a href="support.php" id="support">Support</a>
+    <a href="historiquetechnicien.php" id="support">Historique</a>
     <a href="profiltech.php" id="profil">Profil</a>
 
 </div>
