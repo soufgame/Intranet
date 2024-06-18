@@ -120,7 +120,7 @@ h1 {
     cursor: pointer;
 }
 #rendez-vous:hover {
-    background-color: #333;
+    background-color: #555;
 }
 .sidebar {
     position: absolute;
@@ -139,66 +139,3 @@ h1 {
     margin-bottom: 5px;
 }
 
-
-.ticket-table {
-    margin: 20px auto;
-    width: 90%;
-    max-width: 1700px; 
-    margin-right: 5%;
-
-
-}
-
-.ticket-table table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
-
-.ticket-table th, .ticket-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    line-height: 2; 
-    font-size: 16px;
-
-
-}
-
-.ticket-table th {
-    background-color: #f2f2f2;
-}
-
-.ticket-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.ticket-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* CSS */
-.button-12 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 6px 14px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-    border-radius: 6px;
-    border: none;
-    background: #000000;
-    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
-    color: #DFDEDF;
-    
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    cursor: pointer; /* Ajout du curseur pointer pour indiquer que c'est cliquable */
-  }
-  
-  .button-12:focus {
-    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
-    outline: 0;
-  }
-  
