@@ -1,3 +1,8 @@
+<?php
+session_start();
+$nom = $_SESSION['nom'];
+$prenom = $_SESSION['prenom'];
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,7 +27,9 @@
 </div>
 
 
-<div class="doctor-label">Name: John Doe</div>
 
+<div class="doctor-label">
+    <?php echo 'Technicien : ' . $nom . ' ' . $prenom; ?>
+</div>
 </body>
 </html>
