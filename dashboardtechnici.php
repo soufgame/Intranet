@@ -134,7 +134,7 @@ $conn = null;
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboardtechnici.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
-    <a href="profilu.php" id="profil">Profil</a>
+    <a href="profiltech.php" id="profil">Profil</a>
 </div>
 
 <div class="ticket-container">
