@@ -1,8 +1,14 @@
 <?php
 session_start();
+if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
+    // Rediriger vers la page de connexion
+    header("Location: login.php");
+    exit();
+}
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
 $user_id = $_SESSION['id'] 
+
 
 
 ?>
