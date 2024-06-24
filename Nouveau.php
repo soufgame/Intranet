@@ -149,28 +149,34 @@ function updateInputPlaceholder() {
 document.getElementById('recipient-input').addEventListener('input', function() {
     const filter = this.value.trim();
 
-    $.ajax({
-        url: 'search_users.php',
-        type: 'GET',
-        data: { search: filter },
-        dataType: 'json',
-        success: function(response) {
-            const suggestions = document.getElementById('suggestions');
-            suggestions.innerHTML = '';
-            if (response.length > 0) {
-                response.forEach(user => {
-                    const suggestion = document.createElement('li');
-                    suggestion.textContent = user.username;
-                    suggestion.classList.add('suggestion-item');
-                    suggestion.addEventListener('click', () => addRecipient(user.username));
-                    suggestions.appendChild(suggestion);
-                });
+    if (filter !== '') {
+        $.ajax({
+            url: 'search_users.php',
+            type: 'GET',
+            data: { search: filter },
+            dataType: 'json',
+            success: function(response) {
+                const suggestions = document.getElementById('suggestions');
+                suggestions.innerHTML = '';
+                if (response.length > 0) {
+                    response.forEach(user => {
+                        const suggestion = document.createElement('li');
+                        suggestion.textContent = user.username;
+                        suggestion.classList.add('suggestion-item');
+                        suggestion.addEventListener('click', () => addRecipient(user.username));
+                        suggestions.appendChild(suggestion);
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Erreur:', status, error);
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('Erreur:', status, error);
-        }
-    });
+        });
+    } else {
+        // Si le champ est vide, effacer les suggestions
+        const suggestions = document.getElementById('suggestions');
+        suggestions.innerHTML = '';
+    }
 });
 
 // Event listener pour le formulaire de soumission
