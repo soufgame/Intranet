@@ -240,13 +240,13 @@
 }
 
 .recipient {
-    background-color: #007BFF;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    display: inline-block;
-    cursor: pointer;
-    margin-right: 5px;
-    margin-bottom: 5px;
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 3px 6px;
+  border-radius: 3px;
 }
 
+
+.recipient:first-child {
+  margin-left: 0;
+}

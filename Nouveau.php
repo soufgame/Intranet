@@ -179,22 +179,24 @@ function filterUsers() {
     });
 }
 
+
 function addRecipient(username) {
     if (!selectedRecipients.includes(username)) {
         selectedRecipients.push(username);
 
-        const recipientContainer = document.getElementById('recipient-container');
+        const recipientsDiv = document.getElementById('recipient-container');
         const recipientSpan = document.createElement('span');
         recipientSpan.textContent = username;
         recipientSpan.classList.add('recipient');
         recipientSpan.addEventListener('click', () => removeRecipient(username));
-        recipientContainer.insertBefore(recipientSpan, document.getElementById('recipient-input'));
+        recipientsDiv.appendChild(recipientSpan);
 
-        document.getElementById('recipient-input').value = '';
+        // Mettre à jour l'input caché avec les destinataires sélectionnés
         document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
         updateInputPlaceholder();
     }
 }
+
 
 function removeRecipient(username) {
     selectedRecipients = selectedRecipients.filter(recipient => recipient !== username);
