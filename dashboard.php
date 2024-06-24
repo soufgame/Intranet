@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 } else {
-    echo "Utilisateur connecté : " . htmlspecialchars($_SESSION['username']) . "<br>";
+    echo  htmlspecialchars($_SESSION['username']) . "<br>";
 }
 
 // Récupérer le nom et le prénom de l'utilisateur
