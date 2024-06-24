@@ -252,3 +252,14 @@
 .recipient:first-child {
   margin-left: 0;
 }
+
+
+.recipient {
+  display: inline-flex; /* Pour aligner l'icône et le texte horizontalement */
+  align-items: center;
+  padding: 5px;
+  margin-right: 5px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}

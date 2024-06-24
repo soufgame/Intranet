@@ -96,7 +96,14 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
 
 <div class="doctor-label"><?php echo 'Name: ' . $prenom . ' ' . $nom; ?></div>
 
+<style>
+    .remove-icon {
+  width: 15px; /* Augmenter la taille de l'icône */
+  height: auto; /* Hauteur automatique pour conserver les proportions */
+  margin-right: 5px; /* Espace entre l'icône et le texte */
+}
 
+</style>
 
 </body>
 </html>
@@ -105,15 +112,30 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
 let selectedRecipients = [];
 
 // Fonction pour ajouter un destinataire
+// Fonction pour ajouter un destinataire
 function addRecipient(username) {
     if (!selectedRecipients.includes(username)) {
         selectedRecipients.push(username);
 
         const recipientsDiv = document.getElementById('recipient-container');
         const recipientButton = document.createElement('button');
-        recipientButton.textContent = username;
         recipientButton.classList.add('recipient');
+
+        // Ajout de l'icône à côté du texte
+        const icon = document.createElement('img');
+        icon.src = 'remove.png'; // Chemin de votre icône de suppression
+        icon.alt = 'Remove';
+        icon.classList.add('remove-icon');
+        recipientButton.appendChild(icon);
+
+        // Texte du username
+        const usernameText = document.createElement('span');
+        usernameText.textContent = username;
+        recipientButton.appendChild(usernameText);
+
+        // Gestion du clic sur le bouton
         recipientButton.addEventListener('click', () => removeRecipient(username));
+
         recipientsDiv.appendChild(recipientButton);
 
         // Mettre à jour l'input caché avec les destinataires sélectionnés
@@ -121,6 +143,7 @@ function addRecipient(username) {
         updateInputPlaceholder();
     }
 }
+
 
 // Fonction pour supprimer un destinataire
 function removeRecipient(username) {
