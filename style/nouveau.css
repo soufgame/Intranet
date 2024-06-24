@@ -240,10 +240,12 @@
 }
 
 .recipient {
-  display: inline-block;
-  background-color: #f0f0f0;
-  padding: 3px 6px;
-  border-radius: 3px;
+  margin-right: 5px; /* Espacement entre les boutons destinataires */
+  background-color: #f0f0f0; /* Style optionnel pour le fond */
+  padding: 3px 6px; /* Style optionnel pour le padding */
+  border-radius: 3px; /* Style optionnel pour les coins arrondis */
+  border: none; /* Supprimer le bord du bouton */
+  cursor: pointer; /* Curseur pointer pour indiquer l'interaction */
 }
 
 

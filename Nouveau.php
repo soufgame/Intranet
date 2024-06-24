@@ -47,63 +47,107 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
     <h1>Intranet</h1>
 </header>
 
-
-
 <div class="container">
-<form id="emailForm" action="upload.php" method="post" enctype="multipart/form-data">
-    <label for="recipient-input">Destinataires</label>
-    <div id="recipient-container">
-        <input type="text" id="recipient-input" placeholder="Saisissez un nom d'utilisateur" oninput="filterUsers()">
-    </div>
-    <ul id="suggestions" class="suggestions-list"></ul>
+    <form id="emailForm" action="upload.php" method="post" enctype="multipart/form-data">
+        <label for="recipient-input">Destinataires</label>
+        <div id="recipient-container">
+        <input type="text" id="recipient-input" placeholder="Saisissez un nom d'utilisateur">
+        </div>
+        <ul id="suggestions" class="suggestions-list"></ul>
 
-    <input type="hidden" name="recipients" id="recipients">
+        <input type="hidden" name="recipients" id="recipients">
 
-    <label for="file_name">Objet</label>
-    <input type="text" id="file_name" name="file_name" class="small" required>
+        <label for="file_name">Objet</label>
+        <input type="text" id="file_name" name="file_name" class="small" required>
 
-    <label for="message">Message {max 1000}:</label>
-    <textarea id="message" name="message"></textarea>
+        <label for="message">Message {max 1000}:</label>
+        <textarea id="message" name="message"></textarea>
 
-    <div class="file-input-container">
-        <label for="file_1">Sélectionner le premier fichier:</label>
-        <input type="file" id="file_1" name="file[]">
-        <button type="button" class="clear-file" id="clearFile1">&times;</button>
-    </div>
+        <div class="file-input-container">
+            <label for="file_1">Sélectionner le premier fichier:</label>
+            <input type="file" id="file_1" name="file[]">
+            <button type="button" class="clear-file" id="clearFile1">&times;</button>
+        </div>
 
-    <div class="file-input-container">
-        <label for="file_2">Sélectionner le deuxième fichier:</label>
-        <input type="file" id="file_2" name="file[]">
-        <button type="button" class="clear-file" id="clearFile2">&times;</button>
-    </div>
+        <div class="file-input-container">
+            <label for="file_2">Sélectionner le deuxième fichier:</label>
+            <input type="file" id="file_2" name="file[]">
+            <button type="button" class="clear-file" id="clearFile2">&times;</button>
+        </div>
 
-    <div class="file-input-container">
-        <label for="file_3">Sélectionner le troisième fichier:</label>
-        <input type="file" id="file_3" name="file[]">
-        <button type="button" class="clear-file" id="clearFile3">&times;</button>
-    </div>
+        <div class="file-input-container">
+            <label for="file_3">Sélectionner le troisième fichier:</label>
+            <input type="file" id="file_3" name="file[]">
+            <button type="button" class="clear-file" id="clearFile3">&times;</button>
+        </div>
 
-    <button type="submit">Envoyer</button>
-</form>
-
-
+        <button type="submit">Envoyer</button>
     </form>
 </div>
 
 <div class="sidebar">
-<button id="rendez-vous">Support</button> <a href="historique.php" id="rendez-vous">Historique</a>
-  <a href="Nouveau.php" id="patient">Nouveau</a>
-  <button id="patient">Nouveau </button> <a href="Nouveau.php" id="patient">Nouveau</a>
-  <a id="logoutButton" href="logout.php">LOG OUT</a>
-  <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
-  <button id="support">Support</button> <a href="support.php" id="support">Support</a>
-  <a href="profilu.php" id="profil">Profil</a></div>
+    <button id="rendez-vous">Support</button> <a href="historique.php" id="rendez-vous">Historique</a>
+    <a href="Nouveau.php" id="patient">Nouveau</a>
+    <a id="logoutButton" href="logout.php">LOG OUT</a>
+    <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>
+    <button id="support">Support</button> <a href="support.php" id="support">Support</a>
+    <a href="profilu.php" id="profil">Profil</a>
+</div>
 
 <div class="doctor-label"><?php echo 'Name: ' . $prenom . ' ' . $nom; ?></div>
 
+
+
+</body>
+</html>
 <script>
-function filterUsers() {
-    const filter = document.getElementById('username_filter').value;
+// Tableau pour stocker les destinataires sélectionnés
+let selectedRecipients = [];
+
+// Fonction pour ajouter un destinataire
+function addRecipient(username) {
+    if (!selectedRecipients.includes(username)) {
+        selectedRecipients.push(username);
+
+        const recipientsDiv = document.getElementById('recipient-container');
+        const recipientButton = document.createElement('button');
+        recipientButton.textContent = username;
+        recipientButton.classList.add('recipient');
+        recipientButton.addEventListener('click', () => removeRecipient(username));
+        recipientsDiv.appendChild(recipientButton);
+
+        // Mettre à jour l'input caché avec les destinataires sélectionnés
+        document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
+        updateInputPlaceholder();
+    }
+}
+
+// Fonction pour supprimer un destinataire
+function removeRecipient(username) {
+    selectedRecipients = selectedRecipients.filter(recipient => recipient !== username);
+    const recipientsButtons = document.querySelectorAll('.recipient');
+    recipientsButtons.forEach(button => {
+        if (button.textContent === username) {
+            button.remove();
+        }
+    });
+    document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
+    updateInputPlaceholder();
+}
+
+// Fonction pour mettre à jour le placeholder de l'input destinataires
+function updateInputPlaceholder() {
+    const recipientInput = document.getElementById('recipient-input');
+    if (selectedRecipients.length > 0) {
+        recipientInput.placeholder = '';
+    } else {
+        recipientInput.placeholder = 'Saisissez un nom d\'utilisateur';
+    }
+}
+
+// Gestion de l'entrée utilisateur pour filtrer les suggestions de destinataires
+document.getElementById('recipient-input').addEventListener('input', function() {
+    const filter = this.value.trim();
 
     $.ajax({
         url: 'search_users.php',
@@ -111,28 +155,34 @@ function filterUsers() {
         data: { search: filter },
         dataType: 'json',
         success: function(response) {
-            const select = document.getElementById('username');
-            select.innerHTML = ''; 
+            const suggestions = document.getElementById('suggestions');
+            suggestions.innerHTML = '';
             if (response.length > 0) {
                 response.forEach(user => {
-                    const option = document.createElement('option');
-                    option.value = user.username;
-                    option.text = user.username;
-                    select.appendChild(option);
+                    const suggestion = document.createElement('li');
+                    suggestion.textContent = user.username;
+                    suggestion.classList.add('suggestion-item');
+                    suggestion.addEventListener('click', () => addRecipient(user.username));
+                    suggestions.appendChild(suggestion);
                 });
-            } else {
-                const option = document.createElement('option');
-                option.value = '';
-                option.text = 'Aucun utilisateur trouvé';
-                select.appendChild(option);
             }
         },
         error: function(xhr, status, error) {
             console.error('Erreur:', status, error);
         }
     });
-}
+});
 
+// Event listener pour le formulaire de soumission
+document.getElementById('emailForm').addEventListener('submit', function(event) {
+    // Vérifie si au moins un destinataire a été sélectionné
+    if (selectedRecipients.length === 0) {
+        event.preventDefault();
+        alert('Veuillez ajouter au moins un destinataire.');
+    }
+});
+
+// Fonction pour initialiser les boutons de suppression de fichier
 function handleFileInput(fileInputId, clearButtonId) {
     const fileInput = document.getElementById(fileInputId);
     const clearButton = document.getElementById(clearButtonId);
@@ -150,86 +200,13 @@ function handleFileInput(fileInputId, clearButtonId) {
         this.style.display = 'none';
     });
 }
-let selectedRecipients = [];
 
-function filterUsers() {
-    const filter = document.getElementById('recipient-input').value;
-
-    $.ajax({
-        url: 'search_users.php',
-        type: 'GET',
-        data: { search: filter },
-        dataType: 'json',
-        success: function(response) {
-            const suggestions = document.getElementById('suggestions');
-            suggestions.innerHTML = ''; 
-            if (response.length > 0) {
-                response.forEach(user => {
-                    const suggestion = document.createElement('li');
-                    suggestion.textContent = user.username;
-                    suggestion.classList.add('suggestion-item');
-                    suggestion.addEventListener('click', () => addRecipient(user.username));
-                    suggestions.appendChild(suggestion);
-                });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Erreur:', status, error);
-        }
-    });
-}
-
-
-function addRecipient(username) {
-    if (!selectedRecipients.includes(username)) {
-        selectedRecipients.push(username);
-
-        const recipientsDiv = document.getElementById('recipient-container');
-        const recipientSpan = document.createElement('span');
-        recipientSpan.textContent = username;
-        recipientSpan.classList.add('recipient');
-        recipientSpan.addEventListener('click', () => removeRecipient(username));
-        recipientsDiv.appendChild(recipientSpan);
-
-        // Mettre à jour l'input caché avec les destinataires sélectionnés
-        document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
-        updateInputPlaceholder();
-    }
-}
-
-
-function removeRecipient(username) {
-    selectedRecipients = selectedRecipients.filter(recipient => recipient !== username);
-    const recipients = document.querySelectorAll('.recipient');
-    recipients.forEach(recipient => {
-        if (recipient.textContent === username) {
-            recipient.remove();
-        }
-    });
-    document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
-    updateInputPlaceholder();
-}
-
-function updateInputPlaceholder() {
-    const recipientInput = document.getElementById('recipient-input');
-    if (selectedRecipients.length > 0) {
-        recipientInput.placeholder = '';
-    } else {
-        recipientInput.placeholder = 'Saisissez un nom d\'utilisateur';
-    }
-}
-
-document.getElementById('emailForm').addEventListener('submit', function(event) {
-    if (selectedRecipients.length === 0) {
-        event.preventDefault();
-        alert('Veuillez ajouter au moins un destinataire.');
-    }
-});
-
-
+// Initialisation des boutons de suppression de fichier pour chaque champ de fichier
 handleFileInput('file_1', 'clearFile1');
 handleFileInput('file_2', 'clearFile2');
 handleFileInput('file_3', 'clearFile3');
+
 </script>
+
 </body>
 </html>
