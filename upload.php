@@ -25,8 +25,8 @@ $file_name = $_POST['file_name'];
 $message = $_POST['message'];
 $user_id = $_SESSION['id']; // Utilisez $_SESSION['id'] au lieu de $_SESSION['user_id']
 
-// Récupérer le nom d'utilisateur saisi dans le formulaire
-$username = $_POST['username'];
+// Récupérer les destinataires sous forme de tableau
+$recipients = json_decode($_POST['recipients'], true);
 
 $file_data_1 = null;
 $file_data_2 = null;
@@ -52,19 +52,20 @@ if (isset($_FILES['file'])) {
 $current_date = date('Y-m-d');
 $current_time = date('H:i:s');
 
-// Préparer et exécuter la requête d'insertion
-$stmt = $conn->prepare("INSERT INTO files (file_name, file_data, file_data_2, file_data_3, message, user_id, username, date, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+// Préparer et exécuter les requêtes d'insertion pour chaque destinataire
+foreach ($recipients as $username) {
+    $stmt = $conn->prepare("INSERT INTO files (file_name, file_data, file_data_2, file_data_3, message, user_id, username, date, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssss", $file_name, $file_data_1, $file_data_2, $file_data_3, $message, $user_id, $username, $current_date, $current_time);
 
-// Notez la chaîne de types mise à jour ici
-$stmt->bind_param("sssssssss", $file_name, $file_data_1, $file_data_2, $file_data_3, $message, $user_id, $username, $current_date, $current_time);
+    if ($stmt->execute()) {
+        $success_message = "Fichiers téléchargés avec succès pour $username.";
+    } else {
+        $error_message = "Erreur pour $username: " . $stmt->error;
+    }
 
-if ($stmt->execute()) {
-    $success_message = "Fichiers téléchargés avec succès.";
-} else {
-    $error_message = "Erreur: " . $stmt->error;
+    $stmt->close();
 }
 
-$stmt->close();
 $conn->close();
 ?>
 
@@ -90,7 +91,7 @@ $conn->close();
 
         .success-message {
             color: green;
-            font-size: 50px;
+            font-size: 24px;
             margin-bottom: 20px;
         }
 

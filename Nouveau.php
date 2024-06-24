@@ -47,40 +47,45 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
     <h1>Intranet</h1>
 </header>
 
+
+
 <div class="container">
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-    <label for="username">   Déstinataire</label>
-<input type="text" id="username_filter" placeholder="Trouver utilisateur ciblé" oninput="filterUsers()">
-<select id="username" name="username" required>
-    <option value="" disabled selected>Sélectionnez un utilisateur</option>
-    <?php foreach ($users as $user): ?>
-        <option value="<?php echo htmlspecialchars($user['username']); ?>"><?php echo htmlspecialchars($user['username']); ?></option>
-    <?php endforeach; ?>
-</select>
+<form id="emailForm" action="upload.php" method="post" enctype="multipart/form-data">
+    <label for="recipient-input">Destinataires</label>
+    <div id="recipient-container">
+        <input type="text" id="recipient-input" placeholder="Saisissez un nom d'utilisateur" oninput="filterUsers()">
+    </div>
+    <ul id="suggestions" class="suggestions-list"></ul>
 
-<label for="file_name">Object</label>
-<input type="text" id="file_name" name="file_name" class="small" required>
+    <input type="hidden" name="recipients" id="recipients">
 
-<label for="message">Message {max 1000}:</label>
-<textarea id="message" name="message"></textarea>
+    <label for="file_name">Objet</label>
+    <input type="text" id="file_name" name="file_name" class="small" required>
 
-<div class="file-input-container">
-    <label for="file_1">Sélectionner le premier fichier:</label>
-    <input type="file" id="file_1" name="file[]">
-    <button type="button" class="clear-file" id="clearFile1">&times;</button>
-</div>
+    <label for="message">Message {max 1000}:</label>
+    <textarea id="message" name="message"></textarea>
 
-<div class="file-input-container">
-    <label for="file_2">Sélectionner le deuxième fichier:</label>
-    <input type="file" id="file_2" name="file[]">
-    <button type="button" class="clear-file" id="clearFile2">&times;</button>
-</div>
+    <div class="file-input-container">
+        <label for="file_1">Sélectionner le premier fichier:</label>
+        <input type="file" id="file_1" name="file[]">
+        <button type="button" class="clear-file" id="clearFile1">&times;</button>
+    </div>
 
-<div class="file-input-container">
-    <label for="file_3">Sélectionner le troisième fichier:</label>
-    <input type="file" id="file_3" name="file[]">
-    <button type="button" class="clear-file" id="clearFile3">&times;</button>
-</div>
+    <div class="file-input-container">
+        <label for="file_2">Sélectionner le deuxième fichier:</label>
+        <input type="file" id="file_2" name="file[]">
+        <button type="button" class="clear-file" id="clearFile2">&times;</button>
+    </div>
+
+    <div class="file-input-container">
+        <label for="file_3">Sélectionner le troisième fichier:</label>
+        <input type="file" id="file_3" name="file[]">
+        <button type="button" class="clear-file" id="clearFile3">&times;</button>
+    </div>
+
+    <button type="submit">Envoyer</button>
+</form>
+
 
     </form>
 </div>
@@ -107,7 +112,7 @@ function filterUsers() {
         dataType: 'json',
         success: function(response) {
             const select = document.getElementById('username');
-            select.innerHTML = ''; // Clear previous options
+            select.innerHTML = ''; 
             if (response.length > 0) {
                 response.forEach(user => {
                     const option = document.createElement('option');
@@ -145,6 +150,80 @@ function handleFileInput(fileInputId, clearButtonId) {
         this.style.display = 'none';
     });
 }
+let selectedRecipients = [];
+
+function filterUsers() {
+    const filter = document.getElementById('recipient-input').value;
+
+    $.ajax({
+        url: 'search_users.php',
+        type: 'GET',
+        data: { search: filter },
+        dataType: 'json',
+        success: function(response) {
+            const suggestions = document.getElementById('suggestions');
+            suggestions.innerHTML = ''; 
+            if (response.length > 0) {
+                response.forEach(user => {
+                    const suggestion = document.createElement('li');
+                    suggestion.textContent = user.username;
+                    suggestion.classList.add('suggestion-item');
+                    suggestion.addEventListener('click', () => addRecipient(user.username));
+                    suggestions.appendChild(suggestion);
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Erreur:', status, error);
+        }
+    });
+}
+
+function addRecipient(username) {
+    if (!selectedRecipients.includes(username)) {
+        selectedRecipients.push(username);
+
+        const recipientContainer = document.getElementById('recipient-container');
+        const recipientSpan = document.createElement('span');
+        recipientSpan.textContent = username;
+        recipientSpan.classList.add('recipient');
+        recipientSpan.addEventListener('click', () => removeRecipient(username));
+        recipientContainer.insertBefore(recipientSpan, document.getElementById('recipient-input'));
+
+        document.getElementById('recipient-input').value = '';
+        document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
+        updateInputPlaceholder();
+    }
+}
+
+function removeRecipient(username) {
+    selectedRecipients = selectedRecipients.filter(recipient => recipient !== username);
+    const recipients = document.querySelectorAll('.recipient');
+    recipients.forEach(recipient => {
+        if (recipient.textContent === username) {
+            recipient.remove();
+        }
+    });
+    document.getElementById('recipients').value = JSON.stringify(selectedRecipients);
+    updateInputPlaceholder();
+}
+
+function updateInputPlaceholder() {
+    const recipientInput = document.getElementById('recipient-input');
+    if (selectedRecipients.length > 0) {
+        recipientInput.placeholder = '';
+    } else {
+        recipientInput.placeholder = 'Saisissez un nom d\'utilisateur';
+    }
+}
+
+document.getElementById('emailForm').addEventListener('submit', function(event) {
+    if (selectedRecipients.length === 0) {
+        event.preventDefault();
+        alert('Veuillez ajouter au moins un destinataire.');
+    }
+});
+
 
 handleFileInput('file_1', 'clearFile1');
 handleFileInput('file_2', 'clearFile2');

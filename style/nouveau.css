@@ -199,3 +199,54 @@
             background-color: #555;
         }
 
+
+#recipient-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+#recipient-input {
+    flex: 1;
+    border: none;
+    outline: none;
+}
+
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background: white;
+    z-index: 1000;
+    width: calc(100% - 22px);
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+.recipient {
+    background-color: #007BFF;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
