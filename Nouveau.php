@@ -49,40 +49,39 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
 
 <div class="container">
     <form action="upload.php" method="post" enctype="multipart/form-data">
-        <label for="file_name">Nom du fichier:</label>
-        <input type="text" id="file_name" name="file_name" class="small" required>
+    <label for="username">   Déstinataire</label>
+<input type="text" id="username_filter" placeholder="Trouver utilisateur ciblé" oninput="filterUsers()">
+<select id="username" name="username" required>
+    <option value="" disabled selected>Sélectionnez un utilisateur</option>
+    <?php foreach ($users as $user): ?>
+        <option value="<?php echo htmlspecialchars($user['username']); ?>"><?php echo htmlspecialchars($user['username']); ?></option>
+    <?php endforeach; ?>
+</select>
 
-        <div class="file-input-container">
-            <label for="file_1">Sélectionner le premier fichier:</label>
-            <input type="file" id="file_1" name="file[]">
-            <button type="button" class="clear-file" id="clearFile1">&times;</button>
-        </div>
+<label for="file_name">Object</label>
+<input type="text" id="file_name" name="file_name" class="small" required>
 
-        <div class="file-input-container">
-            <label for="file_2">Sélectionner le deuxième fichier:</label>
-            <input type="file" id="file_2" name="file[]">
-            <button type="button" class="clear-file" id="clearFile2">&times;</button>
-        </div>
+<label for="message">Message {max 1000}:</label>
+<textarea id="message" name="message"></textarea>
 
-        <div class="file-input-container">
-            <label for="file_3">Sélectionner le troisième fichier:</label>
-            <input type="file" id="file_3" name="file[]">
-            <button type="button" class="clear-file" id="clearFile3">&times;"></button>
-        </div>
+<div class="file-input-container">
+    <label for="file_1">Sélectionner le premier fichier:</label>
+    <input type="file" id="file_1" name="file[]">
+    <button type="button" class="clear-file" id="clearFile1">&times;</button>
+</div>
 
-        <label for="message">Message {max 1000}:</label>
-        <textarea id="message" name="message"></textarea>
+<div class="file-input-container">
+    <label for="file_2">Sélectionner le deuxième fichier:</label>
+    <input type="file" id="file_2" name="file[]">
+    <button type="button" class="clear-file" id="clearFile2">&times;</button>
+</div>
 
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username_filter" placeholder="Trouver utilisateur ciblé" oninput="filterUsers()">
-        <select id="username" name="username" required>
-            <option value="" disabled selected>Sélectionnez un utilisateur</option>
-            <?php foreach ($users as $user): ?>
-                <option value="<?php echo htmlspecialchars($user['username']); ?>"><?php echo htmlspecialchars($user['username']); ?></option>
-            <?php endforeach; ?>
-        </select>
+<div class="file-input-container">
+    <label for="file_3">Sélectionner le troisième fichier:</label>
+    <input type="file" id="file_3" name="file[]">
+    <button type="button" class="clear-file" id="clearFile3">&times;</button>
+</div>
 
-        <input type="submit" value="Envoyer">
     </form>
 </div>
 
