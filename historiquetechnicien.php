@@ -49,6 +49,7 @@ table th {
     color: #333; 
 }
 
+
 table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
@@ -75,7 +76,7 @@ table tbody tr:hover {
 
     
     <div class="historique">
-        <h2>Historique des interventions</h2>
+        <h2><br></h2>
         <table>
             <thead>
                 <tr>
