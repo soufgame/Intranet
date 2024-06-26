@@ -43,10 +43,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($
 
 // Fetch interventions excluding those with status 'ouvert'
 $sql = "SELECT i.ticketID, u.username, i.Description, i.Categorie, i.DateOuverture, i.DateCloture, i.Statut
-        FROM intervention i
-        JOIN tickets t ON i.ticketID = t.TicketID
-        JOIN users u ON t.userID = u.ID
-        WHERE i.technicienID = ? AND i.Statut != 'ouvert'";
+FROM intervention i
+JOIN tickets t ON i.ticketID = t.TicketID
+JOIN users u ON t.userID = u.ID
+WHERE i.technicienID = ? 
+AND i.Statut != 'ouvert'
+AND i.Statut != 'fermé';
+";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $technicienId);
 $stmt->execute();
@@ -139,6 +142,8 @@ $conn->close();
                                     <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
                                     <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
                                     <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
+                                    <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
+
                                 </select>
                                 <button type="submit">Modifier</button>
                             </form>
