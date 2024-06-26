@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="sidebar">
     <a href="historique.php" id="rendez-vous">Mail envoye</a>
-    <a href="Nouveau.php" id="patient">Nouveau</a>
+    <a href="Nouveau.php" id="patient">Nouveau mail</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
     <a href="support.php" id="support">Support</a>
