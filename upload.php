@@ -8,10 +8,10 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Connexion à la base de données
-$servername = "localhost"; // Remplacez par votre serveur
-$username = "root"; // Remplacez par votre nom d'utilisateur
-$password = "Soufiane@2003"; // Remplacez par votre mot de passe
-$dbname = "intranet"; // Remplacez par votre base de données
+$servername = "localhost";
+$username = "root";
+$password = "Soufiane@2003";
+$dbname = "intranet";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -21,12 +21,16 @@ if ($conn->connect_error) {
 }
 
 // Récupérer les données du formulaire
-$file_name = $_POST['file_name'];
-$message = $_POST['message'];
+$file_name = isset($_POST['file_name']) ? $_POST['file_name'] : '';
+$message = isset($_POST['message']) ? $_POST['message'] : '';
 $user_id = $_SESSION['id']; // Utilisez $_SESSION['id'] au lieu de $_SESSION['user_id']
 
 // Récupérer les destinataires sous forme de tableau
-$recipients = json_decode($_POST['recipients'], true);
+$recipients = isset($_POST['recipients']) ? json_decode($_POST['recipients'], true) : [];
+
+if (!is_array($recipients)) {
+    $recipients = [];
+}
 
 $file_data_1 = null;
 $file_data_2 = null;

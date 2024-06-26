@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
 // Récupérer le nom et le prénom de l'utilisateur
 $nom = htmlspecialchars($_SESSION['nom']);
 $prenom = htmlspecialchars($_SESSION['prenom']);
-$username = htmlspecialchars($_SESSION['username']);
+$userID = $_SESSION['id']; // Récupérer l'ID de l'utilisateur connecté
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -25,32 +25,29 @@ $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 
 // Vérifier la connexion
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error); // Afficher l'erreur de connexion
 }
 
 // Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
 $stmt = $conn->prepare("
-    SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, date, time, users.username, is_read 
-    FROM files 
-    INNER JOIN users ON files.user_id = users.id 
-    WHERE users.username = ? 
-    ORDER BY date DESC, time DESC
+      SELECT f.id, f.file_name, f.message, f.file_data, f.file_data_2, f.file_data_3,f.username, f.date, f.time
+    FROM files f
+    WHERE f.user_id = ?
+    ORDER BY f.date DESC, f.time DESC
 ");
 
 if ($stmt === false) {
-    die("Prepare failed: " . $conn->error);
+    die("Prepare failed: " . $conn->error); // Afficher l'erreur de préparation de la requête
 }
 
-$stmt->bind_param("s", $username);
+$stmt->bind_param("i", $userID); // Utilisez "i" pour binder un entier
 
 if (!$stmt->execute()) {
-    die("Query failed: " . $stmt->error);
+    die("Query failed: " . $stmt->error); // Afficher l'erreur d'exécution de la requête
 }
 
 $result = $stmt->get_result();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -231,44 +228,43 @@ $result = $stmt->get_result();
     <h1>Intranet</h1>
 </header>
 
+
+<
 <div class="container">
-<?php
-if ($result->num_rows > 0) {
-    echo "<table border='1'>";
-    echo "<tr><th>Titre</th><th>Date</th><th>Time</th>";
-    while ($row = $result->fetch_assoc()) {
-        // Vérifiez si la clé is_read existe avant de l'utiliser
-        $isRead = isset($row['is_read']) ? $row['is_read'] : false;
-        $rowClass = $isRead ? '' : ' class="unread"';
-        echo "<tr{$rowClass} data-id='" . htmlspecialchars($row["id"]) . "'>";
-        echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
-
-
-        echo "</tr>";
+    <?php
+    if ($result->num_rows > 0) {
+        echo "<table border='1'>";
+        echo "<tr><th>Titre</th><th>Date</th><th>Time</th><th>Envoyé a</th></tr>";
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr data-id='" . htmlspecialchars($row["id"]) . "'>";
+            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+            echo "</tr>";
+        }
+        
+        echo "</table>";
+    } else {
+        echo "<p>Aucun fichier trouvé pour cet utilisateur.</p>"; // Aucun fichier trouvé
     }
-    echo "</table>";
-} else {
-    echo "<p>Aucun Imail envoye.</p>";
-}
-?>
+    ?>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var rows = document.querySelectorAll('tr[data-id]');
+    var rows = document.querySelectorAll('table tr[data-id]');
     rows.forEach(function(row) {
         row.addEventListener('click', function() {
             var fileId = row.getAttribute('data-id');
             
-            // Rediriger vers la page email.php
+            // Rediriger vers la page emailenvoye.php avec l'id du fichier
             window.location.href = 'emailenvoye.php?file_id=' + fileId;
         });
     });
 });
-</script>
 
+</script>
 
 <div class="sidebar">
     <a href="historique.php" id="rendez-vous">Historique</a>
