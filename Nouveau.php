@@ -86,7 +86,7 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
 </div>
 
 <div class="sidebar">
-    <button id="rendez-vous">Support</button> <a href="historique.php" id="rendez-vous">Historique</a>
+    <button id="rendez-vous">Support</button> <a href="historique.php" id="rendez-vous">Mail envoye</a>
     <a href="Nouveau.php" id="patient">Nouveau</a>
     <a id="logoutButton" href="logout.php">LOG OUT</a>
     <button id="Dashboard">Dashboard</button> <a href="dashboard.php" id="Dashboard">Dashboard</a>

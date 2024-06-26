@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <div class="sidebar">
-    <a href="historique.php" id="rendez-vous">Historique</a>
+    <a href="historique.php" id="rendez-vous">Mail envoye</a>
     <a href="Nouveau.php" id="patient">Nouveau</a>
     <a href="logout.php" id="logoutButton">LOG OUT</a>
     <a href="dashboard.php" id="Dashboard">Dashboard</a>
