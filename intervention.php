@@ -176,12 +176,16 @@ $conn->close();
                             <form method="post" class="status-form">
                                 <input type="hidden" name="ticketID" value="<?php echo $intervention['ticketID']; ?>">
                                 <input type="hidden" name="currentStatus" value="<?php echo $intervention['Statut']; ?>">
-                                <select name="newStatus" onchange="this.form.submit()">
-                                    <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
-                                    <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
-                                    <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
-                                    <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
-                                </select>
+                            
+
+                                <select name="newStatus"onchange="this.form.submit()">
+    <option value="" <?php echo ($intervention['Statut'] == '') ? 'selected' : ''; ?>></option>
+    <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
+    <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
+    <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
+    <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
+</select>
+
                             </form>
                         </td>
                     </tr>
