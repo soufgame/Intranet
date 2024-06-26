@@ -19,6 +19,8 @@ if ($conn->connect_error) {
     die("Échec de la connexion: " . $conn->connect_error);
 }
 
+$newStatus = ""; // Initialisation de $newStatus pour éviter l'avertissement Undefined variable
+
 // Update status if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($_POST['newStatus'])) {
     $ticketID = $_POST['ticketID'];
@@ -32,12 +34,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($
         $deleteStmt->execute();
         $deleteStmt->close();
     } else {
-        // Update the status
-        $updateSql = "UPDATE intervention SET Statut = ? WHERE ticketID = ?";
+        // Update the status and dateCloture if status is not 'ouvert'
+        if ($newStatus === "ferme") {
+            $dateCloture = date('Y-m-d H:i:s'); // Current date and time
+        } else {
+            $dateCloture = null; // Null for other statuses
+        }
+
+        $updateSql = "UPDATE intervention SET Statut = ?, DateCloture = NOW() WHERE ticketID = ?";
         $updateStmt = $conn->prepare($updateSql);
+        
+        if ($updateStmt === false) {
+            die('Erreur de préparation de la requête SQL: ' . $conn->error);
+        }
+        
         $updateStmt->bind_param("si", $newStatus, $ticketID);
         $updateStmt->execute();
+        
+        if ($updateStmt->error) {
+            die('Erreur lors de l\'exécution de la requête SQL: ' . $updateStmt->error);
+        }
+        
         $updateStmt->close();
+    }
+
+    // Update the Ticket table if status is 'ferme'
+    if ($newStatus === "ferme") {
+        $updateTicketSql = "UPDATE tickets SET Statut = ?, DateCloture = ? WHERE TicketID = ?";
+        $updateTicketStmt = $conn->prepare($updateTicketSql);
+        
+        if ($updateTicketStmt === false) {
+            die('Erreur de préparation de la requête SQL pour Ticket: ' . $conn->error);
+        }
+        
+        $updateTicketStmt->bind_param("ssi", $newStatus, $dateCloture, $ticketID);
+        $updateTicketStmt->execute();
+        
+        if ($updateTicketStmt->error) {
+            die('Erreur lors de l\'exécution de la requête SQL pour Ticket: ' . $updateTicketStmt->error);
+        }
+        
+        $updateTicketStmt->close();
     }
 }
 
@@ -108,7 +145,7 @@ $conn->close();
 </div>
 
 <div class="interventions-table">
-<div class="title-container">
+    <div class="title-container">
         <h2>Liste des interventions</h2>
     </div>
     <table>
@@ -138,14 +175,13 @@ $conn->close();
                         <td>
                             <form method="post" class="status-form">
                                 <input type="hidden" name="ticketID" value="<?php echo $intervention['ticketID']; ?>">
-                                <select name="newStatus">
+                                <input type="hidden" name="currentStatus" value="<?php echo $intervention['Statut']; ?>">
+                                <select name="newStatus" onchange="this.form.submit()">
                                     <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
                                     <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
                                     <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
                                     <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
-
                                 </select>
-                                <button type="submit">Modifier</button>
                             </form>
                         </td>
                     </tr>

@@ -87,6 +87,8 @@ if (isset($_GET['file_id'])) {
         }
         .email p {
             margin-bottom: 10px;
+            word-wrap: break-word; 
+
         }
         .email a {
             display: block;
