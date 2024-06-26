@@ -46,6 +46,27 @@ $prenom = isset($_SESSION['prenom']) ? htmlspecialchars($_SESSION['prenom']) : '
 <header>
     <h1>Intranet</h1>
 </header>
+<style>
+    .suggestion-item {
+        display: inline-block;
+        max-width: 200px; /* Limite la largeur des suggestions à 200px */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer; /* Ajoute un curseur pointer pour indiquer que les suggestions sont cliquables */
+        margin: 5px; /* Marge autour des suggestions */
+        padding: 5px; /* Espacement interne des suggestions */
+        border: 1px solid #ccc; /* Bordure pour chaque suggestion */
+        border-radius: 4px; /* Coins arrondis */
+    }
+
+    .suggestion-item:hover {
+        max-width: none; /* Lorsque survolé, permet de voir le texte complet */
+        overflow: visible;
+        white-space: normal;
+    }
+
+</style>
 
 <div class="container">
     <form id="emailForm" action="upload.php" method="post" enctype="multipart/form-data">
@@ -182,13 +203,15 @@ document.getElementById('recipient-input').addEventListener('input', function() 
                 const suggestions = document.getElementById('suggestions');
                 suggestions.innerHTML = '';
                 if (response.length > 0) {
-                    response.forEach(user => {
-                        const suggestion = document.createElement('li');
-                        suggestion.textContent = user.username;
-                        suggestion.classList.add('suggestion-item');
-                        suggestion.addEventListener('click', () => addRecipient(user.username));
-                        suggestions.appendChild(suggestion);
-                    });
+                   // Dans la fonction success de votre requête AJAX pour afficher les suggestions
+response.forEach(user => {
+    const suggestion = document.createElement('li');
+    suggestion.textContent = user.username;
+    suggestion.classList.add('suggestion-item'); // Ajoute la classe suggestion-item
+    suggestion.addEventListener('click', () => addRecipient(user.username));
+    suggestions.appendChild(suggestion);
+});
+
                 }
             },
             error: function(xhr, status, error) {
