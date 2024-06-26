@@ -35,20 +35,20 @@ table {
 }
 
 table th, table td {
-    padding: 8px; 
+    padding: 12px;
     text-align: left; 
     border-bottom: 1px solid #ddd; 
-    max-width: 100px; 
+    max-width: 200px; 
     overflow: hidden; 
     text-overflow: ellipsis; 
     white-space: nowrap; 
+    vertical-align: middle; 
 }
 
 table th {
     background-color: #f2f2f2; 
     color: #333; 
 }
-
 
 table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
@@ -57,6 +57,7 @@ table tbody tr:nth-child(even) {
 table tbody tr:hover {
     background-color: #e0e0e0; 
 }
+
 
 
     </style>
