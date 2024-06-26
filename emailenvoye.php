@@ -77,7 +77,7 @@ if (isset($_GET['file_id'])) {
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #303030;
             border: 1px solid #ddd;
             border-radius: 5px;
             padding-top: 60px; /* Add padding to separate content from the button */
@@ -94,6 +94,8 @@ if (isset($_GET['file_id'])) {
         }
         .email p {
             margin-bottom: 10px;
+            word-wrap: break-word; 
+
         }
         .email a {
             display: block;
@@ -117,7 +119,6 @@ if (isset($_GET['file_id'])) {
         <p><strong>Message:</strong> <?php echo nl2br(htmlspecialchars($row["message"])); ?></p>
         <p><strong>Date:</strong> <?php echo htmlspecialchars($row["date"]); ?></p>
         <p><strong>Heure:</strong> <?php echo htmlspecialchars($row["time"]); ?></p>
-        <p><strong>Expéditeur:</strong> <?php echo htmlspecialchars($row["username"]); ?></p>
         <?php if (!empty($row["file_data"])) : ?>
             <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data">Télécharger File Data</a>
         <?php endif; ?>
