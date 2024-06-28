@@ -140,7 +140,7 @@ if ($result->num_rows > 0) {
   $_SESSION['id'] = $user_id ;
 
   // Rediriger vers dashboard.php
-  header("Location: dashboard.php");
+  header("Location: dashboardemploye.php");
   exit();
 } else {
   // Vérifer dans la table technicien
