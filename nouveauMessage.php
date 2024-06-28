@@ -61,7 +61,7 @@ if ($conn->connect_error) {
         margin-right: 5px;
     }
     /* Styles spécifiques pour les zones de texte du formulaire */
-#emailForm {
+    #emailForm {
     width: 100%;
     max-width: 800px;
     margin: auto;
@@ -77,24 +77,28 @@ if ($conn->connect_error) {
 #emailForm input[type="text"],
 #emailForm input[type="file"],
 #emailForm textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    background-color: #000000;
+    border-radius: 12px;
+    border: 0;
     box-sizing: border-box;
-    font-size: 16px;
+    color: #eee;
+    font-size: 18px;
+    outline: 0;
+    padding: 10px 20px;
+    width: 500px;
+    height: 40px; /* Adjust height as needed */
+
 }
 
 #emailForm input[type="text"]:focus,
 #emailForm input[type="file"]:focus,
 #emailForm textarea:focus {
-    border-color: #666;
     outline: none;
+    border-bottom: 2px solid #dc2f55; /* Consistent with the animation color */
 }
 
 #emailForm textarea {
-    height: 150px;
+    height: 200px; /* Make textarea longer */
     resize: vertical;
 }
 
@@ -122,18 +126,22 @@ if ($conn->connect_error) {
 }
 
 #emailForm button[type="submit"] {
-    background-color: #007bff;
+    background-color: #08d;
     color: white;
     padding: 10px 15px;
     border: none;
-    border-radius: 4px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 #emailForm button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #06b;
 }
+
 
   </style>
 </head>
@@ -201,10 +209,10 @@ if ($conn->connect_error) {
                 <input type="hidden" name="recipients" id="recipients">
 
                 <label for="file_name">Objet</label>
-                <input type="text" id="file_name" name="file_name" class="small" required>
+                <input type="text" id="file_name" name="file_name" class="small" required placeholder="Saisissez un Objet">
 
                 <label for="message">Message {max 1000}:</label>
-                <textarea id="message" name="message"></textarea>
+                <textarea id="message" name="message"></textarea >
 
                 <div class="file-input-container">
                     <label for="file_1">Sélectionner le premier fichier:</label>
