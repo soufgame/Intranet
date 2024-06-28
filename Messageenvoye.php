@@ -2,13 +2,15 @@
 session_start();
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['id'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
-// Récupérer les informations de session
-$username = $_SESSION['username'];
+// Récupérer le nom et le prénom de l'utilisateur
+$nom = htmlspecialchars($_SESSION['nom']);
+$prenom = htmlspecialchars($_SESSION['prenom']);
+$userID = $_SESSION['id']; // Récupérer l'ID de l'utilisateur connecté
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -16,11 +18,33 @@ $dbname = "intranet";
 $dbusername = "root";
 $dbpassword = "Soufiane@2003";
 
+// Créer la connexion
 $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 
+// Vérifier la connexion
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error); // Afficher l'erreur de connexion
 }
+
+// Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
+$stmt = $conn->prepare("
+    SELECT f.id, f.file_name, f.message, f.file_data, f.file_data_2, f.file_data_3, f.username, f.date, f.time
+    FROM files f
+    WHERE f.user_id = ?
+    ORDER BY f.date DESC, f.time DESC
+");
+
+if ($stmt === false) {
+    die("Prepare failed: " . $conn->error); // Afficher l'erreur de préparation de la requête
+}
+
+$stmt->bind_param("i", $userID); // Utiliser "i" pour binder un entier
+
+if (!$stmt->execute()) {
+    die("Query failed: " . $stmt->error); // Afficher l'erreur d'exécution de la requête
+}
+
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -34,112 +58,42 @@ if ($conn->connect_error) {
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    .suggestion-item {
-        display: inline-block;
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-        margin: 5px;
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    table {
+        width: 500%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        margin-left: -250px;
+
+        font-family: Arial, sans-serif;
     }
 
-    .suggestion-item:hover {
-        max-width: none;
-        overflow: visible;
-        white-space: normal;
+    table th,
+    table td {
+        border: 1px solid #dddddd;
+        padding: 12px;
+        text-align: left;
+        white-space: nowrap; /* Empêche le contenu de se casser sur plusieurs lignes */
+        overflow: hidden; /* Cache le contenu qui déborde */
+        text-overflow: ellipsis; /* Affiche des points de suspension (...) pour le contenu caché */
     }
 
-    .remove-icon {
-        width: 15px;
-        height: auto;
-        margin-right: 5px;
+    table th {
+        background-color: #242424;
+        color: #FFFFFF;
+        font-size: 16px;
     }
-    /* Styles spécifiques pour les zones de texte du formulaire */
-    #emailForm {
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-}
 
-#emailForm label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #333;
-}
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
 
-#emailForm input[type="text"],
-#emailForm input[type="file"],
-#emailForm textarea {
-    background-color: #000000;
-    border-radius: 12px;
-    border: 0;
-    box-sizing: border-box;
-    color: #eee;
-    font-size: 18px;
-    outline: 0;
-    padding: 10px 20px;
-    width: 500px;
-    height: 40px; /* Adjust height as needed */
+    table tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
 
-}
 
-#emailForm input[type="text"]:focus,
-#emailForm input[type="file"]:focus,
-#emailForm textarea:focus {
-    outline: none;
-    border-bottom: 2px solid #dc2f55; /* Consistent with the animation color */
-}
 
-#emailForm textarea {
-    height: 200px; /* Make textarea longer */
-    resize: vertical;
-}
-
-#emailForm .file-input-container {
-    position: relative;
-    margin-bottom: 15px;
-}
-
-#emailForm .file-input-container input[type="file"] {
-    display: block;
-    padding: 5px;
-}
-
-#emailForm .clear-file {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-    color: #f00;
-    font-size: 20px;
-    cursor: pointer;
-    display: none;
-}
-
-#emailForm button[type="submit"] {
-    background-color: #08d;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-#emailForm button[type="submit"]:hover {
-    background-color: #06b;
-}
-  </style>
 </head>
 <body>
    <div class="container">
@@ -192,10 +146,23 @@ if ($conn->connect_error) {
          </div>
       </aside>
       <main>
-        <h1>Nouveau message</h1>
+        <h1> Message envoyee</h1>
         <!-- Formulaire de la première page supprimé -->
         <div class="container">
-            <!-- Formulaire retiré -->
+            <h2>  </h2>
+            <table border='1'>
+                <tr><th>Titre</th><th>Date</th><th>Time</th><th>Envoyé à</th></tr>
+                <?php
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr data-id='" . htmlspecialchars($row["id"]) . "'>";
+                    echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
         </div>
       </main>
       <div class="right">
@@ -205,7 +172,7 @@ if ($conn->connect_error) {
           </button>
           <div class="profile">
             <div class="info">
-              <p><b><?php echo htmlspecialchars($username); ?></b></p>
+              <p><b><?php echo htmlspecialchars($nom . ' ' . $prenom); ?></b></p>
               <p>Employé</p>
             </div>
             <div class="profile-photo">
@@ -222,5 +189,6 @@ if ($conn->connect_error) {
 </html>
 
 <?php
+$stmt->close();
 $conn->close();
 ?>
