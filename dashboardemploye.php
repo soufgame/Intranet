@@ -8,8 +8,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Récupérer les informations de session si nécessaire
-$username = $_SESSION['username']; // Exemple : récupérer le nom d'utilisateur
-$id = $_SESSION['id']; // Exemple : récupérer le nom d'utilisateur
+$username = $_SESSION['username']; // Récupérer le nom d'utilisateur depuis la session
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -24,14 +23,14 @@ if ($conn->connect_error) {
 }
 
 // Requête pour le nombre de messages non lus pour l'utilisateur actuel
-$sqlMessagesNonVus = "SELECT COUNT(*) AS countMessagesNonVus FROM files WHERE user_id = ? AND is_read = 0";
+$sqlMessagesNonVus = "SELECT COUNT(*) AS countMessagesNonVus FROM files WHERE username = ? AND is_read = 0";
 
 $stmtMessagesNonVus = $conn->prepare($sqlMessagesNonVus);
 if (!$stmtMessagesNonVus) {
     die("Error preparing statement: " . $conn->error);
 }
 
-$stmtMessagesNonVus->bind_param("i", $user_id);
+$stmtMessagesNonVus->bind_param("s", $username); // 's' indique que le paramètre est une chaîne (username)
 $stmtMessagesNonVus->execute();
 $resultMessagesNonVus = $stmtMessagesNonVus->get_result();
 
@@ -42,6 +41,7 @@ if ($resultMessagesNonVus->num_rows > 0) {
 }
 
 $stmtMessagesNonVus->close();
+
 
 // Requête pour le nombre de tickets en cours
 $sqlTicketsEnCours = "SELECT COUNT(*) AS countTicketsEnCours FROM files WHERE user_id = ? ";

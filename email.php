@@ -5,14 +5,7 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
-} else {
-    echo "Utilisateur connecté : " . htmlspecialchars($_SESSION['username']) . "<br>";
 }
-
-// Récupérer le nom et le prénom de l'utilisateur
-$nom = htmlspecialchars($_SESSION['nom']);
-$prenom = htmlspecialchars($_SESSION['prenom']);
-$username = htmlspecialchars($_SESSION['username']);
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -44,6 +37,14 @@ if (isset($_GET['file_id'])) {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+
+        // Marquer le message comme lu en mettant à jour la colonne is_read
+        $updateStmt = $conn->prepare("UPDATE files SET is_read = 1 WHERE id = ?");
+        $updateStmt->bind_param("i", $fileId);
+
+        if (!$updateStmt->execute()) {
+            die("Update query failed: " . $updateStmt->error);
+        }
     } else {
         die("Aucun fichier trouvé avec l'identifiant spécifié.");
     }
@@ -65,8 +66,6 @@ if (isset($_GET['file_id'])) {
             margin: 0;
             padding: 0;
             background-color: #222;
-
-
         }
         .container {
             max-width: 600px;
@@ -87,8 +86,7 @@ if (isset($_GET['file_id'])) {
         }
         .email p {
             margin-bottom: 10px;
-            word-wrap: break-word; 
-
+            word-wrap: break-word;
         }
         .email a {
             display: block;
@@ -99,8 +97,6 @@ if (isset($_GET['file_id'])) {
         .email a:hover {
             text-decoration: underline;
         }
-
-
         .button-92 {
             --c: #fff;
             /* couleur du texte */
@@ -124,13 +120,11 @@ if (isset($_GET['file_id'])) {
             left: 20px; /* Distance de la gauche */
             z-index: 999; /* Pour placer le bouton au-dessus du contenu */
         }
-
         .button-92:hover,
         .button-92:focus-visible {
             --_p: 0%;
             --_i: 1;
         }
-
         .button-92:active {
             text-shadow: none;
             color: var(--c);
@@ -142,7 +136,7 @@ if (isset($_GET['file_id'])) {
 <body>
 
 <div class="container">
-    <h1>Mail </h1>
+    <h1>Mail</h1>
     <div class="email">
         <h2><?php echo htmlspecialchars($row["file_name"]); ?></h2>
         <p><strong>Message:</strong> <?php echo htmlspecialchars($row["message"]); ?></p>
@@ -161,7 +155,6 @@ if (isset($_GET['file_id'])) {
     </div>
 </div>
 <button class="button-92" role="button" onclick="window.history.back()">Retour</button>
-
 
 </body>
 </html>
