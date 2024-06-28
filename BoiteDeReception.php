@@ -115,7 +115,7 @@ $result = $stmt->get_result();
              <span class="material-symbols-sharp">person_outline</span>
              <h3>Boite d réception</h3>
            </a>
-           <a href="#">
+           <a href="nouveauMessage.php">
              <span class="material-symbols-sharp">insights</span>
              <h3>Nouveau Message</h3>
            </a>
