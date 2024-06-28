@@ -153,14 +153,15 @@ $result = $stmt->get_result();
             <table border='1'>
                 <tr><th>Titre</th><th>Date</th><th>Time</th><th>Envoyé à</th></tr>
                 <?php
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr data-id='" . htmlspecialchars($row["id"]) . "'>";
-                    echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
-                    echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
-                    echo "</tr>";
-                }
+              while ($row = $result->fetch_assoc()) {
+                echo "<tr data-id='" . htmlspecialchars($row["id"]) . "' onclick=\"window.location='emailenvoye.php?file_id=" . htmlspecialchars($row["id"]) . "'\">";
+                echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
+                echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
+                echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
+                echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+                echo "</tr>";
+            }
+            
                 ?>
             </table>
         </div>
