@@ -77,7 +77,7 @@ if ($conn->connect_error) {
 #emailForm input[type="text"],
 #emailForm input[type="file"],
 #emailForm textarea {
-    background-color: #000000;
+    background-color: #2E2E2E;
     border-radius: 12px;
     border: 0;
     box-sizing: border-box;
@@ -169,7 +169,7 @@ if ($conn->connect_error) {
              <span class="material-symbols-sharp">mail_outline</span>
              <h3>Nouveau Message</h3>
            </a>
-           <a href="#">
+           <a href="Messageenvoye.php">
              <span class="material-symbols-sharp"> Mail</span>
              <h3>Message envoyee</h3>
            </a>
@@ -211,7 +211,7 @@ if ($conn->connect_error) {
                 <label for="file_name">Objet</label>
                 <input type="text" id="file_name" name="file_name" class="small" required placeholder="Saisissez un Objet">
 
-                <label for="message">Message {max 1000}:</label>
+                <label for="message">Message:</label>
                 <textarea id="message" name="message"></textarea >
 
                 <div class="file-input-container">

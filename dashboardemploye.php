@@ -120,7 +120,7 @@ $stmtTicketsResolus->close();
              <span class="material-symbols-sharp">mail_outline</span>
              <h3>Nouveau Message</h3>
            </a>
-           <a href="#">
+           <a href="Messageenvoye.php">
              <span class="material-symbols-sharp">mail_outline</span>
              <h3>Message envoyee</h3>
            </a>
