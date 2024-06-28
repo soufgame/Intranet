@@ -116,8 +116,8 @@ $stmtTicketsResolus->close();
   <h3>Boite de réception</h3>
 </a>
 
-           <a href="#">
-             <span class="material-symbols-sharp">insights</span>
+<a href="nouveauMessage.php">
+             <span class="material-symbols-sharp">mail_outline</span>
              <h3>Nouveau Message</h3>
            </a>
            <a href="#">
