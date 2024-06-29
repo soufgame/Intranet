@@ -21,10 +21,33 @@ $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// Initialisation de la variable pour le message de succès
+$successMessage = "";
+
+// Vérifie si le formulaire a été soumis
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['description']) && isset($_POST['categorie']) && isset($_POST['priorite'])) {
+        $description = $conn->real_escape_string($_POST['description']);
+        $categorie = $conn->real_escape_string($_POST['categorie']);
+        $priorite = $conn->real_escape_string($_POST['priorite']);
+        $userID = $_SESSION['id'];
+        $dateOuverture = date('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO Tickets (Description, Categorie, userID, DateOuverture, Statut) 
+                VALUES ('$description', '$categorie', $userID, '$dateOuverture', 'Ouvert')";
+
+        if ($conn->query($sql) === TRUE) {
+            $successMessage = "Le ticket a été créé avec succès.";
+        } else {
+            $successMessage = "Erreur: " . $conn->error;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,111 +57,86 @@ if ($conn->connect_error) {
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    .suggestion-item {
-        display: inline-block;
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-        margin: 5px;
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    .suggestion-item:hover {
-        max-width: none;
-        overflow: visible;
-        white-space: normal;
-    }
-
-    .remove-icon {
-        width: 15px;
-        height: auto;
-        margin-right: 5px;
-    }
-    /* Styles spécifiques pour les zones de texte du formulaire */
-    #emailForm {
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
+/* Style général pour les zones de texte */
+input[type="text"],
+textarea,
+select {
+    background-color: #CDCDCD; /* Fond sombre */
+    color: #000000; /* Texte clair */
+    border: 1px solid #444; /* Bordure */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px; /* Espacement intérieur */
+    font-size: 16px; /* Taille du texte */
+    width: 150%; /* Prend toute la largeur disponible */
+    max-width: 500px; /* Limite la largeur maximale */
+    box-sizing: border-box; /* Inclut padding et border dans la largeur */
+    margin-bottom: 15px; /* Espacement entre les champs */
 }
 
-#emailForm label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #333;
+/* Style pour les zones de texte au focus */
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #dc2f55; /* Couleur de bordure lors du focus */
+    box-shadow: 0 0 5px rgba(220, 47, 85, 0.6); /* Légère ombre pour effet focus */
+    outline: none; /* Supprime le contour par défaut */
 }
 
-#emailForm input[type="text"],
-#emailForm input[type="file"],
-#emailForm textarea {
-    background-color: #000000;
-    border-radius: 12px;
-    border: 0;
-    box-sizing: border-box;
-    color: #eee;
-    font-size: 18px;
-    outline: 0;
-    padding: 10px 20px;
-    width: 500px;
-    height: 40px; /* Adjust height as needed */
-
+/* Style spécifique pour les textarea */
+textarea {
+    height: 120px; /* Hauteur par défaut */
+    resize: vertical; /* Permet le redimensionnement vertical */
 }
 
-#emailForm input[type="text"]:focus,
-#emailForm input[type="file"]:focus,
-#emailForm textarea:focus {
-    outline: none;
-    border-bottom: 2px solid #dc2f55; /* Consistent with the animation color */
+/* Style spécifique pour les boutons de soumission */
+button[type="submit"] {
+    background-color: #08d; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    padding: 10px 15px; /* Espacement intérieur */
+    border: none; /* Sans bordure */
+    border-radius: 8px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointeur */
+    font-size: 18px; /* Taille du texte */
+    text-align: center; /* Centre le texte */
+    width: 100%; /* Prend toute la largeur disponible */
+    max-width: 200px; /* Limite la largeur maximale */
+    margin-top: 20px; /* Espacement en haut */
 }
 
-#emailForm textarea {
-    height: 200px; /* Make textarea longer */
-    resize: vertical;
+button[type="submit"]:hover {
+    background-color: #06b; /* Couleur de fond au survol */
 }
 
-#emailForm .file-input-container {
-    position: relative;
-    margin-bottom: 15px;
+/* Style pour les messages de succès */
+.success-message {
+    background-color: #4C4949; /* Fond gris foncé */
+    color: white; /* Texte blanc */
+    text-align: center; /* Centrage du texte */
+    padding: 20px; /* Espacement intérieur */
+    margin-bottom: 20px; /* Espacement en bas */
+    font-size: 18px; /* Taille du texte */
+    display: none; /* Masqué par défaut */
 }
 
-#emailForm .file-input-container input[type="file"] {
-    display: block;
-    padding: 5px;
+.success-message button {
+    background-color: #555; /* Fond gris foncé */
+    color: white; /* Texte blanc */
+    border: none; /* Sans bordure */
+    padding: 12px 24px; /* Espacement intérieur */
+    text-align: center; /* Centre le texte */
+    font-size: 18px; /* Taille du texte */
+    margin-top: 10px; /* Espacement en haut */
+    cursor: pointer; /* Curseur pointeur */
 }
 
-#emailForm .clear-file {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background-color: transparent;
-    border: none;
-    color: #f00;
-    font-size: 20px;
-    cursor: pointer;
-    display: none;
+/* Style pour les labels */
+label {
+    font-weight: bold; /* Texte en gras */
+    margin-bottom: 5px; /* Espacement en bas */
+    display: block; /* Prend toute la largeur disponible */
+    color: #EEE; /* Texte clair */
 }
 
-#emailForm button[type="submit"] {
-    background-color: #08d;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-#emailForm button[type="submit"]:hover {
-    background-color: #06b;
-}
   </style>
 </head>
 <body>
@@ -166,7 +164,7 @@ if ($conn->connect_error) {
              <h3>Nouveau Message</h3>
            </a>
            <a href="Messageenvoye.php">
-             <span class="material-symbols-sharp"> Mail</span>
+             <span class="material-symbols-sharp">mail</span>
              <h3>Message envoyee</h3>
            </a>
            <a href="createticket.php">
@@ -192,10 +190,41 @@ if ($conn->connect_error) {
          </div>
       </aside>
       <main>
-        <h1>Support  </h1>
-        <!-- Formulaire de la première page supprimé -->
+        <h1>Support</h1>
+        <!-- Formulaire de création de ticket -->
         <div class="container">
-            <!-- Formulaire retiré -->
+            <!-- Affichage du message de succès -->
+            <?php if (!empty($successMessage)) : ?>
+            <div class="success-message" id="successMessage">
+                <?php echo htmlspecialchars($successMessage); ?>
+                <button onclick="dismissMessage()">OK</button>
+            </div>
+            <?php endif; ?>
+
+            <div class="ticket-form">
+                <form method="post" action="">
+                    <div class="input-container">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+                    </div>
+                    <div class="input-container">
+                        <label for="categorie">Catégorie:</label>
+                        <select id="categorie" name="categorie" required>
+                            <option value="logiciel">Logiciel</option>
+                            <option value="materiel">Matériel</option>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <label for="priorite">Priorité:</label>
+                        <select id="priorite" name="priorite" required>
+                            <option value="Basse">Basse</option>
+                            <option value="Normale">Normale</option>
+                            <option value="Haute">Haute</option>
+                        </select>
+                    </div>
+                    <button type="submit">Créer Ticket</button>
+                </form>
+            </div>
         </div>
       </main>
       <div class="right">
@@ -216,6 +245,14 @@ if ($conn->connect_error) {
       </div>
    </div>
    <script>
+    // JavaScript pour faire disparaître le message après avoir cliqué sur "OK"
+    function dismissMessage() {
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.style.display = 'none';
+        }
+    }
+
     // JavaScript pour la gestion des destinataires et des fichiers retiré
   </script>
 </body>
