@@ -124,7 +124,7 @@ $stmtTicketsResolus->close();
              <span class="material-symbols-sharp">mail_outline</span>
              <h3>Message envoyee</h3>
            </a>
-           <a href="#">
+           <a href="createticket.php">
              <span class="material-symbols-sharp">receipt_long</span>
              <h3>Support</h3>
            </a>
