@@ -179,7 +179,7 @@ label {
              <span class="material-symbols-sharp">settings</span>
              <h3>Historique de Ticket</h3>
            </a>
-           <a href="#">
+           <a href="profil_user.php">
              <span class="material-symbols-sharp">person_outline</span>
              <h3>Profil </h3>
            </a>
