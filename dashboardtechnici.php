@@ -141,6 +141,7 @@ $conn = null;
 </head>
 <body>
 
+
 <!-- Intégration du template de navigation -->
 <div class="container-fluid">
     <nav class="navbar navbar-inverse">
@@ -154,7 +155,7 @@ $conn = null;
             </ul>
         </div>
     </nav>
-   
+
 </div>
 
 <!-- Container pour le nombre de tickets ouverts -->

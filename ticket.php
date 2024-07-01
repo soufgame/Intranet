@@ -13,57 +13,57 @@
             text-align: center !important;
             color: white;
         }
-
         .container {
-            margin-top: 20px;
-        }
+    margin-top: 20px;
+}
 
-        .table {
-            width: 100%;
-            background-color: #fff;
-            color: #212529;
-        }
+.table {
+    width: 100%;
+    background-color: #343a40; /* Fond sombre pour le mode sombre */
+    color: #fff; /* Texte blanc pour le mode sombre */
+}
 
-        .table th,
-        .table td {
-            padding: 8px;
-            text-align: left;
-            vertical-align: middle;
-        }
+.table th,
+.table td {
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle;
+}
 
-        .table thead th {
-            vertical-align: middle;
-            background-color: #343a40;
-            color: #fff;
-            border-color: #454d55;
-        }
+.table thead th {
+    vertical-align: middle;
+    background-color: #212529; /* Fond plus sombre pour l'en-tête */
+    color: #fff;
+    border-color: #454d55;
+}
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05); /* Alternance de lignes légèrement plus claires */
+}
 
-        .table-hover tbody tr:hover {
-            background-color: rgba(0, 0, 0, 0.075);
-        }
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.075); /* Surbrillance au survol */
+}
 
-        .btn {
-            padding: 6px 12px;
-            font-size: 14px;
-            line-height: 1.42857143;
-            border-radius: 4px;
-        }
+.btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+}
 
-        .btn-success {
-            color: #fff;
-            background-color: #28a745;
-            border-color: #28a745;
-        }
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
 
-        .btn-success:hover {
-            color: #fff;
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
+.btn-success:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
     </style>
 </head>
 <body>
@@ -83,7 +83,7 @@
 </div>
 
 <div class="container">
-    <h2>Liste des tickets sans intervention :</h2>
+    <h2>Liste des tickets   :</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -153,22 +153,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function accepterTicket(ticketID) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "accepter_ticket.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                alert(xhr.responseText);
-                setTimeout(function() {
-                    window.location.href = "ticket.php"; 
-                }, 100); 
-            }
-        };
-        xhr.send("ticketID=" + ticketID);
-    }
-</script>
-<script>
     $(function(){
         var str = '#len'; //increment by 1 up to 1-nelemnts
         $(document).ready(function(){
@@ -183,6 +167,23 @@
             }, 500)
         });
     });
+</script>
+
+<script>
+    function accepterTicket(ticketID) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "accepter_ticket.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert(xhr.responseText);
+                setTimeout(function() {
+                    window.location.href = "ticket.php"; 
+                }, 100); 
+            }
+        };
+        xhr.send("ticketID=" + ticketID);
+    }
 </script>
 
 </body>
