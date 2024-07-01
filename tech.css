@@ -109,3 +109,13 @@
   .page-title {
     opacity: .75 !important;
   }
+
+  #logoutBtn {
+    color: #fff; /* Couleur du texte */
+    padding: 15px 20px; /* Espacement intérieur du bouton */
+}
+
+#logoutBtn:hover {
+    background-color: #333; /* Couleur de fond au survol */
+    border-radius: 5px; /* Coins arrondis */
+}

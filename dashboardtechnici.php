@@ -153,6 +153,10 @@ $conn = null;
                 <li><a id="len4" class="hoverable" href="historiquetechnicien.php">Historique</a></li>
                 <li><a id="len5" class="hoverable" href="profiltech.php">Profils</a></li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="logoutBtn" class="hoverable" href="logout.php">Logout</a></li>
+            </ul>
         </div>
     </nav>
 

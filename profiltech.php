@@ -69,6 +69,9 @@ $user_id = $_SESSION['id'];
                 <li><a href="historiquetechnicien.php">Historique</a></li>
                 <li><a href="profiltech.php">Profils</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="logoutBtn" class="hoverable" href="logout.php">Logout</a></li>
+            </ul>
         </div>
     </nav>
 </div>
