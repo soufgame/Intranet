@@ -32,7 +32,7 @@
 
 .table thead th {
     vertical-align: middle;
-    background-color: #212529; /* Fond plus sombre pour l'en-tête */
+    background-color: #000000; /* Fond plus sombre pour l'en-tête */
     color: #fff;
     border-color: #454d55;
 }
@@ -54,14 +54,14 @@
 
 .btn-success {
     color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #767676;
+    border-color: #1e7e34;
 }
 
 .btn-success:hover {
     color: #fff;
-    background-color: #218838;
-    border-color: #1e7e34;
+    background-color: #000000;
+    border-color: #28a745;
 }
 
     </style>
