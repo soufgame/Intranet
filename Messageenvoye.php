@@ -58,24 +58,26 @@ $result = $stmt->get_result();
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    table {
-        width: 500%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        margin-left: -250px;
+      table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
 
-        font-family: Arial, sans-serif;
-    }
 
-    table th,
-    table td {
-        border: 1px solid #dddddd;
-        padding: 12px;
-        text-align: left;
-        white-space: nowrap; /* Empêche le contenu de se casser sur plusieurs lignes */
-        overflow: hidden; /* Cache le contenu qui déborde */
-        text-overflow: ellipsis; /* Affiche des points de suspension (...) pour le contenu caché */
-    }
+table th,
+table td {
+    border: 1px solid #dddddd;
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 100px; /* Ajustez la valeur selon vos besoins */
+}
+
 
     table th {
         background-color: #242424;
@@ -148,23 +150,22 @@ $result = $stmt->get_result();
       <main>
         <h1> Message envoyee</h1>
         <!-- Formulaire de la première page supprimé -->
-        <div class="container">
-            <h2>  </h2>
-            <table border='1'>
-                <tr><th>Titre</th><th>Date</th><th>Time</th><th>Envoyé à</th></tr>
-                <?php
-              while ($row = $result->fetch_assoc()) {
-                echo "<tr data-id='" . htmlspecialchars($row["id"]) . "' onclick=\"window.location='emailenvoye.php?file_id=" . htmlspecialchars($row["id"]) . "'\">";
-                echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
-                echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
-                echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
-                echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
-                echo "</tr>";
-            }
-            
-                ?>
-            </table>
-        </div>
+        <div class="table-container" style="overflow: auto;">
+    <table border='1'>
+        <tr><th>Titre</th><th>Date</th><th>Time</th><th>Envoyé à</th></tr>
+        <?php
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr data-id='" . htmlspecialchars($row["id"]) . "' onclick=\"window.location='emailenvoye.php?file_id=" . htmlspecialchars($row["id"]) . "'\">";
+            echo "<td>" . htmlspecialchars($row["file_name"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["date"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["time"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["username"]) . "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+</div>
+
       </main>
       <div class="right">
         <div class="top">
