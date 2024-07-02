@@ -2,123 +2,108 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intranet Mail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Intranet</title>
     <style>
-     body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #222; /* Couleur de fond sombre */
-    color: #fff; /* Couleur du texte */
-    overflow: hidden; /* Désactive le défilement */
-    max-height: 100vh; /* Fixe la hauteur maximale à la hauteur de la fenêtre */
-}
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .login-button {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 20px;
-            background-color: #007bff; /* Couleur du bouton */
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .login-button:hover {
-            background-color: #0056b3; /* Couleur du bouton au survol */
-        }
-        header {
-            text-align: center;
-            padding: 20px 0;
-        }
-        .info {
-            margin-top: 50px;
-            text-align: center;
-        }
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333; /* Couleur de fond du pied de page */
-            padding: 10px 0;
-            text-align: center;
-            color: #ccc; /* Couleur du texte du pied de page */
-        }
-        /* CSS pour le bouton fourni */
-        .button-48 {
-            appearance: none;
-            background-color: transparent; /* Couleur du fond transparent */
-            border: 2px solid #ffffff; /* Bordure de 2px solide avec la couleur bleue */
-            box-sizing: border-box;
-            color: #ffffff; /* Couleur du texte bleu */
-            cursor: pointer;
-            display: inline-block;
-            font-family: Arial, sans-serif;
-            font-size: 16px; /* Taille de la police ajustée */
-            font-weight: bold; /* Texte en gras */
-            letter-spacing: 1px; /* Espacement des lettres */
-            line-height: 1em;
+        body {
             margin: 0;
-            outline: 0;
-            padding: 12px 24px; /* Espacement interne ajusté */
-            position: relative;
-            text-align: center;
+            font-family: Arial, sans-serif;
+            background: url('back.png') no-repeat top center fixed;
+            background-size: 100% auto;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative; 
+        }
+
+        .video-container {
+            width: 430px;
+            height: 430px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 70px;
+            margin-left: 550px;
+        }
+        .video-container video {
+            width: 200%; 
+            height: auto; 
+            border-radius: 50px; 
+        }
+
+        .button-64 {
+            align-items: center;
+            background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+            border: 0;
+            border-radius: 8px;
+            box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            display: flex;
+            font-family: Phantomsans, sans-serif;
+            font-size: 20px;
+            justify-content: center;
+            line-height: 1em;
+            max-width: 100%;
+            min-width: 140px;
+            padding: 3px;
             text-decoration: none;
-            text-transform: uppercase;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transition douce pour les changements de couleur */
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
-            vertical-align: middle;
             white-space: nowrap;
+            cursor: pointer;
+            position: absolute;
+            left: 80px; 
+            top: 430px;
+            transition: background 0.3s;
         }
 
-        .button-48:hover {
-            background-color: #ffffff; /* Fond bleu au survol */
-            color: #000000; /* Texte blanc au survol */
-            border-color: #ffffff; /* Bordure bleue au survol */
+        .button-64:active,
+        .button-64:hover {
+            outline: 0;
         }
 
-        .button-48:active {
-            transform: translateY(1px); /* Légère translation vers le bas lors du clic */
+        .button-64 span {
+            background-color: rgb(5, 6, 45);
+            padding: 16px 24px;
+            border-radius: 6px;
+            width: 100%;
+            height: 100%;
+            transition: 300ms;
         }
 
-        /* Style pour agrandir les textes */
-        h1 {
-
-            font-size: 50px; /* Nouvelle taille de police */
+        .button-64:hover span {
+            background: none;
         }
 
-        p {
-            font-size: 20px; /* Nouvelle taille de police */
+        @media (min-width: 768px) {
+            .button-64 {
+                font-size: 24px;
+                min-width: 196px;
+            }
         }
-
-
-
     </style>
 </head>
 <body>
-    <header>
-        <h1>Intranet Mail</h1>
-    </header>
-    <div class="container">
-        <img src="image.png" alt="Votre image" style="width: 500px; height: auto; margin-bottom: 20px; margin-top: -280px;">
-        <a href="login.php" class="button-48" role="button"><span class="text">Se connecter</span></a>
-        <div class="info">
-            <p>Bienvenue sur Intranet Mail. Connectez-vous pour accéder à vos e-mails internes.</p>
-        </div>
+    <div class="video-container">
+        <video autoplay loop muted playsinline>
+            <source src="video.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas les vidéos HTML5.
+        </video>
     </div>
-    <footer>
-        <p>&copy; 2024 Intranet Mail - Tous droits réservés</p>
-    </footer>
+    <button class="button-64" role="button"><span class="text">Se connecter </span></button>
+
+    <script>
+        document.querySelector('.button-64').addEventListener('click', () => {
+            window.location.href = 'login.php';
+        });
+    </script>
 </body>
 </html>
