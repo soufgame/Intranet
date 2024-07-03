@@ -8,33 +8,21 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: url('back.png') no-repeat top center fixed;
-            background-size: 100% auto;
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
             overflow: hidden;
-            position: relative; 
+            position: relative;
         }
 
-        .video-container {
-            width: 430px;
-            height: 430px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 70px;
-            margin-left: 550px;
-        }
-        .video-container video {
-            width: 200%; 
-            height: auto; 
-            border-radius: 50px; 
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%; /* Adjusts the vertical positioning */
+            z-index: -1;
         }
 
         .button-64 {
@@ -59,10 +47,10 @@
             touch-action: manipulation;
             white-space: nowrap;
             cursor: pointer;
-            position: absolute;
-            left: 80px; 
-            top: 430px;
             transition: background 0.3s;
+            position: fixed;
+            left: 100px;
+            top :400px
         }
 
         .button-64:active,
@@ -92,12 +80,11 @@
     </style>
 </head>
 <body>
-    <div class="video-container">
-        <video autoplay loop muted playsinline>
-            <source src="video.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas les vidéos HTML5.
-        </video>
-    </div>
+    <video autoplay loop muted playsinline class="background-video">
+        <source src="video.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+
     <button class="button-64" role="button"><span class="text">Se connecter </span></button>
 
     <script>
