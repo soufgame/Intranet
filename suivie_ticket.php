@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['interventionID'])) {
              <span class="material-symbols-sharp">report_gmailerrorred</span>
              <h3>Suivie de Ticket</h3>
            </a>
-           <a href="#">
+           <a href="Historique_ticket.php">
              <span class="material-symbols-sharp">settings</span>
              <h3>Historique de Ticket</h3>
            </a>
@@ -165,41 +165,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['interventionID'])) {
         <h1>Suivre votre Ticket</h1>
         
         <!-- Table des interventions -->
-        <table>
-          <thead>
-            <tr>
-              <th>Intervention ID</th>
-              <th>Ticket ID</th>
-              <th>Description</th>
-              <th>Catégorie</th>
-              <th>Date d'Ouverture</th>
-              <th>Date de Clôture</th>
-              <th>Statut</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php while($row = $resultInterventions->fetch_assoc()): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($row['interventionID']); ?></td>
-                <td><?php echo htmlspecialchars($row['ticketID']); ?></td>
-                <td><?php echo htmlspecialchars($row['Description']); ?></td>
-                <td><?php echo htmlspecialchars($row['Categorie']); ?></td>
-                <td><?php echo htmlspecialchars($row['DateOuverture']); ?></td>
-                <td><?php echo htmlspecialchars($row['DateCloture']); ?></td>
-                <td><?php echo htmlspecialchars($row['Statut']); ?></td>
-                <td>
-                  <?php if ($row['Statut'] == 'resolu'): ?>
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                      <input type="hidden" name="interventionID" value="<?php echo $row['interventionID']; ?>">
-                      <button type="submit" class="action-btn">Valider</button>
-                    </form>
-                  <?php endif; ?>
-                </td>
-              </tr>
-            <?php endwhile; ?>
-          </tbody>
-        </table>
+       <!-- Table des interventions -->
+<table>
+  <thead>
+    <tr>
+      <th>Intervention ID</th>
+      <th>Ticket ID</th>
+      <th>Description</th>
+      <th>Catégorie</th>
+      <th>Date d'Ouverture</th>
+      <th>Date de Clôture</th>
+      <th>Statut</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php 
+    if ($resultInterventions->num_rows > 0) {
+      while($row = $resultInterventions->fetch_assoc()): ?>
+        <tr>
+          <td><?php echo htmlspecialchars($row['interventionID']); ?></td>
+          <td><?php echo htmlspecialchars($row['ticketID']); ?></td>
+          <td><?php echo htmlspecialchars($row['Description']); ?></td>
+          <td><?php echo htmlspecialchars($row['Categorie']); ?></td>
+          <td><?php echo htmlspecialchars($row['DateOuverture']); ?></td>
+          <td><?php echo htmlspecialchars($row['DateCloture']); ?></td>
+          <td><?php echo htmlspecialchars($row['Statut']); ?></td>
+          <td>
+            <?php if ($row['Statut'] == 'resolu'): ?>
+              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <input type="hidden" name="interventionID" value="<?php echo $row['interventionID']; ?>">
+                <button type="submit" class="action-btn">Valider</button>
+              </form>
+            <?php endif; ?>
+          </td>
+        </tr>
+      <?php endwhile; 
+    } else {
+      echo '<tr><td colspan="8">Aucun ticket en intervention.</td></tr>';
+    }
+    ?>
+  </tbody>
+</table>
+
        
       </main>
 

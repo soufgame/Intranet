@@ -126,7 +126,7 @@ $conn->close();
              <span class="material-symbols-sharp">report_gmailerrorred</span>
              <h3>Suivie de Ticket</h3>
            </a>
-           <a href="#">
+           <a href="Historique_ticket.php">
              <span class="material-symbols-sharp">settings</span>
              <h3>Historique de Ticket</h3>
            </a>
