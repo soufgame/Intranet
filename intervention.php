@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 $newStatus = ""; // Initialisation de $newStatus pour éviter l'avertissement Undefined variable
 
 // Update status if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($_POST['newStatus'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($_POST['newStatus']) && isset($_POST['submitBtn'])) {
     $ticketID = $_POST['ticketID'];
     $newStatus = $_POST['newStatus'];
 
@@ -77,6 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ticketID']) && isset($
 
         $updateTicketStmt->close();
     }
+
+    // Redirection après traitement du formulaire
+    header("Location: intervention.php"); // Redirige vers la même page
+    exit(); // Assurez-vous que le script s'arrête après la redirection
 }
 
 // Fetch interventions excluding those with status 'ouvert'
@@ -108,64 +112,64 @@ $conn->close();
     <link rel="stylesheet" href="tech.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
- body {
-    background-color: rgb(0, 0, 0);
-    font-weight: 600;
-    text-align: center !important;
-    color: white;
-}
+        body {
+            background-color: rgb(0, 0, 0);
+            font-weight: 600;
+            text-align: center !important;
+            color: white;
+        }
 
-.interventions-table {
-    margin-top: 20px;
-    background-color: #333; /* Fond sombre */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
+        .interventions-table {
+            margin-top: 20px;
+            background-color: #333; /* Fond sombre */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-.interventions-table table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+        .interventions-table table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
 
-.interventions-table th, .interventions-table td {
-    padding: 12px 15px;
-    text-align: center;
-    color: #fff; /* Couleur du texte */
-}
+        .interventions-table th, .interventions-table td {
+            padding: 12px 15px;
+            text-align: center;
+            color: #fff; /* Couleur du texte */
+        }
 
-.interventions-table th {
-    background-color: #555; /* Couleur de fond pour les en-têtes */
-    font-weight: bold;
-}
+        .interventions-table th {
+            background-color: #555; /* Couleur de fond pour les en-têtes */
+            font-weight: bold;
+        }
 
-.interventions-table td {
-    border-bottom: 1px solid #666; /* Couleur de la bordure inférieure */
-}
+        .interventions-table td {
+            border-bottom: 1px solid #666; /* Couleur de la bordure inférieure */
+        }
 
-.interventions-table tbody tr:nth-child(even) {
-    background-color: #444; /* Couleur de fond pour lignes paires */
-}
+        .interventions-table tbody tr:nth-child(even) {
+            background-color: #444; /* Couleur de fond pour lignes paires */
+        }
 
-.interventions-table tbody tr:hover {
-    background-color: #666; /* Couleur de fond au survol */
-}
+        .interventions-table tbody tr:hover {
+            background-color: #666; /* Couleur de fond au survol */
+        }
 
-.interventions-table select {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #666; /* Couleur de fond pour le sélecteur */
-    color: #fff; /* Couleur du texte */
-}
+        .interventions-table select {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #666; /* Couleur de fond pour le sélecteur */
+            color: #fff; /* Couleur du texte */
+        }
 
-.interventions-table select:focus {
-    outline: none;
-    border-color: #66afe9;
-    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
-}
+        .interventions-table select:focus {
+            outline: none;
+            border-color: #66afe9;
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
 
     </style>
 </head>
@@ -187,58 +191,57 @@ $conn->close();
     </nav>
 </div>
 
-
-
-
 <div class="interventions-table">
     <div class="title-container">
         <h2>Liste des interventions</h2>
     </div>
     <table>
         <thead>
-            <tr>
-                <th>Ticket ID</th>
-                <th>Utilisateur</th>
-                <th>Description</th>
-                <th>Catégorie</th>
-                <th>Date d'ouverture</th>
-                <th>Date de clôture</th>
-                <th>Statut</th>
-                <th>Modifier Statut</th>
-            </tr>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Utilisateur</th>
+            <th>Description</th>
+            <th>Catégorie</th>
+            <th>Date d'ouverture</th>
+            <th>Date de clôture</th>
+            <th>Statut</th>
+            <th>Modifier Statut</th>
+        </tr>
         </thead>
         <tbody>
-            <?php if (count($interventions) > 0): ?>
-                <?php foreach ($interventions as $intervention): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($intervention['ticketID']); ?></td>
-                        <td><?php echo htmlspecialchars($intervention['username']); ?></td>
-                        <td><?php echo htmlspecialchars($intervention['Description']); ?></td>
-                        <td><?php echo htmlspecialchars($intervention['Categorie']); ?></td>
-                        <td><?php echo htmlspecialchars($intervention['DateOuverture']); ?></td>
-                        <td><?php echo htmlspecialchars($intervention['DateCloture']); ?></td>
-                        <td><?php echo htmlspecialchars($intervention['Statut']); ?></td>
-                        <td>
-                            <form method="post" class="status-form">
-                                <input type="hidden" name="ticketID" value="<?php echo $intervention['ticketID']; ?>">
-                                <input type="hidden" name="currentStatus" value="<?php echo $intervention['Statut']; ?>">
-
-                                <select name="newStatus" onchange="this.form.submit()">
-                                    <option value="" <?php echo ($intervention['Statut'] == '') ? 'selected' : ''; ?>></option>
-                                    <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
-                                    <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
-                                    <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
-                                    <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
-                                </select>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+        <?php if (count($interventions) > 0): ?>
+            <?php foreach ($interventions as $intervention): ?>
                 <tr>
-                    <td colspan="8">Aucune intervention disponible</td>
+                    <td><?php echo htmlspecialchars($intervention['ticketID']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['username']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['Description']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['Categorie']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['DateOuverture']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['DateCloture']); ?></td>
+                    <td><?php echo htmlspecialchars($intervention['Statut']); ?></td>
+                    <td>
+                        <form method="post" class="status-form">
+                            <input type="hidden" name="ticketID" value="<?php echo $intervention['ticketID']; ?>">
+                            <input type="hidden" name="currentStatus" value="<?php echo $intervention['Statut']; ?>">
+
+                            <select name="newStatus">
+                                <option value="" <?php echo ($intervention['Statut'] == '') ? 'selected' : ''; ?>></option>
+                                <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
+                                <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
+                                <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
+                                <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
+                            </select>
+
+                            <button type="submit" name="submitBtn">Valider</button>
+                        </form>
+                    </td>
                 </tr>
-            <?php endif; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="8">Aucune intervention disponible</td>
+            </tr>
+        <?php endif; ?>
         </tbody>
     </table>
 </div>
