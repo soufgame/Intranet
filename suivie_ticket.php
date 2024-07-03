@@ -7,8 +7,8 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-// Récupérer les informations de session si nécessaire
-$username = $_SESSION['username']; // Récupérer le nom d'utilisateur depuis la session
+// Récupérer le nom d'utilisateur depuis la session
+$username = $_SESSION['username'];
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -22,66 +22,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Requête pour le nombre de messages non lus pour l'utilisateur actuel
-$sqlMessagesNonVus = "SELECT COUNT(*) AS countMessagesNonVus FROM files WHERE username = ? AND is_read = 0";
-
-$stmtMessagesNonVus = $conn->prepare($sqlMessagesNonVus);
-if (!$stmtMessagesNonVus) {
+// Requête pour récupérer les interventions de l'utilisateur actuel
+$sqlInterventions = "SELECT * FROM intervention WHERE userID = ? AND statut != 'fermé';
+";
+$stmtInterventions = $conn->prepare($sqlInterventions);
+if (!$stmtInterventions) {
     die("Error preparing statement: " . $conn->error);
 }
 
-$stmtMessagesNonVus->bind_param("s", $username); // 's' indique que le paramètre est une chaîne (username)
-$stmtMessagesNonVus->execute();
-$resultMessagesNonVus = $stmtMessagesNonVus->get_result();
-
-$countMessagesNonVus = 0;
-if ($resultMessagesNonVus->num_rows > 0) {
-    $rowMessagesNonVus = $resultMessagesNonVus->fetch_assoc();
-    $countMessagesNonVus = $rowMessagesNonVus['countMessagesNonVus'];
-}
-
-$stmtMessagesNonVus->close();
-
-
-// Requête pour le nombre de tickets en cours
-$sqlTicketsEnCours = "SELECT COUNT(*) AS countTicketsEnCours FROM files WHERE user_id = ? ";
-$stmtTicketsEnCours = $conn->prepare($sqlTicketsEnCours);
-if (!$stmtTicketsEnCours) {
-    die("Error preparing statement: " . $conn->error);
-}
-
-$stmtTicketsEnCours->bind_param("i", $user_id);
-$stmtTicketsEnCours->execute();
-$resultTicketsEnCours = $stmtTicketsEnCours->get_result();
-
-$countTicketsEnCours = 0;
-if ($resultTicketsEnCours->num_rows > 0) {
-    $rowTicketsEnCours = $resultTicketsEnCours->fetch_assoc();
-    $countTicketsEnCours = $rowTicketsEnCours['countTicketsEnCours'];
-}
-
-$stmtTicketsEnCours->close();
-
-// Requête pour le nombre total de tickets résolus
-$sqlTicketsResolus = "SELECT COUNT(*) AS countTicketsResolus FROM files WHERE user_id = ? ";
-$stmtTicketsResolus = $conn->prepare($sqlTicketsResolus);
-if (!$stmtTicketsResolus) {
-    die("Error preparing statement: " . $conn->error);
-}
-
-$stmtTicketsResolus->bind_param("i", $user_id);
-$stmtTicketsResolus->execute();
-$resultTicketsResolus = $stmtTicketsResolus->get_result();
-
-$countTicketsResolus = 0;
-if ($resultTicketsResolus->num_rows > 0) {
-    $rowTicketsResolus = $resultTicketsResolus->fetch_assoc();
-    $countTicketsResolus = $rowTicketsResolus['countTicketsResolus'];
-}
-
-$stmtTicketsResolus->close();
+$stmtInterventions->bind_param("i", $_SESSION['id']); // Utiliser $_SESSION['id'] pour l'ID de l'utilisateur
+$stmtInterventions->execute();
+$resultInterventions = $stmtInterventions->get_result();
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,6 +45,34 @@ $stmtTicketsResolus->close();
   <title>UI/UX</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* CSS pour la table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    table th, table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
 </head>
 <body>
    <div class="container">
@@ -106,22 +88,19 @@ $stmtTicketsResolus->close();
          <!-- Sidebar -->
          <div class="sidebar">
          <a href="dashboardemploye.php" class="active">
-  <span class="material-symbols-sharp">grid_view</span>
-  <h3>Dashboard</h3>
-</a>
-
-
+             <span class="material-symbols-sharp">grid_view</span>
+             <h3>Dashboard</h3>
+           </a>
            <a href="BoiteDeReception.php">
-  <span class="material-symbols-sharp">person_outline</span>
-  <h3>Boite de réception</h3>
-</a>
-
-<a href="nouveauMessage.php">
+             <span class="material-symbols-sharp">person_outline</span>
+             <h3>Boite de réception</h3>
+           </a>
+           <a href="nouveauMessage.php">
              <span class="material-symbols-sharp">mail_outline</span>
              <h3>Nouveau Message</h3>
            </a>
            <a href="Messageenvoye.php">
-             <span class="material-symbols-sharp">mail_outline</span>
+             <span class="material-symbols-sharp"> Mail</span>
              <h3>Message envoyee</h3>
            </a>
            <a href="createticket.php">
@@ -137,20 +116,46 @@ $stmtTicketsResolus->close();
              <h3>Historique de Ticket</h3>
            </a>
            <a href="profil_user.php">
-             <span class="material-symbols-sharp">add</span>
+             <span class="material-symbols-sharp">person_outline</span>
              <h3>Profil </h3>
            </a>
            <a href="login.php?logout=1" class="logout">
-            <span class="material-symbols-sharp">logout</span>
+             <span class="material-symbols-sharp">logout</span>
              <h3>Logout</h3>
-            </a>
-
+           </a>
+           
          </div>
       </aside>
 
       <!-- Main Section -->
       <main>
         <h1>Suivre votre Ticket</h1>
+        
+        <!-- Table des interventions -->
+        <table>
+          <thead>
+            <tr>
+              <th>Intervention ID</th>
+              <th>Ticket ID</th>
+              <th>Description</th>
+              <th>Catégorie</th>
+              <th>Date d'Ouverture</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while($row = $resultInterventions->fetch_assoc()): ?>
+              <tr>
+                <td><?php echo htmlspecialchars($row['interventionID']); ?></td>
+                <td><?php echo htmlspecialchars($row['ticketID']); ?></td>
+                <td><?php echo htmlspecialchars($row['Description']); ?></td>
+                <td><?php echo htmlspecialchars($row['Categorie']); ?></td>
+                <td><?php echo htmlspecialchars($row['DateOuverture']); ?></td>
+                <td><?php echo htmlspecialchars($row['Statut']); ?></td>
+              </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
        
       </main>
 
