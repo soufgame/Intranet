@@ -64,8 +64,10 @@ try {
 
 // Requête SQL pour compter les tickets en intervention pour le technicien spécifique
 $sqlEnIntervention = "SELECT COUNT(*) AS total_intervention 
-                      FROM intervention 
-                      WHERE technicienID = :technicienId";
+FROM intervention 
+WHERE technicienID = :technicienId
+  AND (Statut = 'en cours' OR Statut = 'resolu');
+";
 
 try {
     $stmtEnIntervention = $conn->prepare($sqlEnIntervention);
