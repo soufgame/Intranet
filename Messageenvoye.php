@@ -11,6 +11,7 @@ if (!isset($_SESSION['username'])) {
 $nom = htmlspecialchars($_SESSION['nom']);
 $prenom = htmlspecialchars($_SESSION['prenom']);
 $userID = $_SESSION['id']; // Récupérer l'ID de l'utilisateur connecté
+$username = $_SESSION['username']; // Récupérer le nom d'utilisateur depuis la session
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -125,7 +126,7 @@ table td {
              <span class="material-symbols-sharp"> Mail</span>
              <h3>Message envoyee</h3>
            </a>
-           <a href="createticket.php"">
+           <a href="createticket.php">
              <span class="material-symbols-sharp">receipt_long</span>
              <h3>Support</h3>
            </a>
@@ -174,7 +175,7 @@ table td {
           </button>
           <div class="profile">
             <div class="info">
-              <p><b><?php echo htmlspecialchars($nom . ' ' . $prenom); ?></b></p>
+              <p><b><?php echo htmlspecialchars($username); ?></b></p>
               <p>Employé</p>
             </div>
             <div class="profile-photo">
