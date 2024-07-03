@@ -173,11 +173,11 @@ if ($conn->connect_error) {
              <span class="material-symbols-sharp"> Mail</span>
              <h3>Message envoyee</h3>
            </a>
-           <a href="createticket.php"">
+           <a href="createticket.php">
              <span class="material-symbols-sharp">receipt_long</span>
              <h3>Support</h3>
            </a>
-           <a href="#">
+           <a href="suivie_ticket.php">
              <span class="material-symbols-sharp">report_gmailerrorred</span>
              <h3>Suivie de Ticket</h3>
            </a>

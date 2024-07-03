@@ -150,39 +150,8 @@ $stmtTicketsResolus->close();
 
       <!-- Main Section -->
       <main>
-        <h1>Dashboard</h1>
-        <div class="insights">
-          <!-- Total Messages Non Vus -->
-          <div class="sales">
-            <img src="./images/voir.png" alt="Unread Message Icon" class="icon">
-            <div class="middle">
-              <div class="left">
-                <h3>Messages non vus</h3>
-                <h1><?php echo $countMessagesNonVus; ?></h1>
-              </div>
-            </div>
-          </div>
-          <!-- Total Tickets en Cours -->
-          <div class="expenses">
-            <img src="./images/billet.png" alt="Unread Message Icon" class="icon">
-            <div class="middle">
-              <div class="left">
-                <h3>Tickets en cours</h3>
-                <h1><?php echo $countTicketsEnCours; ?></h1>
-              </div>
-            </div>
-          </div>
-          <!-- Total Tickets Résolus -->
-          <div class="income">
-            <img src="./images/cochee.png" alt="Unread Message Icon" class="icon">
-            <div class="middle">
-              <div class="left">
-                <h3>Total Résolus</h3>
-                <h1><?php echo $countTicketsResolus; ?></h1>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h1>Suivre votre Ticket</h1>
+       
       </main>
 
       <!-- Right Section -->

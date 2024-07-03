@@ -127,7 +127,7 @@ $result = $stmt->get_result();
              <span class="material-symbols-sharp">receipt_long</span>
              <h3>Support</h3>
            </a>
-           <a href="#">
+           <a href="suivie_ticket.php">
              <span class="material-symbols-sharp">report_gmailerrorred</span>
              <h3>Suivie de Ticket</h3>
            </a>
