@@ -23,8 +23,8 @@ if ($conn->connect_error) {
 }
 
 // Requête pour récupérer les interventions de l'utilisateur actuel
-$sqlInterventions = "SELECT * FROM intervention WHERE userID = ? AND statut != 'fermé';
-";
+$sqlInterventions = "SELECT * FROM intervention WHERE userID = ? AND statut != 'ferme';";
+
 $stmtInterventions = $conn->prepare($sqlInterventions);
 if (!$stmtInterventions) {
     die("Error preparing statement: " . $conn->error);
@@ -33,6 +33,24 @@ if (!$stmtInterventions) {
 $stmtInterventions->bind_param("i", $_SESSION['id']); // Utiliser $_SESSION['id'] pour l'ID de l'utilisateur
 $stmtInterventions->execute();
 $resultInterventions = $stmtInterventions->get_result();
+
+// Gestion de la mise à jour du statut
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['interventionID'])) {
+    $interventionID = $_POST['interventionID'];
+
+    // Préparer et exécuter la requête UPDATE
+    $sqlUpdate = "UPDATE intervention SET Statut = 'ferme' WHERE interventionID = ?";
+    $stmtUpdate = $conn->prepare($sqlUpdate);
+    $stmtUpdate->bind_param("i", $interventionID);
+
+    if ($stmtUpdate->execute()) {
+        // Redirection après la mise à jour réussie
+        header("Location: suivie_ticket.php");
+        exit();
+    } else {
+        echo "Erreur lors de la mise à jour du statut.";
+    }
+}
 
 ?>
 
@@ -72,6 +90,19 @@ $resultInterventions = $stmtInterventions->get_result();
     table tbody tr:hover {
       background-color: #f1f1f1;
     }
+
+    /* CSS pour les boutons */
+    .action-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -88,19 +119,22 @@ $resultInterventions = $stmtInterventions->get_result();
          <!-- Sidebar -->
          <div class="sidebar">
          <a href="dashboardemploye.php" class="active">
-             <span class="material-symbols-sharp">grid_view</span>
-             <h3>Dashboard</h3>
-           </a>
+  <span class="material-symbols-sharp">grid_view</span>
+  <h3>Dashboard</h3>
+</a>
+
+
            <a href="BoiteDeReception.php">
-             <span class="material-symbols-sharp">person_outline</span>
-             <h3>Boite de réception</h3>
-           </a>
-           <a href="nouveauMessage.php">
+  <span class="material-symbols-sharp">person_outline</span>
+  <h3>Boite de réception</h3>
+</a>
+
+<a href="nouveauMessage.php">
              <span class="material-symbols-sharp">mail_outline</span>
              <h3>Nouveau Message</h3>
            </a>
            <a href="Messageenvoye.php">
-             <span class="material-symbols-sharp"> Mail</span>
+             <span class="material-symbols-sharp">mail_outline</span>
              <h3>Message envoyee</h3>
            </a>
            <a href="createticket.php">
@@ -116,14 +150,13 @@ $resultInterventions = $stmtInterventions->get_result();
              <h3>Historique de Ticket</h3>
            </a>
            <a href="profil_user.php">
-             <span class="material-symbols-sharp">person_outline</span>
+             <span class="material-symbols-sharp">add</span>
              <h3>Profil </h3>
            </a>
            <a href="login.php?logout=1" class="logout">
-             <span class="material-symbols-sharp">logout</span>
+            <span class="material-symbols-sharp">logout</span>
              <h3>Logout</h3>
-           </a>
-           
+            </a>
          </div>
       </aside>
 
@@ -140,7 +173,9 @@ $resultInterventions = $stmtInterventions->get_result();
               <th>Description</th>
               <th>Catégorie</th>
               <th>Date d'Ouverture</th>
+              <th>Date de Clôture</th>
               <th>Statut</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -151,7 +186,16 @@ $resultInterventions = $stmtInterventions->get_result();
                 <td><?php echo htmlspecialchars($row['Description']); ?></td>
                 <td><?php echo htmlspecialchars($row['Categorie']); ?></td>
                 <td><?php echo htmlspecialchars($row['DateOuverture']); ?></td>
+                <td><?php echo htmlspecialchars($row['DateCloture']); ?></td>
                 <td><?php echo htmlspecialchars($row['Statut']); ?></td>
+                <td>
+                  <?php if ($row['Statut'] == 'resolu'): ?>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                      <input type="hidden" name="interventionID" value="<?php echo $row['interventionID']; ?>">
+                      <button type="submit" class="action-btn">Valider</button>
+                    </form>
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php endwhile; ?>
           </tbody>
