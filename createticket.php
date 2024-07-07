@@ -129,13 +129,13 @@ button[type="submit"]:hover {
     cursor: pointer; /* Curseur pointeur */
 }
 
-/* Style pour les labels */
 label {
     font-weight: bold; /* Texte en gras */
     margin-bottom: 5px; /* Espacement en bas */
     display: block; /* Prend toute la largeur disponible */
-    color: #EEE; /* Texte clair */
+    color: #000; /* Couleur du texte en noir */
 }
+</style>
 
   </style>
 </head>
