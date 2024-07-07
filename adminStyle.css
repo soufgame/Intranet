@@ -1,0 +1,130 @@
+/* styles.css */
+
+/* Styles de base */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 200px; /* Réduit la largeur à 200px */
+    background-color: #4b4b4b;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+}
+
+.profile p {
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.nav ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.nav ul li {
+    width: 100%;
+}
+
+.nav ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    text-align: left;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.nav ul li a i {
+    margin-right: 10px;
+}
+
+.nav ul li a:hover {
+    background-color: #565656;
+}
+
+.main-content {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.top-header {
+    background-color: #4b4b4b;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.top-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.top-header .logout {
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.top-header .logout i {
+    margin-left: 5px;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+}
