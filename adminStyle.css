@@ -92,17 +92,22 @@ body {
 .top-header {
     background-color: #4b4b4b;
     color: #fff;
-    padding: 10px 20px;
+    padding: 20px; /* Ajuste la hauteur avec le padding */
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centre le contenu horizontalement */
     align-items: center;
+    position: relative;
+    height: 30px; /* Définir une hauteur spécifique */
 }
 
 .header-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centre le contenu horizontalement */
     align-items: center;
-    width: 100%;
+    width: 100%; /* Prend toute la largeur */
+    position: absolute; /* Utiliser position absolue pour centrer */
+    left: 50%; /* Décalage horizontal */
+    transform: translateX(-50%); /* Correction pour centrer exactement */
 }
 
 .top-header h1 {
@@ -112,6 +117,10 @@ body {
 }
 
 .top-header .logout {
+    position: absolute;
+    right: 20px; /* Déplacer à droite */
+    top: 50%;
+    transform: translateY(-50%);
     text-decoration: none;
     font-size: 18px;
     color: #fff;
