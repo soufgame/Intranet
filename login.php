@@ -124,62 +124,88 @@
             $stmt->execute();
             $result = $stmt->get_result();
 
-          // ...
-if ($result->num_rows > 0) {
-  // Authentification réussie, récupérer le nom de l'utilisateur
-  $row = $result->fetch_assoc();
-  $username = $row['username'];
-  $nom = $row['nom'];
-  $prenom = $row['prenom'];
-  $user_id = $row['id'];
+            if ($result->num_rows > 0) {
+              // Authentification réussie, récupérer le nom de l'utilisateur
+              $row = $result->fetch_assoc();
+              $username = $row['username'];
+              $nom = $row['nom'];
+              $prenom = $row['prenom'];
+              $user_id = $row['id'];
 
-  // Stocker le nom de l'utilisateur dans la session
-  $_SESSION['username'] = $username;
-  $_SESSION['nom'] = $nom;
-  $_SESSION['prenom'] = $prenom;
-  $_SESSION['id'] = $user_id ;
+              // Stocker le nom de l'utilisateur dans la session
+              $_SESSION['username'] = $username;
+              $_SESSION['nom'] = $nom;
+              $_SESSION['prenom'] = $prenom;
+              $_SESSION['id'] = $user_id ;
 
-  // Rediriger vers dashboard.php
-  header("Location: dashboardemploye.php");
-  exit();
-} else {
-  // Vérifer dans la table technicien
-  $stmt_technicien = $conn->prepare("SELECT * FROM technicien WHERE UserName = ? AND MotDePasse = ?");
-  $stmt_technicien->bind_param("ss", $user, $pass);
+              // Rediriger vers dashboard.php
+              header("Location: dashboardemploye.php");
+              exit();
+            } else {
+              // Vérifer dans la table technicien
+              $stmt_technicien = $conn->prepare("SELECT * FROM technicien WHERE UserName = ? AND MotDePasse = ?");
+              $stmt_technicien->bind_param("ss", $user, $pass);
 
-  // Exécuter la requête pour le technicien
-  $stmt_technicien->execute();
-  $result_technicien = $stmt_technicien->get_result();
+              // Exécuter la requête pour le technicien
+              $stmt_technicien->execute();
+              $result_technicien = $stmt_technicien->get_result();
 
-  if ($result_technicien->num_rows > 0) {
-      // Authentification réussie pour le technicien
-      $row_technicien = $result_technicien->fetch_assoc();
-      $username = $row_technicien['UserName'];
-      $nom = $row_technicien['Nom'];
-      $prenom = $row_technicien['Prenom'];
-      $user_id = $row_technicien['id'];
+              if ($result_technicien->num_rows > 0) {
+                // Authentification réussie pour le technicien
+                $row_technicien = $result_technicien->fetch_assoc();
+                $username = $row_technicien['UserName'];
+                $nom = $row_technicien['Nom'];
+                $prenom = $row_technicien['Prenom'];
+                $user_id = $row_technicien['id'];
 
-      // Stocker les informations dans la session
-      $_SESSION['username'] = $username;
-      $_SESSION['nom'] = $nom;
-      $_SESSION['prenom'] = $prenom;
-      $_SESSION['id'] = $user_id ;
+                // Stocker les informations dans la session
+                $_SESSION['username'] = $username;
+                $_SESSION['nom'] = $nom;
+                $_SESSION['prenom'] = $prenom;
+                $_SESSION['id'] = $user_id ;
 
-      // Rediriger vers dashboardtechnicien.php
-      header("Location: dashboardtechnici.php");
-      exit();
-  } else {
-      $error_message = "Invalid username or password";
-  }
+                // Rediriger vers dashboardtechnicien.php
+                header("Location: dashboardtechnici.php");
+                exit();
+              } else {
+                // Vérifier dans la table admins
+                $stmt_admin = $conn->prepare("SELECT * FROM admins WHERE username = ? AND mot_de_passe = ?");
+                $stmt_admin->bind_param("ss", $user, $pass);
+            
+                // Exécuter la requête pour les admins
+                $stmt_admin->execute();
+                $result_admin = $stmt_admin->get_result();
+            
+                if ($result_admin->num_rows > 0) {
+                  // Authentification réussie pour l'administrateur
+                  $row_admin = $result_admin->fetch_assoc();
+                  $username = $row_admin['username'];
+                  $nom = $row_admin['nom'];
+                  $prenom = $row_admin['prenom'];
+                  $user_id = $row_admin['id'];
+            
+                  // Stocker les informations dans la session
+                  $_SESSION['username'] = $username;
+                  $_SESSION['nom'] = $nom;
+                  $_SESSION['prenom'] = $prenom;
+                  $_SESSION['id'] = $user_id;
+            
+                  // Rediriger vers admin_dashboard.php
+                  header("Location: admin_dashboard.php");
+                  exit();
+                } else {
+                  $error_message = "Invalid username or password";
+                }
+            
+                $stmt_admin->close();
+              }
 
-  $stmt_technicien->close();
-}
-// ...
-
+              $stmt_technicien->close();
+            }
 
             $stmt->close();
             $conn->close();
-         }
+          }
         ?>
         <form method="post" action="">
           <div class="error-message"><?php echo $error_message; ?></div>
