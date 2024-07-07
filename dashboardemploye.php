@@ -103,49 +103,54 @@ $stmtTicketsResolus->close();
              <span class="material-symbols-sharp">close</span>
            </div>
          </div>
-         <!-- Sidebar -->
-         <div class="sidebar">
-         <a href="dashboardemploye.php" class="active">
-  <span class="material-symbols-sharp">grid_view</span>
-  <h3>Dashboard</h3>
-</a>
+       <!-- Sidebar -->
+<div class="sidebar">
+  <a href="dashboardemploye.php" class="active">
+    <span class="material-symbols-sharp">dashboard</span>
+    <h3>Dashboard</h3>
+  </a>
 
+  <a href="BoiteDeReception.php">
+    <span class="material-symbols-sharp">inbox</span>
+    <h3>Boite de réception</h3>
+  </a>
 
-           <a href="BoiteDeReception.php">
-  <span class="material-symbols-sharp">person_outline</span>
-  <h3>Boite de réception</h3>
-</a>
+  <a href="nouveauMessage.php">
+    <span class="material-symbols-sharp">edit</span>
+    <h3>Nouveau Message</h3>
+  </a>
 
-<a href="nouveauMessage.php">
-             <span class="material-symbols-sharp">mail_outline</span>
-             <h3>Nouveau Message</h3>
-           </a>
-           <a href="Messageenvoye.php">
-             <span class="material-symbols-sharp">mail_outline</span>
-             <h3>Message envoyee</h3>
-           </a>
-           <a href="createticket.php">
-             <span class="material-symbols-sharp">receipt_long</span>
-             <h3>Support</h3>
-           </a>
-           <a href="suivie_ticket.php">
-             <span class="material-symbols-sharp">report_gmailerrorred</span>
-             <h3>Suivie de Ticket</h3>
-           </a>
-           <a href="Historique_ticket.php">
-             <span class="material-symbols-sharp">settings</span>
-             <h3>Historique de Ticket</h3>
-           </a>
-           <a href="profil_user.php">
-             <span class="material-symbols-sharp">add</span>
-             <h3>Profil </h3>
-           </a>
-           <a href="login.php?logout=1" class="logout">
-            <span class="material-symbols-sharp">logout</span>
-             <h3>Logout</h3>
-            </a>
+  <a href="Messageenvoye.php">
+    <span class="material-symbols-sharp">send</span>
+    <h3>Message envoyée</h3>
+  </a>
 
-         </div>
+   <a href="createticket.php">
+    <span class="material-symbols-sharp">support_agent</span>
+    <h3>Support </h3>
+  </a>
+
+  <a href="suivie_ticket.php">
+    <span class="material-symbols-sharp">assignment</span>
+    <h3>Suivi de Ticket</h3>
+  </a>
+
+  <a href="Historique_ticket.php">
+    <span class="material-symbols-sharp">history</span>
+    <h3>Historique de Ticket</h3>
+  </a>
+
+  <a href="profil_user.php">
+    <span class="material-symbols-sharp">person</span>
+    <h3>Profil</h3>
+  </a>
+
+  <a href="login.php?logout=1" class="logout">
+    <span class="material-symbols-sharp">logout</span>
+    <h3>Logout</h3>
+  </a>
+</div>
+
       </aside>
 
       <!-- Main Section -->
