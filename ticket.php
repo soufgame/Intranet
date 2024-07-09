@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -79,7 +87,8 @@
                 <li><a href="profiltech.php">Profils</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a id="logoutBtn" class="hoverable" href="logout.php">Logout</a></li>
+            <li><a id="logoutBtn" class="hoverable" href="logout.php">Logout</a></li>
+
             </ul>
         </div>
     </nav>
