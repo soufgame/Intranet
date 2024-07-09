@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +38,8 @@
             <header class="top-header">
                 <div class="header-content">
                     <h1>Ticket </h1>
-                    <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i></a>
+                    <a href="logout.php" class="logout"><i class="fas fa-sign-out-alt"></i></a>
+
                 </div>
             </header>
             <section class="content">
