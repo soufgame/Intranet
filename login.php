@@ -168,38 +168,22 @@
                 header("Location: dashboardtechnici.php");
                 exit();
               } else {
-                // Vérifier dans la table admins
-                $stmt_admin = $conn->prepare("SELECT * FROM admins WHERE username = ? AND mot_de_passe = ?");
-                $stmt_admin->bind_param("ss", $user, $pass);
-            
-                // Exécuter la requête pour les admins
-                $stmt_admin->execute();
-                $result_admin = $stmt_admin->get_result();
-            
-                if ($result_admin->num_rows > 0) {
-                  // Authentification réussie pour l'administrateur
-                  $row_admin = $result_admin->fetch_assoc();
-                  $username = $row_admin['username'];
-                  $nom = $row_admin['nom'];
-                  $prenom = $row_admin['prenom'];
-                  $user_id = $row_admin['id'];
-            
-                  // Stocker les informations dans la session
-                  $_SESSION['username'] = $username;
-                  $_SESSION['nom'] = $nom;
-                  $_SESSION['prenom'] = $prenom;
-                  $_SESSION['id'] = $user_id;
-            
-                  // Rediriger vers admin_dashboard.php
-                  header("Location: admin_dashboard.php");
-                  exit();
+                // Vérifier si le nom d'utilisateur et le mot de passe sont 'admin'
+                if ($user === 'admin' && $pass === 'admin') {
+                    // Authentification réussie pour l'administrateur
+                    $_SESSION['username'] = 'admin';
+                    $_SESSION['nom'] = 'Admin';
+                    $_SESSION['prenom'] = 'Admin';
+                    $_SESSION['id'] = 1; // Vous pouvez définir un ID arbitraire pour l'administrateur
+                    
+                    // Rediriger vers admin_dashboard.php
+                    header("Location: admin_dashboard.php");
+                    exit();
                 } else {
-                  $error_message = "Invalid username or password";
+                    $error_message = "Invalid username or password";
                 }
+            }
             
-                $stmt_admin->close();
-              }
-
               $stmt_technicien->close();
             }
 
