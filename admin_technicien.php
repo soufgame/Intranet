@@ -41,6 +41,29 @@ if (!isset($_SESSION['username'])) {
         .action-buttons a:hover {
             text-decoration: underline;
         }
+        /* AdminStyle.css */
+
+/* Styles pour le bouton Ajouter Technicien */
+.add-button {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.add-button .btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.add-button .btn:hover {
+    background-color: #218838;
+}
+
     </style>
 </head>
 <body>
@@ -68,7 +91,11 @@ if (!isset($_SESSION['username'])) {
                     <a href="logout.php" class="logout"><i class="fas fa-sign-out-alt"></i></a>
                 </div>
             </header>
+          
             <section class="content">
+            <div class="add-button">
+        <a href="ajouter_technicien.php" class="btn"><i class="fas fa-plus-circle"></i> Ajouter Technicien</a>
+    </div>
                 <?php
                 // Inclure le fichier de connexion à la base de données
                 include 'connexiondb.php';
