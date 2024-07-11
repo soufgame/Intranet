@@ -22,8 +22,8 @@ $result = $conn->query($sql);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         table {
-            width: 100%;
             border-collapse: collapse;
+            width: 100%;
         }
         th, td {
             padding: 8px 12px;
@@ -41,6 +41,9 @@ $result = $conn->query($sql);
         }
         .action-icons a:hover {
             color: #007BFF;
+        }
+        .table-container {
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -71,49 +74,51 @@ $result = $conn->query($sql);
             <section class="content">
                 <button onclick="window.location.href='add_employee.php'">Add Employee</button>
                 <h2>Employee List</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Department</th>
-                            <th>Division</th>
-                            <th>Service</th>
-                            <th>CIN</th>
-                            <th>Nom</th>
-                            <th>Prenom</th>
-                            <th>Telephone</th>
-                            <th class="action-icons">Edit</th>
-                            <th class="action-icons">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>
-                                        <td>{$row['id']}</td>
-                                        <td>{$row['username']}</td>
-                                        <td>{$row['password']}</td>
-                                        <td>{$row['department']}</td>
-                                        <td>{$row['division']}</td>
-                                        <td>{$row['service']}</td>
-                                        <td>{$row['cin']}</td>
-                                        <td>{$row['nom']}</td>
-                                        <td>{$row['prenom']}</td>
-                                        <td>{$row['telephone']}</td>
-                                        <td class='action-icons'><a href='edit_employee.php?id={$row['id']}'><i class='fas fa-edit'></i></a></td>
-                                        <td class='action-icons'><a href='delete_employee.php?id={$row['id']}' onclick='return confirm(\"Are you sure you want to delete this employee?\");'><i class='fas fa-trash-alt'></i></a></td>
-                                      </tr>";
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Department</th>
+                                <th>Division</th>
+                                <th>Service</th>
+                                <th>CIN</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Telephone</th>
+                                <th class="action-icons">Edit</th>
+                                <th class="action-icons">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>
+                                            <td>{$row['id']}</td>
+                                            <td>{$row['username']}</td>
+                                            <td>{$row['password']}</td>
+                                            <td>{$row['department']}</td>
+                                            <td>{$row['division']}</td>
+                                            <td>{$row['service']}</td>
+                                            <td>{$row['cin']}</td>
+                                            <td>{$row['nom']}</td>
+                                            <td>{$row['prenom']}</td>
+                                            <td>{$row['telephone']}</td>
+                                            <td class='action-icons'><a href='edit_employee.php?id={$row['id']}'><i class='fas fa-edit'></i></a></td>
+                                            <td class='action-icons'><a href='delete_employee.php?id={$row['id']}' onclick='return confirm(\"Are you sure you want to delete this employee?\");'><i class='fas fa-trash-alt'></i></a></td>
+                                          </tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='12'>No results found</td></tr>";
                             }
-                        } else {
-                            echo "<tr><td colspan='12'>No results found</td></tr>";
-                        }
-                        $conn->close();
-                        ?>
-                    </tbody>
-                </table>
+                            $conn->close();
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </main>
     </div>
