@@ -45,6 +45,20 @@ $result = $conn->query($sql);
         .table-container {
             overflow-x: auto;
         }
+        button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
     </style>
 </head>
 <body>
