@@ -107,6 +107,13 @@ if ($result === false) {
         input[type="submit"]:hover {
             background-color: #4b4b4b; /* Couleur plus foncée au survol */
         }
+        .delete-button {
+            margin: 20px; /* Espacement */
+            float: left; /* Alignement à gauche */
+            margin-top: -6%;
+            margin-left: 0%;
+            
+        }
     </style>
 </head>
 <body>
@@ -147,6 +154,9 @@ if ($result === false) {
                     </form>
                 </div>
                 <form method="POST" action="admin_mail.php">
+                    <div class="delete-button">
+                        <input type="submit" value="Supprimer sélectionnés" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ces fichiers ?');" />
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -179,9 +189,6 @@ if ($result === false) {
                             <?php endif; ?>
                         </tbody>
                     </table>
-                    <div style="text-align: center; margin: 20px;">
-                        <input type="submit" value="Supprimer " onclick="return confirm('Êtes-vous sûr de vouloir supprimer ces fichiers ?');" />
-                    </div>
                 </form>
             </section>
         </main>
