@@ -8,7 +8,12 @@ if (!isset($_SESSION['username'])) {
 // Inclure le fichier de connexion à la base de données
 include 'connexiondb.php';
 
-// Récupération des données de la table files
+// Initialisation des filtres
+$destinataire = isset($_GET['destinataire']) ? $_GET['destinataire'] : '';
+$envoyeur = isset($_GET['envoyeur']) ? $_GET['envoyeur'] : '';
+$date = isset($_GET['date']) ? $_GET['date'] : '';
+
+// Construction de la requête SQL
 $sql = "SELECT
     f.id,
     f.message AS objet,
@@ -20,8 +25,21 @@ FROM
     files f
 JOIN
     users u ON f.user_id = u.id
-ORDER BY
-    f.date DESC, f.time DESC"; // Ajout de l'ordre par date et heure
+WHERE 1=1"; // Condition de base
+
+// Ajout des conditions de filtre
+if (!empty($destinataire)) {
+    $sql .= " AND f.username LIKE '%" . $conn->real_escape_string($destinataire) . "%'";
+}
+if (!empty($envoyeur)) {
+    $sql .= " AND u.username LIKE '%" . $conn->real_escape_string($envoyeur) . "%'";
+}
+if (!empty($date)) {
+    $sql .= " AND f.date = '" . $conn->real_escape_string($date) . "'";
+}
+
+// Tri des résultats
+$sql .= " ORDER BY f.date DESC, f.time DESC";
 
 $result = $conn->query($sql);
 
@@ -39,36 +57,30 @@ if ($result === false) {
     <link rel="stylesheet" href="AdminStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-    table {
-    border-collapse: collapse;
-    width: 80%;
-    margin: 20px auto;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Nouvelle règle pour la colonne Objet */
-td:nth-child(2) {
-    max-width: 200px; /* Limite la largeur de la colonne Objet */
-    overflow: hidden; /* Masque le contenu qui déborde */
-    text-overflow: ellipsis; /* Ajoute des points de suspension pour le texte coupé */
-    white-space: nowrap; /* Empêche le retour à la ligne */
-}
-
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        td:nth-child(2) {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -96,6 +108,18 @@ td:nth-child(2) {
                 </div>
             </header>
             <section class="content">
+                <!-- Formulaire de filtre -->
+                <div style="text-align: center; margin: 20px 0;">
+                    <form method="GET" action="">
+                        <input type="text" name="destinataire" placeholder="Destinataire" value="<?php echo htmlspecialchars($destinataire); ?>" />
+                        <input type="text" name="envoyeur" placeholder="Envoyeur" value="<?php echo htmlspecialchars($envoyeur); ?>" />
+                        <input type="date" name="date" value="<?php echo htmlspecialchars($date); ?>" />
+                        <input type="submit" value="Filtrer" />
+                        <a href="admin_mail.php" style="margin-left: 10px;">
+                            <i class="fas fa-times-circle" style="color: red; font-size: 20px;" title="Annuler le filtrage"></i>
+                        </a>
+                    </form>
+                </div>
                 <table>
                     <thead>
                         <tr>
