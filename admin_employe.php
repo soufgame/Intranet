@@ -70,7 +70,7 @@ $result = $conn->query($sql);
         }
 
         button[type="submit"] {
-            background-color: #007BFF;
+            background-color: #4b4b4b;
             color: white;
             border: none;
             padding: 8px 12px;
@@ -84,7 +84,7 @@ $result = $conn->query($sql);
         }
 
         button {
-            background-color: #007BFF;
+            background-color: #4b4b4b;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -100,7 +100,7 @@ $result = $conn->query($sql);
 
         .clear-filter {
             cursor: pointer;
-            color: #FF0000; /* Couleur de l'icône */
+            color: #4b4b4b; /* Couleur de l'icône */
             margin-left: 10px;
             font-size: 18px;
             display: inline-flex;

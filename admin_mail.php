@@ -81,6 +81,27 @@ if ($result === false) {
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        input[type="submit"] {
+    background-color: #4b4b4b; /* Couleur verte */
+    color: white; /* Texte blanc */
+    border: none; /* Pas de bordure */
+    padding: 10px 20px; /* Espacement */
+    text-align: center; /* Centrer le texte */
+    text-decoration: none; /* Pas de soulignement */
+    display: inline-block; /* Élément en ligne avec marges */
+    font-size: 16px; /* Taille de la police */
+    margin: 4px 2px; /* Marges */
+    cursor: pointer; /* Curseur main */
+    border-radius: 5px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition de la couleur */
+}
+
+input[type="submit"]:hover {
+    background-color: #4b4b4b; /* Couleur plus foncée au survol */
+}
+
+
     </style>
 </head>
 <body>

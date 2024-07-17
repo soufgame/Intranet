@@ -45,7 +45,7 @@
             margin-right: 10px;
         }
         .filter input[type="submit"] {
-            background-color: #007bff;
+            background-color: #4b4b4b;
             color: #fff;
             border: none;
             padding: 8px 12px;
@@ -54,23 +54,23 @@
             font-size: 16px;
         }
         .filter input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #4b4b4b;
         }
         .clear-filter {
             margin-left: 10px;
-            color: #dc3545; /* Rouge pour la croix */
+            color: #4b4b4b; /* Rouge pour la croix */
             text-decoration: none;
             font-size: 18px; /* Taille de la croix */
         }
         .clear-filter:hover {
-            color: #c82333; /* Couleur plus foncée au survol */
+            color: #4b4b4b; /* Couleur plus foncée au survol */
         }
         .add-button {
             margin-top: 20px;
             text-align: left;
         }
         .add-button .btn {
-            background-color: #28a745;
+            background-color: #4b4b4b;
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -81,7 +81,7 @@
             transition: background-color 0.3s;
         }
         .add-button .btn:hover {
-            background-color: #218838;
+            background-color: #4b4b4b;
         }
     </style>
 </head>
