@@ -100,9 +100,15 @@ $result = $conn->query($sql);
 
         .clear-filter {
             cursor: pointer;
-            color: #FF0000; /* Couleur de la croix */
+            color: #FF0000; /* Couleur de l'icône */
             margin-left: 10px;
             font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .clear-filter:hover {
+            color: #B00000; /* Couleur au survol */
         }
     </style>
 </head>
@@ -138,7 +144,7 @@ $result = $conn->query($sql);
                 <form method="POST" action="">
                     <input type="text" name="filter_username" placeholder="Filter by Username" value="<?php echo htmlspecialchars($filter_username); ?>">
                     <button type="submit">Filter</button>
-                    <span class="clear-filter" onclick="clearFilter()">&times;</span> <!-- Croix pour enlever le filtrage -->
+                    <span class="clear-filter" onclick="clearFilter()"><i class="fas fa-times-circle"></i></span> <!-- Icône pour enlever le filtrage -->
                 </form>
                 
                 <div class="table-container">
