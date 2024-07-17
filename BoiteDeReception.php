@@ -7,9 +7,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-// Récupérer les informations de session si nécessaire
-$username = $_SESSION['username']; // Exemple : récupérer le nom d'utilisateur
-$id = $_SESSION['id']; // Exemple : récupérer le nom d'utilisateur
+// Récupérer les informations de session
+$username = $_SESSION['username'];
+$id = $_SESSION['id'];
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -24,26 +24,32 @@ if ($conn->connect_error) {
 }
 
 // Préparer la requête SQL pour sélectionner les fichiers de l'utilisateur connecté
-$stmt = $conn->prepare("
+$sql = "
     SELECT files.id, file_name, message, file_data, file_data_2, file_data_3, date, time, users.username, is_read 
     FROM files 
     INNER JOIN users ON files.user_id = users.id 
-    WHERE files.username = ? 
-    ORDER BY date DESC, time DESC
-");
+    WHERE 1"; // Condition de base
 
-if ($stmt === false) {
-    die("Prepare failed: " . $conn->error);
+// Vérifier si le paramètre username est défini
+$username_filter = "";
+if (isset($_GET['username']) && !empty($_GET['username'])) {
+    $username_filter = trim($_GET['username']);
+    $sql .= " AND users.username = ?";
 }
 
-$stmt->bind_param("s", $username);
+$sql .= " ORDER BY date DESC, time DESC";
+
+$stmt = $conn->prepare($sql);
+
+if (!empty($username_filter)) {
+    $stmt->bind_param("s", $username_filter);
+}
 
 if (!$stmt->execute()) {
     die("Query failed: " . $stmt->error);
 }
 
 $result = $stmt->get_result();
-
 ?>
 
 <!DOCTYPE html>
@@ -53,9 +59,7 @@ $result = $stmt->get_result();
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boite de reception</title>
-  <!-- Inclure le fichier CSS principal -->
   <link rel="stylesheet" href="style.css">
-  <!-- Inclure les autres ressources CSS si nécessaire -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
   <style>
     /* Styles spécifiques pour la table */
@@ -69,8 +73,8 @@ $result = $stmt->get_result();
         text-align: left;
         border-bottom: 1px solid #ddd;
         font-size: 16px;
-        background-color: #fff; /* Fond blanc pour les cellules de la table */
-        color: #333; /* Texte noir pour les cellules de la table */
+        background-color: #fff;
+        color: #333;
     }
     th {
         background-color: #222;
@@ -85,12 +89,25 @@ $result = $stmt->get_result();
     }
     /* Styles pour le mode sombre */
     .dark-mode {
-        background-color: #222; /* Fond sombre pour le corps de la page */
-        color: white; /* Texte blanc pour le corps de la page */
+        background-color: #222;
+        color: white;
     }
     .dark-mode th {
-        background-color: #222; /* Fond sombre pour les en-têtes de colonne */
-        color: white; /* Texte blanc pour les en-têtes de colonne */
+        background-color: #222;
+        color: white;
+    }
+    /* Styles pour le formulaire de filtre */
+    .filter-form {
+        margin: 20px 0;
+    }
+    .filter-form input {
+        padding: 5px;
+        margin-right: 10px;
+    }
+    .clear-filter {
+        color: red;
+        cursor: pointer;
+        margin-left: 10px;
     }
   </style>
 </head>
@@ -158,26 +175,34 @@ $result = $stmt->get_result();
       <main>
         <h1>Boite de reception</h1>
         
+        <!-- Formulaire de filtre -->
+        <form method="GET" action="BoiteDeReception.php" class="filter-form">
+            <label for="username">Filtrer par utilisateur :</label>
+            <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" value="<?php echo htmlspecialchars($username_filter); ?>">
+            <button type="submit">Filtrer</button>
+            <?php if (!empty($username_filter)): ?>
+                <span class="clear-filter" onclick="window.location.href='BoiteDeReception.php'">✖</span>
+            <?php endif; ?>
+        </form>
+
         <!-- Insérer la table ici -->
         <div class="table-container">
           <table border='1'>
-            <tr><th>Titre</th><th>Date</th><th>Time</th><th>Expéditeur</th><th>V</th></tr>
+            <tr><th>Titre</th><th>Date</th><th>Heure</th><th>Expéditeur</th><th>V</th></tr>
             <?php while ($row = $result->fetch_assoc()): ?>
-  <tr <?php echo $row['is_read'] ? '' : 'class="unread"' ?>>
-    <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
-        <?php echo htmlspecialchars($row["file_name"]) ?></a></td>
-    <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
-        <?php echo htmlspecialchars($row["date"]) ?></a></td>
-    <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
-        <?php echo htmlspecialchars($row["time"]) ?></a></td>
-    <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
-        <?php echo htmlspecialchars($row["username"]) ?></a></td>
-    <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
-        <?php echo $row['is_read'] ? "<img src='vue.png' alt='Vue' width='20' height='20'>" : "<img src='non vue.png' alt='Non vue' width='20' height='20'>" ?></a></td>
-  </tr>
-<?php endwhile; ?>
-
-
+              <tr <?php echo $row['is_read'] ? '' : 'class="unread"' ?>>
+                <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
+                    <?php echo htmlspecialchars($row["file_name"]) ?></a></td>
+                <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
+                    <?php echo htmlspecialchars($row["date"]) ?></a></td>
+                <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
+                    <?php echo htmlspecialchars($row["time"]) ?></a></td>
+                <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
+                    <?php echo htmlspecialchars($row["username"]) ?></a></td>
+                <td><a href="email.php?file_id=<?php echo $row['id']; ?>">
+                    <?php echo $row['is_read'] ? "<img src='vue.png' alt='Vue' width='20' height='20'>" : "<img src='non vue.png' alt='Non vue' width='20' height='20'>" ?></a></td>
+              </tr>
+            <?php endwhile; ?>
           </table>
         </div>
       </main>
