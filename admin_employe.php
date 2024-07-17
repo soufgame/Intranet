@@ -138,7 +138,6 @@ $result = $conn->query($sql);
             </header>
             <section class="content">
                 <button onclick="window.location.href='add_employee.php'">Add Employee</button>
-                <h2>Employee List</h2>
                 
                 <!-- Form de filtrage -->
                 <form method="POST" action="">
