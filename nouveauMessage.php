@@ -77,7 +77,7 @@ if ($conn->connect_error) {
 #emailForm input[type="text"],
 #emailForm input[type="file"],
 #emailForm textarea {
-    background-color: #2E2E2E;
+    background-color: #B0B0B0;
     border-radius: 12px;
     border: 0;
     box-sizing: border-box;

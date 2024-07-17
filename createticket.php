@@ -109,7 +109,7 @@ button[type="submit"]:hover {
 
 /* Style pour les messages de succès */
 .success-message {
-    background-color: #078C05; 
+    background-color: #7E7F81; 
     color: white; /* Texte blanc */
     text-align: center; /* Centrage du texte */
     padding: 10px; /* Espacement intérieur */
@@ -120,7 +120,7 @@ button[type="submit"]:hover {
 }
 
 .success-message button {
-    background-color: #085F07; /* Fond gris foncé */
+    background-color: #565656; /* Fond gris foncé */
     color: white; /* Texte blanc */
     border: none; /* Sans bordure */
     padding: 10px 20px; /* Espacement intérieur */
