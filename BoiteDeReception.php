@@ -97,18 +97,48 @@ $result = $stmt->get_result();
         color: white;
     }
     /* Styles pour le formulaire de filtre */
-    .filter-form {
-        margin: 20px 0;
-    }
-    .filter-form input {
-        padding: 5px;
-        margin-right: 10px;
-    }
-    .clear-filter {
-        color: red;
-        cursor: pointer;
-        margin-left: 10px;
-    }
+   /* Styles pour le formulaire de filtre */
+.filter-form {
+    margin: 20px 0;
+}
+
+.filter-form input {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 200px; /* Ajuster la largeur selon vos besoins */
+}
+
+.filter-form button {
+    padding: 8px 12px;
+    background-color: #007bff; /* Couleur du bouton */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.filter-form button:hover {
+    background-color: #0056b3; /* Couleur au survol */
+}
+
+.clear-filter {
+    color: red;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 18px; /* Taille de la croix */
+    vertical-align: middle; /* Aligner verticalement */
+}
+
+.clear-filter:hover {
+    color: darkred; /* Couleur au survol de la croix */
+}
+
+    
   </style>
 </head>
 <body>
