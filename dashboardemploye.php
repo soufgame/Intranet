@@ -81,6 +81,48 @@ if ($resultTicketsResolus->num_rows > 0) {
 
 $stmtTicketsResolus->close();
 
+// Récupérer l'ID de l'utilisateur depuis la session
+$user_id = $_SESSION['id'];
+
+// Requête pour le nombre de tickets en cours
+$sqlTicketsEnCours = "SELECT COUNT(*) AS countTicketsEnCours FROM intervention WHERE Statut = 'en cours' AND userID = ?";
+$stmtTicketsEnCours = $conn->prepare($sqlTicketsEnCours);
+if (!$stmtTicketsEnCours) {
+    die("Error preparing statement: " . $conn->error);
+}
+
+$stmtTicketsEnCours->bind_param("i", $user_id); // 'i' pour un entier (user_id)
+$stmtTicketsEnCours->execute();
+$resultTicketsEnCours = $stmtTicketsEnCours->get_result();
+
+$countTicketsEnCours = 0;
+if ($resultTicketsEnCours->num_rows > 0) {
+    $rowTicketsEnCours = $resultTicketsEnCours->fetch_assoc();
+    $countTicketsEnCours = $rowTicketsEnCours['countTicketsEnCours'];
+}
+
+$stmtTicketsEnCours->close();
+
+// Requête pour le nombre total de tickets résolus
+$sqlTicketsResolus = "SELECT COUNT(*) AS countTicketsResolus FROM intervention WHERE Statut = 'resolu' AND userID = ?";
+$stmtTicketsResolus = $conn->prepare($sqlTicketsResolus);
+if (!$stmtTicketsResolus) {
+    die("Error preparing statement: " . $conn->error);
+}
+
+$stmtTicketsResolus->bind_param("i", $user_id); // 'i' pour un entier (user_id)
+$stmtTicketsResolus->execute();
+$resultTicketsResolus = $stmtTicketsResolus->get_result();
+
+$countTicketsResolus = 0;
+if ($resultTicketsResolus->num_rows > 0) {
+    $rowTicketsResolus = $resultTicketsResolus->fetch_assoc();
+    $countTicketsResolus = $rowTicketsResolus['countTicketsResolus'];
+}
+
+$stmtTicketsResolus->close();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -168,21 +210,23 @@ $stmtTicketsResolus->close();
             </div>
           </div>
           <!-- Total Tickets en Cours -->
-          <div class="expenses">
-            <img src="./images/billet.png" alt="Unread Message Icon" class="icon">
-            <div class="middle">
-              <div class="left">
-                <h3>Tickets en cours</h3>
-                <h1><?php echo $countTicketsEnCours; ?></h1>
-              </div>
-            </div>
-          </div>
+          <!-- Total Tickets en Cours -->
+<div class="expenses">
+    <img src="./images/billet.png" alt="Unread Message Icon" class="icon">
+    <div class="middle">
+        <div class="left">
+            <h3>Tickets en cours</h3>
+            <h1><?php echo $countTicketsEnCours; ?></h1>
+        </div>
+    </div>
+</div>
+
           <!-- Total Tickets Résolus -->
           <div class="income">
             <img src="./images/cochee.png" alt="Unread Message Icon" class="icon">
             <div class="middle">
               <div class="left">
-                <h3>Total Résolus</h3>
+                <h3>Tickets Résolus</h3>
                 <h1><?php echo $countTicketsResolus; ?></h1>
               </div>
             </div>
