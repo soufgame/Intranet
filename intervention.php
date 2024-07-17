@@ -170,6 +170,19 @@ $conn->close();
             border-color: #66afe9;
             box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
         }
+        .btn-valider {
+        background-color: #1CA10A; /* Couleur de fond rouge */
+        color: white; /* Couleur du texte en blanc */
+        border: none; /* Suppression de la bordure */
+        padding: 10px 15px; /* Espacement interne */
+        border-radius: 5px; /* Coins arrondis */
+        cursor: pointer; /* Curseur de souris pointer */
+        font-weight: bold; /* Texte en gras */
+    }
+
+    .btn-valider:hover {
+        background-color: darkred; /* Couleur au survol */
+    }
 
     </style>
 </head>
@@ -227,13 +240,11 @@ $conn->close();
                             <select name="newStatus">
                                 <option value="" <?php echo ($intervention['Statut'] == '') ? 'selected' : ''; ?>></option>
                                 <option value="ouvert" <?php echo ($intervention['Statut'] == 'ouvert') ? 'selected' : ''; ?>>ouvert</option>
-                                <option value="en court" <?php echo ($intervention['Statut'] == 'en court') ? 'selected' : ''; ?>>en court</option>
-                                <option value="ferme" <?php echo ($intervention['Statut'] == 'ferme') ? 'selected' : ''; ?>>ferme</option>
                                 <option value="resolu" <?php echo ($intervention['Statut'] == 'resolu') ? 'selected' : ''; ?>>resolu</option>
                             </select>
 
-                            <button type="submit" name="submitBtn">Valider</button>
-                        </form>
+                            <button type="submit" name="submitBtn" class="btn-valider">Valider</button>
+                            </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
