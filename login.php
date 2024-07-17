@@ -90,7 +90,7 @@
 </head>
 <body>
   <!-- Bouton pour rediriger vers accueil.html -->
-  <a href="accueil.html" class="home-button">Accueil</a>
+  <a href="index.html" class="home-button">Accueil</a>
 
   <div class="container">
     <div class="form-container">
