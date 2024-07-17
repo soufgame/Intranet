@@ -87,6 +87,7 @@ if ($conn->connect_error) {
     padding: 10px 20px;
     width: 500px;
     height: 40px; /* Adjust height as needed */
+    color: #000; /* Changer la couleur du texte à noir */
 
 }
 
@@ -100,6 +101,8 @@ if ($conn->connect_error) {
 #emailForm textarea {
     height: 200px; /* Make textarea longer */
     resize: vertical;
+    color: #000; /* Changer la couleur du texte à noir */
+
 }
 
 #emailForm .file-input-container {
