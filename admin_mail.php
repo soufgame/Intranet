@@ -8,6 +8,15 @@ if (!isset($_SESSION['username'])) {
 // Inclure le fichier de connexion à la base de données
 include 'connexiondb.php';
 
+// Traitement de la suppression
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['file_ids'])) {
+    $file_ids = $_POST['file_ids'];
+    $ids = implode(',', array_map('intval', $file_ids)); // Sécuriser les ID
+    $delete_sql = "DELETE FROM files WHERE id IN ($ids)";
+
+    $conn->query($delete_sql); // Suppression sans message de succès
+}
+
 // Initialisation des filtres
 $destinataire = isset($_GET['destinataire']) ? $_GET['destinataire'] : '';
 $envoyeur = isset($_GET['envoyeur']) ? $_GET['envoyeur'] : '';
@@ -16,7 +25,7 @@ $date = isset($_GET['date']) ? $_GET['date'] : '';
 // Construction de la requête SQL
 $sql = "SELECT
     f.id,
-    f.message AS objet,
+    f.file_name AS objet,
     f.username AS destinataire,
     u.username AS envoyeur,
     f.date,
@@ -81,27 +90,23 @@ if ($result === false) {
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
         input[type="submit"] {
-    background-color: #4b4b4b; /* Couleur verte */
-    color: white; /* Texte blanc */
-    border: none; /* Pas de bordure */
-    padding: 10px 20px; /* Espacement */
-    text-align: center; /* Centrer le texte */
-    text-decoration: none; /* Pas de soulignement */
-    display: inline-block; /* Élément en ligne avec marges */
-    font-size: 16px; /* Taille de la police */
-    margin: 4px 2px; /* Marges */
-    cursor: pointer; /* Curseur main */
-    border-radius: 5px; /* Coins arrondis */
-    transition: background-color 0.3s; /* Transition de la couleur */
-}
-
-input[type="submit"]:hover {
-    background-color: #4b4b4b; /* Couleur plus foncée au survol */
-}
-
-
+            background-color: #4b4b4b; /* Couleur verte */
+            color: white; /* Texte blanc */
+            border: none; /* Pas de bordure */
+            padding: 10px 20px; /* Espacement */
+            text-align: center; /* Centrer le texte */
+            text-decoration: none; /* Pas de soulignement */
+            display: inline-block; /* Élément en ligne avec marges */
+            font-size: 16px; /* Taille de la police */
+            margin: 4px 2px; /* Marges */
+            cursor: pointer; /* Curseur main */
+            border-radius: 5px; /* Coins arrondis */
+            transition: background-color 0.3s; /* Transition de la couleur */
+        }
+        input[type="submit"]:hover {
+            background-color: #4b4b4b; /* Couleur plus foncée au survol */
+        }
     </style>
 </head>
 <body>
@@ -141,39 +146,55 @@ input[type="submit"]:hover {
                         </a>
                     </form>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Objet</th>
-                            <th>Destinataire</th>
-                            <th>Envoyeur</th>
-                            <th>Date</th>
-                            <th>Heure</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($result->num_rows > 0): ?>
-                            <?php while ($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['id']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['objet']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['destinataire']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['envoyeur']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['date']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['time']); ?></td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
+                <form method="POST" action="admin_mail.php">
+                    <table>
+                        <thead>
                             <tr>
-                                <td colspan="6">Aucune donnée disponible</td>
+                                <th><input type="checkbox" id="select-all" /></th>
+                                <th>ID</th>
+                                <th>Objet</th>
+                                <th>Destinataire</th>
+                                <th>Envoyeur</th>
+                                <th>Date</th>
+                                <th>Heure</th>
                             </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php if ($result->num_rows > 0): ?>
+                                <?php while ($row = $result->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><input type="checkbox" name="file_ids[]" value="<?php echo htmlspecialchars($row['id']); ?>" /></td>
+                                        <td><?php echo htmlspecialchars($row['id']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['objet']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['destinataire']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['envoyeur']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['date']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['time']); ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7">Aucune donnée disponible</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center; margin: 20px;">
+                        <input type="submit" value="Supprimer " onclick="return confirm('Êtes-vous sûr de vouloir supprimer ces fichiers ?');" />
+                    </div>
+                </form>
             </section>
         </main>
     </div>
+    <script>
+        // Script pour sélectionner/désélectionner tous les checkbox
+        document.getElementById('select-all').onclick = function() {
+            var checkboxes = document.querySelectorAll('input[name="file_ids[]"]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        };
+    </script>
 </body>
 </html>
 
