@@ -6,8 +6,14 @@ if (!isset($_SESSION['username'])) {
 }
 include 'connexiondb.php';
 
-// Fetch data from the 'users' table
-$sql = "SELECT * FROM users";
+// Filter username
+$filter_username = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $filter_username = $_POST['filter_username'];
+}
+
+// Fetch data from the 'users' table with filtering
+$sql = "SELECT * FROM users WHERE username LIKE '%$filter_username%'";
 $result = $conn->query($sql);
 ?>
 
@@ -18,47 +24,79 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Employee Management</title>
     <link rel="stylesheet" href="AdminStyle.css">
-    <!-- Include a library for icons, for example Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
+        /* Styles de la table et du filtre */
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto; /* Ajoute un défilement horizontal */
+            max-width: 100%; /* Empêche le conteneur de dépasser l'écran */
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 10px;
         }
-        th, td {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .action-icons {
-            text-align: center;
-        }
-        .action-icons a {
-            margin: 0 5px;
-            color: #000;
-        }
-        .action-icons a:hover {
-            color: #007BFF;
-        }
-        .table-container {
-            overflow-x: auto;
-        }
-        button {
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        margin-bottom: 10px;
-    }
 
-    button:hover {
-        background-color: #0056b3;
-    }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Largeurs maximales pour chaque colonne */
+        th:nth-child(1), td:nth-child(1) { width: 50px; } /* ID */
+        th:nth-child(2), td:nth-child(2) { width: 100px; } /* Username */
+        th:nth-child(3), td:nth-child(3) { width: 100px; } /* Password */
+        th:nth-child(4), td:nth-child(4) { width: 100px; } /* Department */
+        th:nth-child(5), td:nth-child(5) { width: 100px; } /* Division */
+        th:nth-child(6), td:nth-child(6) { width: 100px; } /* Service */
+        th:nth-child(7), td:nth-child(7) { width: 100px; } /* CIN */
+        th:nth-child(8), td:nth-child(8) { width: 100px; } /* Nom */
+        th:nth-child(9), td:nth-child(9) { width: 100px; } /* Prenom */
+        th:nth-child(10), td:nth-child(10) { width: 100px; } /* Telephone */
+        th:nth-child(11), td:nth-child(11), th:nth-child(12), td:nth-child(12) { width: 50px; } /* Edit/Delete */
+
+        input[type="text"] {
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px; /* Ajustez la largeur selon vos besoins */
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -88,6 +126,13 @@ $result = $conn->query($sql);
             <section class="content">
                 <button onclick="window.location.href='add_employee.php'">Add Employee</button>
                 <h2>Employee List</h2>
+                
+                <!-- Form de filtrage -->
+                <form method="POST" action="">
+                    <input type="text" name="filter_username" placeholder="Filter by Username" value="<?php echo htmlspecialchars($filter_username); ?>">
+                    <button type="submit">Filter</button>
+                </form>
+                
                 <div class="table-container">
                     <table>
                         <thead>
