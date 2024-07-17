@@ -1,11 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +5,6 @@ if (!isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>soufiane</title>
     <link rel="stylesheet" href="AdminStyle.css">
-    <!-- Inclure une bibliothèque d'icônes, par exemple Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* Styles CSS pour la table */
@@ -41,36 +32,63 @@ if (!isset($_SESSION['username'])) {
         .action-buttons a:hover {
             text-decoration: underline;
         }
-        /* AdminStyle.css */
-
-/* Styles pour le bouton Ajouter Technicien */
-.add-button {
-    margin-top: 20px;
-    text-align: left;
-}
-
-.add-button .btn {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-.add-button .btn:hover {
-    background-color: #218838;
-}
-
+        .filter {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .filter input[type="text"] {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .filter input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .filter input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .clear-filter {
+            margin-left: 10px;
+            color: #dc3545; /* Rouge pour la croix */
+            text-decoration: none;
+            font-size: 18px; /* Taille de la croix */
+        }
+        .clear-filter:hover {
+            color: #c82333; /* Couleur plus foncée au survol */
+        }
+        .add-button {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .add-button .btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .add-button .btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
             <div class="profile">
-                <!-- Remplace l'image par le texte admin1 -->
                 <p class="profile-text">admin1</p>
                 <p>Hello, Admin</p>
             </div>
@@ -93,23 +111,36 @@ if (!isset($_SESSION['username'])) {
             </header>
           
             <section class="content">
-            <div class="add-button">
-        <a href="ajouter_technicien.php" class="btn"><i class="fas fa-plus-circle"></i> Ajouter Technicien</a>
-    </div>
+                <div class="filter">
+                    <form method="GET" action="">
+                        <input type="text" name="username" placeholder="Filtrer par Username" value="<?php echo isset($_GET['username']) ? htmlspecialchars($_GET['username']) : ''; ?>">
+                        <input type="submit" value="Filtrer">
+                        <?php if (!empty($_GET['username'])): ?>
+                            <a href="admin_technicien.php" class="clear-filter" title="Effacer le filtre"><i class="fas fa-times-circle"></i></a>
+                        <?php endif; ?>
+                    </form>
+                </div>
+                <div class="add-button">
+                    <a href="ajouter_technicien.php" class="btn"><i class="fas fa-plus-circle"></i> Ajouter Technicien</a>
+                </div>
                 <?php
-                // Inclure le fichier de connexion à la base de données
                 include 'connexiondb.php';
 
-                // Requête SQL pour sélectionner tous les techniciens
-                $sql = "SELECT * FROM technicien";
-                $result = $conn->query($sql);
+                // Récupérer la valeur du filtre
+                $usernameFilter = isset($_GET['username']) ? $_GET['username'] : '';
 
-                // Vérifier s'il y a des résultats
+                // Requête SQL avec filtre
+                $sql = "SELECT * FROM technicien WHERE UserName LIKE ?";
+                $stmt = $conn->prepare($sql);
+                $likeFilter = '%' . $usernameFilter . '%';
+                $stmt->bind_param('s', $likeFilter);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
                 if ($result->num_rows > 0) {
                     echo '<table>';
                     echo '<thead><tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Username</th><th>CIN</th><th>Numéro de Téléphone</th><th>Service</th><th>Actions</th></tr></thead>';
                     echo '<tbody>';
-                    // Afficher les données de chaque ligne
                     while ($row = $result->fetch_assoc()) {
                         echo '<tr>';
                         echo '<td>' . $row['id'] . '</td>';
@@ -131,11 +162,11 @@ if (!isset($_SESSION['username'])) {
                     echo "Aucun résultat trouvé";
                 }
 
-                // Fermer la connexion à la base de données
+                $stmt->close();
                 $conn->close();
                 ?>
             </section>
         </main>
     </div>
-</body>
+</body> 
 </html>
