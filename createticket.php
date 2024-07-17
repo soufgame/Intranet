@@ -8,7 +8,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Récupérer les informations de session
-$username = $_SESSION['username'];
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Utilisateur';
 
 // Connexion à la base de données
 $servername = "localhost";
@@ -109,20 +109,21 @@ button[type="submit"]:hover {
 
 /* Style pour les messages de succès */
 .success-message {
-    background-color: #4C4949; /* Fond gris foncé */
+    background-color: #078C05; 
     color: white; /* Texte blanc */
     text-align: center; /* Centrage du texte */
-    padding: 20px; /* Espacement intérieur */
-    margin-bottom: 20px; /* Espacement en bas */
+    padding: 10px; /* Espacement intérieur */
+    margin-top: 20px; /* Espacement en haut */
     font-size: 18px; /* Taille du texte */
-    display: none; /* Masqué par défaut */
+    width: 200%; /* Prend toute la largeur disponible */
+    box-sizing: border-box; /* Inclut padding et border dans la largeur */
 }
 
 .success-message button {
-    background-color: #555; /* Fond gris foncé */
+    background-color: #085F07; /* Fond gris foncé */
     color: white; /* Texte blanc */
     border: none; /* Sans bordure */
-    padding: 12px 24px; /* Espacement intérieur */
+    padding: 10px 20px; /* Espacement intérieur */
     text-align: center; /* Centre le texte */
     font-size: 18px; /* Taille du texte */
     margin-top: 10px; /* Espacement en haut */
@@ -137,7 +138,6 @@ label {
 }
 </style>
 
-  </style>
 </head>
 <body>
    <div class="container">
@@ -202,14 +202,6 @@ label {
         <h1>Support</h1>
         <!-- Formulaire de création de ticket -->
         <div class="container">
-            <!-- Affichage du message de succès -->
-            <?php if (!empty($successMessage)) : ?>
-            <div class="success-message" id="successMessage">
-                <?php echo htmlspecialchars($successMessage); ?>
-                <button onclick="dismissMessage()">OK</button>
-            </div>
-            <?php endif; ?>
-
             <div class="ticket-form">
                 <form method="post" action="">
                     <div class="input-container">
@@ -233,6 +225,13 @@ label {
                     </div>
                     <button type="submit">Créer Ticket</button>
                 </form>
+                <!-- Affichage du message de succès -->
+                <?php if (!empty($successMessage)) : ?>
+                <div class="success-message" id="successMessage">
+                    <?php echo htmlspecialchars($successMessage); ?>
+                    <button onclick="dismissMessage()">OK</button>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
       </main>
@@ -261,8 +260,6 @@ label {
             successMessage.style.display = 'none';
         }
     }
-
-    // JavaScript pour la gestion des destinataires et des fichiers retiré
   </script>
 </body>
 </html>
