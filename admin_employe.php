@@ -97,6 +97,13 @@ $result = $conn->query($sql);
         button:hover {
             background-color: #0056b3;
         }
+
+        .clear-filter {
+            cursor: pointer;
+            color: #FF0000; /* Couleur de la croix */
+            margin-left: 10px;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -131,6 +138,7 @@ $result = $conn->query($sql);
                 <form method="POST" action="">
                     <input type="text" name="filter_username" placeholder="Filter by Username" value="<?php echo htmlspecialchars($filter_username); ?>">
                     <button type="submit">Filter</button>
+                    <span class="clear-filter" onclick="clearFilter()">&times;</span> <!-- Croix pour enlever le filtrage -->
                 </form>
                 
                 <div class="table-container">
@@ -181,5 +189,12 @@ $result = $conn->query($sql);
             </section>
         </main>
     </div>
+
+    <script>
+        function clearFilter() {
+            document.querySelector('input[name="filter_username"]').value = ''; // Vide le champ de filtrage
+            document.querySelector('form').submit(); // Soumet le formulaire
+        }
+    </script>
 </body>
 </html>
