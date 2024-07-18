@@ -139,7 +139,7 @@
 
                 if ($result->num_rows > 0) {
                     echo '<table>';
-                    echo '<thead><tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Username</th><th>CIN</th><th>Numéro de Téléphone</th><th>Service</th><th>Actions</th></tr></thead>';
+                    echo '<thead><tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Username</th><th>CIN</th><th>Numéro de Téléphone</th><th>Service</th><th>Mot De Passe</th><th>Actions</th></tr></thead>';
                     echo '<tbody>';
                     while ($row = $result->fetch_assoc()) {
                         echo '<tr>';
@@ -150,6 +150,7 @@
                         echo '<td>' . $row['cin'] . '</td>';
                         echo '<td>' . $row['NumTel'] . '</td>';
                         echo '<td>' . $row['service'] . '</td>';
+                        echo '<td>' . $row['MotDePasse'] . '</td>';
                         echo '<td class="action-buttons">';
                         echo '<a href="modifier_technicien.php?id=' . $row['id'] . '"><i class="fas fa-edit"></i></a>';
                         echo '<a href="supprimer_technicien.php?id=' . $row['id'] . '"><i class="fas fa-trash-alt"></i></a>';
