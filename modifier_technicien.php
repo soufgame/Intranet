@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
         $cin = $row['cin'];
         $numtel = $row['NumTel'];
         $service = $row['service'];
-        $motdepasse = isset($row['MotdePasse']) ? $row['MotdePasse'] : ''; // Vérifiez que la colonne existe
+        $motdepasse = $row['MotDePasse']; // Assurez-vous que le nom de colonne est correct ici
     } else {
         echo "Aucun technicien trouvé avec cet ID";
         exit();
@@ -45,7 +45,7 @@ if (isset($_GET['id'])) {
         $motdepasse = $conn->real_escape_string($motdepasse); // Échapper le mot de passe
 
         // Mise à jour de la base de données
-        $sql_update = "UPDATE technicien SET Nom = '$nom', Prenom = '$prenom', UserName = '$username', cin = '$cin', NumTel = '$numtel', service = '$service', MotdePasse = '$motdepasse' WHERE id = '$id'";
+        $sql_update = "UPDATE technicien SET Nom = '$nom', Prenom = '$prenom', UserName = '$username', cin = '$cin', NumTel = '$numtel', service = '$service', MotDePasse = '$motdepasse' WHERE id = '$id'";
 
         if ($conn->query($sql_update) === TRUE) {
             header("Location: admin_technicien.php"); // Redirection après la mise à jour
@@ -77,135 +77,97 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="AdminStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* Styles CSS pour la table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .action-buttons {
-            white-space: nowrap;
-        }
-        .action-buttons a {
-            margin-right: 5px;
-            text-decoration: none;
-            color: #007bff;
-        }
-        .action-buttons a:hover {
-            text-decoration: underline;
-        }
-        .filter {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        .filter input[type="text"] {
-            padding: 8px;
-            width: 200px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        .filter input[type="submit"] {
-            background-color: #4b4b4b;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .filter input[type="submit"]:hover {
-            background-color: #4b4b4b;
-        }
-        .clear-filter {
-            margin-left: 10px;
-            color: #4b4b4b; /* Rouge pour la croix */
-            text-decoration: none;
-            font-size: 18px; /* Taille de la croix */
-        }
-        .clear-filter:hover {
-            color: #4b4b4b; /* Couleur plus foncée au survol */
-        }
-        .add-button {
-            margin-top: 20px;
-            text-align: left;
-        }
-        .add-button .btn {
-            background-color: #4b4b4b;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .add-button .btn:hover {
-            background-color: #4b4b4b;
-        }
-        .form-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            max-width: 100%;
-            margin-top: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        button[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .btn-back {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
-        }
-        .btn-back:hover {
-            background-color: #0056b3;
-            text-decoration: none;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+    padding: 20px; /* Ajout de padding pour espacer le contenu du bord de la page */
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px; /* Augmenter le padding pour un espace plus large autour du formulaire */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Augmenter l'ombre pour plus de contraste */
+    width: 500px; /* Augmenter la largeur du formulaire */
+    max-width: 100%;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px; /* Augmenter le padding à l'intérieur des champs de saisie */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px; /* Augmenter le padding pour le bouton */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.btn-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.btn-back:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
     </style>
 </head>
 <body>
