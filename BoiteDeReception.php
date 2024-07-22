@@ -207,7 +207,7 @@ $result = $stmt->get_result();
         
         <!-- Formulaire de filtre -->
         <form method="GET" action="BoiteDeReception.php" class="filter-form">
-            <label for="username">Filtrer par utilisateur :</label>
+            <label for="username">Filtrer par Expéditeur :</label>
             <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" value="<?php echo htmlspecialchars($username_filter); ?>">
             <button type="submit">Filtrer</button>
             <?php if (!empty($username_filter)): ?>

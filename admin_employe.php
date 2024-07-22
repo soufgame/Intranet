@@ -96,7 +96,7 @@ $result = $conn->query($sql);
 
         button:hover {
             background-color: #0056b3;
-        }
+        }1
 
         .clear-filter {
             cursor: pointer;
@@ -116,7 +116,7 @@ $result = $conn->query($sql);
     <div class="container">
         <aside class="sidebar">
             <div class="profile">
-                <p class="profile-text">admin1</p>
+                <p class="profile-text">admin</p>
                 <p>Hello, Admin</p>
             </div>
             <nav class="nav">

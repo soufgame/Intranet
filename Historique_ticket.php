@@ -119,7 +119,7 @@ $result = $conn->query($sql);
 
       <!-- Main Section -->
       <main>
-        <h1>Historique des Ticket</h1>
+        <h1>Historique des Tickets</h1>
         
         <table>
           <thead>

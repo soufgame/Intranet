@@ -158,7 +158,7 @@ table td {
 </div>
       </aside>
       <main>
-        <h1> Message envoyee</h1>
+        <h1> Message Envoyé </h1>
         <!-- Formulaire de la première page supprimé -->
         <div class="table-container" style="overflow: auto;">
     <table border='1'>

@@ -62,7 +62,7 @@ foreach ($recipients as $username) {
     $stmt->bind_param("sssssssss", $file_name, $file_data_1, $file_data_2, $file_data_3, $message, $user_id, $username, $current_date, $current_time);
 
     if ($stmt->execute()) {
-        $success_message = "Fichiers envoyees a succès pour $username.";
+        $success_message = "Message envoye avec succès pour $username.";
     } else {
         $error_message = "Erreur pour $username: " . $stmt->error;
     }

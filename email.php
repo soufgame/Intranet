@@ -144,13 +144,13 @@ if (isset($_GET['file_id'])) {
         <p><strong>Time:</strong> <?php echo htmlspecialchars($row["time"]); ?></p>
         <p><strong>Expéditeur:</strong> <?php echo htmlspecialchars($row["username"]); ?></p>
         <?php if (!empty($row["file_data"])) : ?>
-            <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data">Télécharger File Data</a>
+            <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data">Télécharger le premier fichier</a>
         <?php endif; ?>
         <?php if (!empty($row["file_data_2"])) : ?>
-            <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data_2">Télécharger File Data 2</a>
+            <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data_2">Télécharger deuxieme fichier</a>
         <?php endif; ?>
         <?php if (!empty($row["file_data_3"])) : ?>
-            <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data_3">Télécharger File Data 3</a>
+            <a href="downloademail.php?file_id=<?php echo htmlspecialchars($fileId); ?>&file_type=file_data_3">Télécharger le troisieme fichier</a>
         <?php endif; ?>
     </div>
 </div>

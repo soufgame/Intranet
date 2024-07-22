@@ -57,7 +57,7 @@ $mailCount = $conn->query("SELECT COUNT(*) AS count FROM files")->fetch_assoc()[
     <div class="container">
         <aside class="sidebar">
             <div class="profile">
-                <p class="profile-text">admin1</p>
+                <p class="profile-text">admin</p>
                 <p>Hello, Admin</p>
             </div>
             <nav class="nav">
