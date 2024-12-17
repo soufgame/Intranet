@@ -66,7 +66,7 @@ Nom : Soufiane NHAILA
 Email : nhailasoufiane2003@gmail.com
 LinkedIn : https://www.linkedin.com/in/soufiane-nhaila-100855294/
 📜 Licence
-Ce projet est sous licence MIT. Consultez le fichier LICENSE pour plus d'informations.
+Ce projet est sous licence . Consultez le fichier LICENSE pour plus d'informations.
 
 🤝 Contribuer
 Les contributions sont les bienvenues ! Suivez ces étapes pour contribuer au projet :
